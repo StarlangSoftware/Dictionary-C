@@ -31,6 +31,10 @@ Each bare-form has a set of attributes. For instance, ‘abacı’ is a noun, th
 |F GUD, F_GUDO|The verb bare-form includes vowel reduction.|
 |F1P1, F1P1-NO-REF|A verb, and depending on this attribute, the verb can (or can not) take causative suffix, factitive suffix, passive suffix etc.|
 
+For Developers
+============
+You can also see [Java](https://github.com/starlangsoftware/Dictionary), [Python](https://github.com/starlangsoftware/Dictionary-Py), [Cython](https://github.com/starlangsoftware/Dictionary-Cy), [C++](https://github.com/starlangsoftware/Dictionary-CPP), [Swift](https://github.com/starlangsoftware/Dictionary-Swift), [Js](https://github.com/starlangsoftware/Dictionary-Js), or [C#](https://github.com/starlangsoftware/Dictionary-CS) repository.
+
 Video Lectures
 ============
 
