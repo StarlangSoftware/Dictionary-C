@@ -40,6 +40,51 @@ Video Lectures
 
 [<img src="https://github.com/StarlangSoftware/Dictionary/blob/master/video1.jpg" width="50%">](https://youtu.be/10iAqbfsA2A)[<img src="https://github.com/StarlangSoftware/Dictionary/blob/master/video2.jpg" width="50%">](https://youtu.be/C-_TZDkFwzQ)
 
+## Requirements
+
+* [C Compiler](#c)
+* [Git](#git)
+
+
+### C
+To check if you have compatible C Compiler installed,
+* Open CLion IDE 
+* Preferences >Build,Execution,Deployment > Toolchain  
+
+### Git
+
+Install the [latest version of Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+## Download Code
+
+In order to work on code, create a fork from GitHub page. 
+Use Git for cloning the code to your local or below line for Ubuntu:
+
+	git clone <your-fork-git-link>
+
+A directory called Dictionary-C will be created. Or you can use below link for exploring the code:
+
+	git clone https://github.com/starlangsoftware/Dictionary-C.git
+
+## Open project with CLion IDE
+
+To import projects from Git with version control:
+
+* Open CLion IDE , select Get From Version Control.
+
+* In the Import window, click URL tab and paste github URL.
+
+* Click open as Project.
+
+Result: The imported project is listed in the Project Explorer view and files are loaded.
+
+
+## Compile
+
+**From IDE**
+
+After being done with the downloading and opening project, select **Build Project** option from **Build** menu.
+
 Detailed Description
 ============
 
@@ -54,43 +99,45 @@ Dictionary is used in order to load Turkish dictionary or a domain specific dict
 To load the Turkish dictionary and the misspelled words dictionary,
 
 
-	a = TxtDictionary()
+	a = create_txt_dictionary()
 	
 To load the domain specific dictionary and the misspelled words dictionary,
 
-	TxtDictionary(String fileName, WordComparator comparator, String misspelledFileName)
+	Txt_dictionary_ptr create_txt_dictionary3(char *file_name,
+                                          char *misspelled_file_name,
+                                          char *morphological_lexicon)
 
 And to see if the dictionary involves a specific word, getWord is used.
 
-	Word getWord(String name)
+	Txt_word_ptr get_word_txt(Txt_dictionary_ptr txt_dictionary, char *name)
 
 ## TxtWord
 
 The word features: To see whether the TxtWord class of the dictionary is a noun or not,
 
-	boolean isNominal()
+	bool is_nominal(Txt_word_ptr txt_word)
 
 To see whether it is an adjective,
 
-	boolean isAdjective()
+	bool is_adjective(Txt_word_ptr txt_word)
 
 To see whether it is a portmanteau word,
 
-	boolean isPortmanteau()
+	bool is_portmanteau(Txt_word_ptr txt_word)
 
 To see whether it obeys vowel harmony,
 
-	notObeysVowelHarmonyDuringAgglutination
+	bool not_obeys_vowel_harmony_during_agglutination(Txt_word_ptr txt_word)
 
 And, to see whether it softens when it get affixes, the following is used.
 
-	boolean rootSoftenDuringSuffixation()
+	bool root_soften_during_suffixation(Txt_word_ptr txt_word)
 
 ## SyllableList
 
 To syllabify the word, SyllableList class is used.
 
-	SyllableList(String word)
+	Syllable_list_ptr create_syllable_list(char *word)
 
 # Cite
 
