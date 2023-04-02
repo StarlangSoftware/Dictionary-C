@@ -34,7 +34,7 @@ Each bare-form has a set of attributes. For instance, ‘abacı’ is a noun, th
 Video Lectures
 ============
 
-[<img src=video1.jpg width="50%">](https://youtu.be/10iAqbfsA2A)[<img src=video2.jpg width="50%">](https://youtu.be/C-_TZDkFwzQ)
+[<img src="https://github.com/StarlangSoftware/Dictionary/blob/master/video1.jpg" width="50%">](https://youtu.be/10iAqbfsA2A)[<img src="https://github.com/StarlangSoftware/Dictionary/blob/master/video2.jpg" width="50%">](https://youtu.be/C-_TZDkFwzQ)
 
 Detailed Description
 ============
