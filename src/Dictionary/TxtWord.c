@@ -869,7 +869,7 @@ bool same_pos(Txt_word_ptr txt_word1, Txt_word_ptr txt_word2) {
     return false;
 }
 
-unsigned int hash_function_word(Txt_word_ptr word, int N) {
+unsigned int hash_function_txt_word(Txt_word_ptr word, int N) {
     return hash_function_string(word->word->name, N);
 }
 

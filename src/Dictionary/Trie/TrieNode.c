@@ -13,7 +13,7 @@ Trie_node_ptr create_trie_node() {
     Trie_node_ptr result = malloc(sizeof(Trie_node));
     result->children = create_hash_map((unsigned int (*)(void *, int)) hash_function_string,
                                        (int (*)(void *, void *)) compare_string);
-    result->words = create_hash_set((unsigned int (*)(void *, int)) hash_function_word,
+    result->words = create_hash_set((unsigned int (*)(void *, int)) hash_function_txt_word,
                                     (int (*)(void *, void *)) compare_word);
     return result;
 }

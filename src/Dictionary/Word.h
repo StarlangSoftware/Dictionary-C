@@ -76,4 +76,6 @@ String_ptr trim(char *surface_form);
 
 int compare_word(Word_ptr first, Word_ptr second);
 
+unsigned int hash_function_word(Word_ptr word, int N);
+
 #endif //DICTIONARY_WORD_H

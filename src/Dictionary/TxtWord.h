@@ -139,7 +139,7 @@ bool shows_su_regularities(Txt_word_ptr txt_word);
 
 bool same_pos(Txt_word_ptr txt_word1, Txt_word_ptr txt_word2);
 
-unsigned int hash_function_word(Txt_word_ptr word, int N);
+unsigned int hash_function_txt_word(Txt_word_ptr word, int N);
 
 int compare_txt_word(Txt_word_ptr first, Txt_word_ptr second);
 

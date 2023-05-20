@@ -646,3 +646,7 @@ void free_word(Word_ptr word) {
 int compare_word(Word_ptr first, Word_ptr second) {
     return compare_string(first->name, second->name);
 }
+
+unsigned int hash_function_word(Word_ptr word, int N) {
+    return hash_function_string(word->name, N);
+}

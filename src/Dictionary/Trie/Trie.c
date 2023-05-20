@@ -41,7 +41,7 @@ void add_word_to_trie(Trie_ptr trie, char *word, Txt_word_ptr root) {
  */
 Hash_set_ptr get_words_with_prefix(Trie_ptr trie, char *surface_form) {
     Trie_node_ptr current = trie->root_node;
-    Hash_set_ptr words = create_hash_set((unsigned int (*)(void *, int)) hash_function_word,
+    Hash_set_ptr words = create_hash_set((unsigned int (*)(void *, int)) hash_function_txt_word,
                                          (int (*)(void *, void *)) compare_txt_word);
     for (int i = 0; i < word_size(surface_form); i++) {
         String_ptr ch = char_at(surface_form, i);
