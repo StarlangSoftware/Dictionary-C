@@ -12,7 +12,7 @@ struct syllable {
 typedef struct syllable Syllable;
 typedef Syllable *Syllable_ptr;
 
-Syllable_ptr create_syllable(char *syllable);
+Syllable_ptr create_syllable(const char *syllable);
 
 void free_syllable(Syllable_ptr syllable);
 

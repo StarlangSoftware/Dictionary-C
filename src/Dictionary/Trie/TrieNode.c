@@ -11,10 +11,10 @@
  */
 Trie_node_ptr create_trie_node() {
     Trie_node_ptr result = malloc(sizeof(Trie_node));
-    result->children = create_hash_map((unsigned int (*)(void *, int)) hash_function_string,
-                                       (int (*)(void *, void *)) compare_string);
-    result->words = create_hash_set((unsigned int (*)(void *, int)) hash_function_txt_word,
-                                    (int (*)(void *, void *)) compare_word);
+    result->children = create_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
+                                       (int (*)(const void *, const void *)) compare_string);
+    result->words = create_hash_set((unsigned int (*)(const void *, int)) hash_function_txt_word,
+                                    (int (*)(const void *, const void *)) compare_word);
     return result;
 }
 
@@ -45,7 +45,7 @@ void free_trie_node(Trie_node_ptr trie_node) {
  * @param index Integer index.
  * @param root  {@link Word} input to add.
  */
-void add_word_to_trie_node2(Trie_node_ptr trie_node, char *word, int index, Txt_word_ptr root) {
+void add_word_to_trie_node2(Trie_node_ptr trie_node, const char *word, int index, Txt_word_ptr root) {
     Trie_node_ptr child;
     if (index == word_size(word)) {
         hash_set_insert(trie_node->words, root);
@@ -68,7 +68,7 @@ void add_word_to_trie_node2(Trie_node_ptr trie_node, char *word, int index, Txt_
  * @param word String input.
  * @param root {@link Word} type input.
  */
-void add_word_to_trie_node(Trie_node_ptr trie_node, char *word, Txt_word_ptr root) {
+void add_word_to_trie_node(Trie_node_ptr trie_node, const char *word, Txt_word_ptr root) {
     add_word_to_trie_node2(trie_node, word, 0, root);
 }
 
@@ -78,10 +78,10 @@ void add_word_to_trie_node(Trie_node_ptr trie_node, char *word, Txt_word_ptr roo
  * @param ch {@link Character} input.
  * @return the value from children {@link HashMap}.
  */
-Trie_node_ptr get_child(Trie_node_ptr trie_node, char *ch) {
+Trie_node_ptr get_child(const Trie_node* trie_node, const char *ch) {
     return (Trie_node_ptr) hash_map_get(trie_node->children, ch);
 }
 
-bool child_exists(Trie_node_ptr trie_node, char *ch) {
+bool child_exists(const Trie_node* trie_node, const char *ch) {
     return hash_map_contains(trie_node->children, ch);
 }

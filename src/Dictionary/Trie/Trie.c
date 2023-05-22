@@ -4,7 +4,6 @@
 
 #include <stdlib.h>
 #include "Trie.h"
-#include "../TxtWord.h"
 
 /**
  * A constructor of {@link Trie} class which creates a new {@link TrieNode} as rootNode.
@@ -26,7 +25,7 @@ void free_trie(Trie_ptr trie) {
  * @param word String input.
  * @param root {@link Word} input.
  */
-void add_word_to_trie(Trie_ptr trie, char *word, Txt_word_ptr root) {
+void add_word_to_trie(Trie_ptr trie, const char *word, Txt_word_ptr root) {
     add_word_to_trie_node(trie->root_node, word, root);
 }
 
@@ -39,10 +38,10 @@ void add_word_to_trie(Trie_ptr trie, char *word, Txt_word_ptr root) {
  * @param surfaceForm String input.
  * @return words {@link unordered_set}.
  */
-Hash_set_ptr get_words_with_prefix(Trie_ptr trie, char *surface_form) {
+Hash_set_ptr get_words_with_prefix(const Trie* trie, const char *surface_form) {
     Trie_node_ptr current = trie->root_node;
-    Hash_set_ptr words = create_hash_set((unsigned int (*)(void *, int)) hash_function_txt_word,
-                                         (int (*)(void *, void *)) compare_txt_word);
+    Hash_set_ptr words = create_hash_set((unsigned int (*)(const void *, int)) hash_function_txt_word,
+                                         (int (*)(const void *, const void *)) compare_txt_word);
     for (int i = 0; i < word_size(surface_form); i++) {
         String_ptr ch = char_at(surface_form, i);
         if (child_exists(current, ch->s)) {
@@ -71,7 +70,7 @@ Hash_set_ptr get_words_with_prefix(Trie_ptr trie, char *surface_form) {
  * @param hash String input.
  * @return null if {@link TrieNode} is null, otherwise portmanteau word.
  */
-Txt_word_ptr get_compound_word_starting_with(Trie_ptr trie, char *hash) {
+Txt_word_ptr get_compound_word_starting_with(const Trie* trie, const char *hash) {
     Trie_node_ptr current = trie->root_node;
     for (int i = 0; i < word_size(hash); i++) {
         String_ptr ch = char_at(hash, i);

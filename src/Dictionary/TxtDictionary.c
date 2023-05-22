@@ -22,13 +22,13 @@ Txt_dictionary_ptr create_txt_dictionary() {
  *
  * @param filename   String input.
  */
-Txt_dictionary_ptr create_txt_dictionary2(char *file_name) {
+Txt_dictionary_ptr create_txt_dictionary2(const char *file_name) {
     Txt_dictionary_ptr result;
     result = malloc(sizeof(Txt_dictionary));
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
-    result->misspelled_words = create_hash_map((unsigned int (*)(void *, int)) hash_function_string,
-                                               (int (*)(void *, void *)) compare_string);
+    result->misspelled_words = create_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
+                                               (int (*)(const void *, const void *)) compare_string);
     load_from_text(result);
     return result;
 }
@@ -43,13 +43,15 @@ Txt_dictionary_ptr create_txt_dictionary2(char *file_name) {
  * @param misspelled_file_name String input.
  * @param morphological_lexicon String input.
  */
-Txt_dictionary_ptr create_txt_dictionary3(char *file_name, char *misspelled_file_name, char *morphological_lexicon) {
+Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
+                                          const char *misspelled_file_name,
+                                          const char *morphological_lexicon) {
     Txt_dictionary_ptr result;
     result = malloc(sizeof(Txt_dictionary));
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
-    result->misspelled_words = create_hash_map((unsigned int (*)(void *, int)) hash_function_string,
-                                               (int (*)(void *, void *)) compare_string);
+    result->misspelled_words = create_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
+                                               (int (*)(const void *, const void *)) compare_string);
     load_from_text(result);
     load_misspelled_words(result, misspelled_file_name);
     load_morphological_lexicon(result, morphological_lexicon);
@@ -91,7 +93,7 @@ void load_from_text(Txt_dictionary_ptr txt_dictionary) {
  *
  * @return the item with the maximum word length.
  */
-int longest_word_size_txt(Txt_dictionary_ptr txt_dictionary) {
+int longest_word_size_txt(const Txt_dictionary* txt_dictionary) {
     int max = 0;
     for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
         Txt_word_ptr word = array_list_get(txt_dictionary->dictionary->words, i);
@@ -102,7 +104,7 @@ int longest_word_size_txt(Txt_dictionary_ptr txt_dictionary) {
     return max;
 }
 
-void load_misspelled_words(Txt_dictionary_ptr txt_dictionary, char *misspelled_file_name) {
+void load_misspelled_words(Txt_dictionary_ptr txt_dictionary, const char *misspelled_file_name) {
     FILE *input_file;
     input_file = fopen(misspelled_file_name, "r");
     if (input_file == NULL) {
@@ -120,7 +122,7 @@ void load_misspelled_words(Txt_dictionary_ptr txt_dictionary, char *misspelled_f
     fclose(input_file);
 }
 
-void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, char *file_name) {
+void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *file_name) {
     FILE *input_file;
     input_file = fopen(file_name, "r");
     if (input_file == NULL) {
@@ -146,7 +148,7 @@ void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, char *file_na
  * @param name String input.
  * @return the item at found index of words {@link vector}, null if cannot be found.
  */
-Txt_word_ptr get_word_txt(Txt_dictionary_ptr txt_dictionary, char *name) {
+Txt_word_ptr get_word_txt(const Txt_dictionary* txt_dictionary, const char *name) {
     if (word_exists(txt_dictionary->dictionary, name)) {
         int index = *(int *) (hash_map_get(txt_dictionary->dictionary->word_map, name));
         return array_list_get(txt_dictionary->dictionary->words, index);
@@ -164,7 +166,7 @@ void update_word_map_txt(Txt_dictionary_ptr txt_dictionary) {
 }
 
 void sort_txt(Txt_dictionary_ptr txt_dictionary) {
-    array_list_sort(txt_dictionary->dictionary->words, (int (*)(void *, void *)) compare_txt_word);
+    array_list_sort(txt_dictionary->dictionary->words, (int (*)(const void *, const void *)) compare_txt_word);
     update_word_map_txt(txt_dictionary);
 }
 
@@ -174,11 +176,11 @@ void sort_txt(Txt_dictionary_ptr txt_dictionary) {
  * @param index to get the value.
  * @return the value at given index of words {@link vector}.
  */
-Txt_word_ptr get_word_with_index_txt(Txt_dictionary_ptr txt_dictionary, int index){
+Txt_word_ptr get_word_with_index_txt(const Txt_dictionary* txt_dictionary, int index){
     return array_list_get(txt_dictionary->dictionary->words, index);
 }
 
-int binary_search_txt(Txt_dictionary_ptr txt_dictionary, Txt_word_ptr txt_word) {
+int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_word) {
     int lo = 0;
     int hi = txt_dictionary->dictionary->words->size - 1;
     while (lo <= hi) {
@@ -206,7 +208,7 @@ int binary_search_txt(Txt_dictionary_ptr txt_dictionary, Txt_word_ptr txt_word) 
  * @param flag String flag.
  * @return true if given name is in words {@link java.util.ArrayList}, false otherwise.
  */
-bool add_with_flag(Txt_dictionary_ptr txt_dictionary, char *name, char *flag) {
+bool add_with_flag(Txt_dictionary_ptr txt_dictionary, const char *name, char *flag) {
     char* lowercase = to_lowercase(name);
     Txt_word_ptr word = get_word_txt(txt_dictionary, lowercase);
     if (word == NULL){
@@ -229,7 +231,7 @@ bool add_with_flag(Txt_dictionary_ptr txt_dictionary, char *name, char *flag) {
  *
  * @param name String input.
  */
-void add_number(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_number(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_SAYI");
 }
 
@@ -238,7 +240,7 @@ void add_number(Txt_dictionary_ptr txt_dictionary, char *name) {
  *
  * @param name String input.
  */
-void add_real_number(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_real_number(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_REELSAYI");
 }
 
@@ -247,7 +249,7 @@ void add_real_number(Txt_dictionary_ptr txt_dictionary, char *name) {
  *
  * @param name String input.
  */
-void add_fraction(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_fraction(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_KESIR");
 }
 
@@ -256,7 +258,7 @@ void add_fraction(Txt_dictionary_ptr txt_dictionary, char *name) {
 *
 * @param name String input.
 */
-void add_time(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_time(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_ZAMAN");
 }
 
@@ -266,7 +268,7 @@ void add_time(Txt_dictionary_ptr txt_dictionary, char *name) {
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
-void add_proper_noun(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_proper_noun(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_OA");
 }
 
@@ -276,7 +278,7 @@ void add_proper_noun(Txt_dictionary_ptr txt_dictionary, char *name) {
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
-void add_noun(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_noun(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "CL_ISIM");
 }
 
@@ -286,7 +288,7 @@ void add_noun(Txt_dictionary_ptr txt_dictionary, char *name) {
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
-void add_verb(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_verb(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "CL_FIIL");
 }
 
@@ -296,7 +298,7 @@ void add_verb(Txt_dictionary_ptr txt_dictionary, char *name) {
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
-void add_adjective(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_adjective(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_ADJ");
 }
 
@@ -306,7 +308,7 @@ void add_adjective(Txt_dictionary_ptr txt_dictionary, char *name) {
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
-void add_adverb(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_adverb(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_ADVERB");
 }
 
@@ -316,7 +318,7 @@ void add_adverb(Txt_dictionary_ptr txt_dictionary, char *name) {
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
-void add_pronoun(Txt_dictionary_ptr txt_dictionary, char *name) {
+void add_pronoun(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_ZM");
 }
 
@@ -335,7 +337,7 @@ void add_pronoun(Txt_dictionary_ptr txt_dictionary, char *name) {
  * @param root the substring of the word whose last one or two chars are omitted from the word to bo softed.
  * @param word the original word.
  */
-void add_word_when_root_soften(Trie_ptr trie, char *last, char *root, Txt_word_ptr word) {
+void add_word_when_root_soften(Trie_ptr trie, const char *last, const char *root, Txt_word_ptr word) {
     char* tmp = NULL;
     if (strcmp(last, "p") == 0){
         tmp = str_concat(root, "b");
@@ -478,7 +480,7 @@ Trie_ptr prepare_trie(Txt_dictionary_ptr txt_dictionary) {
  * @param misspelledWord Misspelled form.
  * @return Correct form.
  */
-char *get_correct_form(Txt_dictionary_ptr txt_dictionary, char *misspelled_word) {
+char *get_correct_form(const Txt_dictionary* txt_dictionary, const char *misspelled_word) {
     if (hash_map_contains(txt_dictionary->misspelled_words, misspelled_word)){
         return hash_map_get(txt_dictionary->misspelled_words, misspelled_word);
     }

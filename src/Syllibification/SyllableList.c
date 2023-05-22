@@ -23,7 +23,7 @@
  *
  * @param word String input.
  */
-Syllable_list_ptr create_syllable_list(char *word) {
+Syllable_list_ptr create_syllable_list(const char *word) {
     Syllable_list_ptr result = malloc(sizeof(Syllable_list));
     String_ptr sbSyllable;
     sbSyllable = create_string();
@@ -84,7 +84,7 @@ Syllable_list_ptr create_syllable_list(char *word) {
  *
  * @return vector syllables.
  */
-Array_list_ptr get_syllables(Syllable_list_ptr syllable_list) {
+Array_list_ptr get_syllables(const Syllable_list* syllable_list) {
     Array_list_ptr result = create_array_list();
     for (int i = 0; i < syllable_list->syllables->size; i++) {
         array_list_add(result, ((Syllable_ptr) array_list_get(syllable_list->syllables, i))->syllable);

@@ -25,7 +25,7 @@ void free_vectorized_dictionary(Vectorized_dictionary_ptr vectorized_dictionary)
     free(vectorized_dictionary);
 }
 
-Vectorized_dictionary_ptr create_vectorized_dictionary2(char *file_name) {
+Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
     FILE* input_file;
     Vectorized_dictionary_ptr result = malloc(sizeof(Vectorized_dictionary));
     result->dictionary = create_dictionary();
@@ -51,7 +51,7 @@ Vectorized_dictionary_ptr create_vectorized_dictionary2(char *file_name) {
 }
 
 void sort_vectorized(Vectorized_dictionary_ptr vectorized_dictionary) {
-    array_list_sort(vectorized_dictionary->dictionary->words, (int (*)(void *, void *)) compare_vectorized_word);
+    array_list_sort(vectorized_dictionary->dictionary->words, (int (*)(const void *, const void *)) compare_vectorized_word);
     update_word_map_vectorized(vectorized_dictionary);
 }
 

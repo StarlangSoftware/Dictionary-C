@@ -14,8 +14,8 @@ struct syllable_list {
 typedef struct syllable_list Syllable_list;
 typedef Syllable_list *Syllable_list_ptr;
 
-Syllable_list_ptr create_syllable_list(char *word);
+Syllable_list_ptr create_syllable_list(const char *word);
 
-Array_list_ptr get_syllables(Syllable_list_ptr syllable_list);
+Array_list_ptr get_syllables(const Syllable_list* syllable_list);
 
 #endif //DICTIONARY_SYLLABLELIST_H

@@ -14,7 +14,7 @@
  * @param root String input.
  * @param pos  {@link Pos} type input.
  */
-Exceptional_word_ptr create_exceptional_word(char *name, char *root, Pos pos) {
+Exceptional_word_ptr create_exceptional_word(const char *name, const char *root, Pos pos) {
     Exceptional_word_ptr result = malloc(sizeof(Exceptional_word));
     result->word = create_word(name);
     result->root = str_copy(result->root, root);

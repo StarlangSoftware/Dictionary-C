@@ -6,7 +6,7 @@
 #include "Syllable.h"
 #include "StringUtils.h"
 
-Syllable_ptr create_syllable(char *syllable) {
+Syllable_ptr create_syllable(const char *syllable) {
     Syllable_ptr result = malloc(sizeof(Syllable));
     result->syllable = str_copy(result->syllable, syllable);
     return result;

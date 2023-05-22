@@ -15,13 +15,13 @@
  *
  * @param _name String input.
  */
-Word_ptr create_word(char *name) {
+Word_ptr create_word(const char *name) {
     Word_ptr result = malloc(sizeof(Word));
     result->name = str_copy(result->name, name);
     return result;
 }
 
-int word_size(char *surface_form) {
+int word_size(const char *surface_form) {
     int count = 0;
     while (*surface_form) {
         if ((*surface_form & 0xC0) != 0x80) {
@@ -32,7 +32,7 @@ int word_size(char *surface_form) {
     return count;
 }
 
-String_ptr char_at(char *surface_form, int index) {
+String_ptr char_at(const char *surface_form, int index) {
     String_ptr result = create_string();
     int current = 0;
     while (*surface_form) {
@@ -57,18 +57,18 @@ String_ptr char_at(char *surface_form, int index) {
  *
  * @return the length of name variable.
  */
-int char_count(Word_ptr word) {
+int char_count(const Word* word) {
     return word_size(word->name);
 }
 
-bool starts_with(char *large_string, char *small_string) {
+bool starts_with(const char *large_string, const char *small_string) {
     return strstr(large_string, small_string) == large_string;
 }
 
-char *to_lowercase(char *surface_form) {
+char *to_lowercase(const char *surface_form) {
     String_ptr result = create_string();
     String_ptr currentChar = create_string();
-    char *charPtr = surface_form;
+    const char *charPtr = surface_form;
     while (*charPtr) {
         if ((*charPtr & 0xC0) != 0x80) {
             do {
@@ -136,10 +136,10 @@ char *to_lowercase(char *surface_form) {
     return tmp;
 }
 
-char *to_uppercase(char *surface_form) {
+char *to_uppercase(const char *surface_form) {
     String_ptr result = create_string();
     String_ptr currentChar = create_string();
-    char *charPtr = surface_form;
+    const char *charPtr = surface_form;
     while (*charPtr) {
         if ((*charPtr & 0xC0) != 0x80) {
             do {
@@ -207,7 +207,7 @@ char *to_uppercase(char *surface_form) {
     return tmp;
 }
 
-Array_list_ptr all_characters(char *surface_form) {
+Array_list_ptr all_characters(const char *surface_form) {
     Array_list_ptr result = create_array_list();
     String_ptr ch = create_string();
     do {
@@ -222,7 +222,7 @@ Array_list_ptr all_characters(char *surface_form) {
     return result;
 }
 
-String_ptr substring(char *surface_form, int index, int length) {
+String_ptr substring(const char *surface_form, int index, int length) {
     String_ptr result = create_string();
     int current = 0, currentLength = 0;
     if (length <= 0 || index < 0) {
@@ -248,7 +248,7 @@ String_ptr substring(char *surface_form, int index, int length) {
     return create_string();
 }
 
-String_ptr substring2(char *surface_form, int index) {
+String_ptr substring2(const char *surface_form, int index) {
     String_ptr result = create_string();
     int current = 0;
     while (*surface_form) {
@@ -268,7 +268,7 @@ String_ptr substring2(char *surface_form, int index) {
     return create_string();
 }
 
-String_ptr substring3(char *surface_form, const char *end) {
+String_ptr substring3(const char *surface_form, const char *end) {
     String_ptr result = create_string();
     while (surface_form != end) {
         string_append_char(result, *surface_form);
@@ -284,7 +284,7 @@ String_ptr substring3(char *surface_form, const char *end) {
  * @param stem String input.
  * @return the last vowel.
  */
-String_ptr before_last_vowel(char *stem) {
+String_ptr before_last_vowel(const char *stem) {
     int before = 1;
     String_ptr ch, last = create_string2("0");
     Array_list_ptr stemChars = all_characters(stem);
@@ -313,7 +313,7 @@ String_ptr before_last_vowel(char *stem) {
  * @param stem String input.
  * @return the last vowel.
  */
-String_ptr last_vowel(char *stem) {
+String_ptr last_vowel(const char *stem) {
     String_ptr ch;
     Array_list_ptr stemChars = all_characters(stem);
     for (int i = word_size(stem) - 1; i >= 0; i--) {
@@ -342,7 +342,7 @@ String_ptr last_vowel(char *stem) {
  * @param stem String input.
  * @return the last phoneme.
  */
-String_ptr last_phoneme(char *stem) {
+String_ptr last_phoneme(const char *stem) {
     if (word_size(stem) == 0) {
         return create_string2(" ");
     }
@@ -354,7 +354,7 @@ String_ptr last_phoneme(char *stem) {
     }
 }
 
-String_ptr last_char(char *surface_form) {
+String_ptr last_char(const char *surface_form) {
     int size = strlen(surface_form);
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
         return create_string2(surface_form + size - 1);
@@ -370,7 +370,7 @@ String_ptr last_char(char *surface_form) {
  * @param surfaceForm String input to check the first character.
  * @return true if the character at first index of surfaceForm is a capital letter, false otherwise.
  */
-bool is_capital(char *surface_form) {
+bool is_capital(const char *surface_form) {
     String_ptr ch = char_at(surface_form, 0);
     char *s = strstr(TURKISH_UPPERCASE_LETTERS, ch->s);
     free_string_ptr(ch);
@@ -388,7 +388,7 @@ bool is_capital(char *surface_form) {
  * @param surfaceForm String input to check.
  * @return true if it is a punctuation, false otherwise.
  */
-bool is_punctuation(char *surface_form) {
+bool is_punctuation(const char *surface_form) {
     return (strcmp(surface_form, ".") == 0 || strcmp(surface_form, "...") == 0 || strcmp(surface_form, "[") == 0 ||
             strcmp(surface_form, "]") == 0 ||
             strcmp(surface_form, "\u2026") == 0 || strcmp(surface_form, "%") == 0 || strcmp(surface_form, "&") == 0 ||
@@ -416,7 +416,7 @@ bool is_punctuation(char *surface_form) {
  * @param surfaceForm String input to check.
  * @return true if it equals to "bay" or "bayan", false otherwise.
  */
-bool is_honorific(char *surface_form) {
+bool is_honorific(const char *surface_form) {
     bool result;
     char *lowercase = to_lowercase(surface_form);
     if (strcmp(lowercase, "bay") == 0 || strcmp(lowercase, "bayan") == 0) {
@@ -435,7 +435,7 @@ bool is_honorific(char *surface_form) {
  * @param surfaceForm String input to check.
  * @return true if it equals to "şirket", "corp", "inc.", or "co.", and false otherwise.
  */
-bool is_organization(char *surface_form) {
+bool is_organization(const char *surface_form) {
     bool result;
     char *lowercase = to_lowercase(surface_form);
     if (strcmp(lowercase, "corp") == 0 || strcmp(lowercase, "inc.") == 0 || strcmp(lowercase, "co.") == 0) {
@@ -454,7 +454,7 @@ bool is_organization(char *surface_form) {
  * @param surfaceForm String input to check.
  * @return true if it equals to one of the dolar, sterlin, paunt, ons, ruble, mark, frank, yan, sent, yen' or $, and false otherwise.
  */
-bool is_money(char *surface_form) {
+bool is_money(const char *surface_form) {
     bool result;
     char *lowercase = to_lowercase(surface_form);
     if (starts_with(lowercase, "dolar") || starts_with(lowercase, "sterlin") || starts_with(lowercase, "paunt") ||
@@ -475,7 +475,7 @@ bool is_money(char *surface_form) {
  *
  * @return Word type {@link vector}.
  */
-Array_list_ptr to_characters(char *surface_form) {
+Array_list_ptr to_characters(const char *surface_form) {
     Array_list_ptr result = create_array_list();
     String_ptr ch = create_string();
     do {
@@ -500,7 +500,7 @@ Array_list_ptr to_characters(char *surface_form) {
  * @param surfaceForm String input to check.
  * @return true if it presents time, and false otherwise.
  */
-bool is_time(char *surface_form) {
+bool is_time(const char *surface_form) {
     char *lowercase = to_lowercase(surface_form);
     if (starts_with(lowercase, "ocak") || starts_with(lowercase, "şubat") || starts_with(lowercase, "mart") ||
         starts_with(lowercase, "nisan") || starts_with(lowercase, "mayıs") || starts_with(lowercase, "haziran") ||
@@ -527,7 +527,7 @@ bool is_time(char *surface_form) {
     return false;
 }
 
-bool ends_with(char *large_string, char *small_string) {
+bool ends_with(const char *large_string, const char *small_string) {
     if (strlen(large_string) < strlen(small_string)) {
         return false;
     }
@@ -537,7 +537,7 @@ bool ends_with(char *large_string, char *small_string) {
     return false;
 }
 
-String_ptr to_capital(char *surface_form) {
+String_ptr to_capital(const char *surface_form) {
     String_ptr first_char = substring(surface_form, 0, 1);
     String_ptr remaining_char = substring2(surface_form, 1);
     char *uppercase = to_uppercase(first_char->s);
@@ -559,7 +559,7 @@ Array_list_ptr split(char *line) {
     return result;
 }
 
-Array_list_ptr split_with_char(char *line, char *separators) {
+Array_list_ptr split_with_char(char *line, const char *separators) {
     Array_list_ptr result = create_array_list();
     char *token = strtok(line, separators);
     while (token != NULL) {
@@ -569,7 +569,7 @@ Array_list_ptr split_with_char(char *line, char *separators) {
     return result;
 }
 
-String_ptr substring_except_last_char(char *surface_form) {
+String_ptr substring_except_last_char(const char *surface_form) {
     int size = strlen(surface_form);
     char *tmp;
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
@@ -586,7 +586,7 @@ String_ptr substring_except_last_char(char *surface_form) {
     return result;
 }
 
-String_ptr substring_except_last_two_chars(char *surface_form) {
+String_ptr substring_except_last_two_chars(const char *surface_form) {
     int size = strlen(surface_form);
     char *tmp;
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
@@ -615,7 +615,7 @@ String_ptr substring_except_last_two_chars(char *surface_form) {
     return result;
 }
 
-String_ptr trim(char *surface_form) {
+String_ptr trim(const char *surface_form) {
     int start = -1, end = -1;
     char *tmp;
     for (int i = 0; i < strlen(surface_form); i++) {
@@ -643,10 +643,10 @@ void free_word(Word_ptr word) {
     free(word);
 }
 
-int compare_word(Word_ptr first, Word_ptr second) {
+int compare_word(const Word* first, const Word* second) {
     return compare_string(first->name, second->name);
 }
 
-unsigned int hash_function_word(Word_ptr word, int N) {
+unsigned int hash_function_word(const Word* word, int N) {
     return hash_function_string(word->name, N);
 }

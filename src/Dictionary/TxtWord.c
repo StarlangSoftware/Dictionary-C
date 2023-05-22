@@ -11,11 +11,11 @@
  *
  * @param name String name.
  */
-Txt_word_ptr create_txt_word(char *name) {
+Txt_word_ptr create_txt_word(const char *name) {
     Txt_word_ptr result = malloc(sizeof(Txt_word));
     result->word = create_word(name);
-    result->flags = create_hash_set((unsigned int (*)(void *, int)) hash_function_string,
-                                    (int (*)(void *, void *)) compare_string);
+    result->flags = create_hash_set((unsigned int (*)(const void *, int)) hash_function_string,
+                                    (int (*)(const void *, const void *)) compare_string);
     result->morphology = NULL;
     return result;
 }
@@ -45,7 +45,7 @@ void add_flag(Txt_word_ptr txt_word, char *flag) {
  * @param name String input.
  * @param flag String input.
  */
-Txt_word_ptr create_txt_word2(char *name, char *flag) {
+Txt_word_ptr create_txt_word2(const char *name, char *flag) {
     Txt_word_ptr result = create_txt_word(name);
     add_flag(result, flag);
     return result;
@@ -65,7 +65,7 @@ void remove_flag(Txt_word_ptr txt_word, char *flag) {
  *
  * @return true if flags {@link unordered_set} contains flag.
  */
-bool contains_flag(Txt_word_ptr txt_word, char *flag) {
+bool contains_flag(const Txt_word* txt_word, const char *flag) {
     return hash_set_contains(txt_word->flags, flag);
 }
 
@@ -74,7 +74,7 @@ bool contains_flag(Txt_word_ptr txt_word, char *flag) {
  *
  * @return the corresponding cases.
  */
-char *verb_type(Txt_word_ptr txt_word) {
+char *verb_type(const Txt_word* txt_word) {
     if (contains_flag(txt_word, "F1P1-NO-REF")) {
         /**
          *There is no example in the Turkish dictionary.
@@ -245,7 +245,7 @@ char *verb_type(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains CL_ISIM.
  */
-bool is_nominal(Txt_word_ptr txt_word) {
+bool is_nominal(const Txt_word* txt_word) {
     return contains_flag(txt_word, "CL_ISIM");
 }
 
@@ -254,7 +254,7 @@ bool is_nominal(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains PASSIVE-HN.
  */
-bool is_passive(Txt_word_ptr txt_word) {
+bool is_passive(const Txt_word* txt_word) {
     return contains_flag(txt_word, "PASSIVE-HN");
 }
 
@@ -263,7 +263,7 @@ bool is_passive(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_KIS.
  */
-bool is_abbreviation(Txt_word_ptr txt_word) {
+bool is_abbreviation(const Txt_word* txt_word) {
     /**
      *IS_KIS: The bare-form of the word is an abbrevation which does not obey
      *vowel harmony while taking suffixes. Örn. Ab
@@ -276,7 +276,7 @@ bool is_abbreviation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_INTERJ.
  */
-bool is_interjection(Txt_word_ptr txt_word) {
+bool is_interjection(const Txt_word* txt_word) {
     /**
      *IS_INTERJ: An interjection is a part of speech that shows the emotion or feeling. e.g. Ah, aferin
      */
@@ -288,7 +288,7 @@ bool is_interjection(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_DUP.
  */
-bool is_duplicate(Txt_word_ptr txt_word) {
+bool is_duplicate(const Txt_word* txt_word) {
     /**
      *IS_DUP: The bare-form is part of a duplicate form. e.g. Abuk
      */
@@ -300,7 +300,7 @@ bool is_duplicate(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_CODE.
  */
-bool is_code(Txt_word_ptr txt_word) {
+bool is_code(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_CODE");
 }
 
@@ -309,7 +309,7 @@ bool is_code(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_METRIC.
  */
-bool is_metric(Txt_word_ptr txt_word) {
+bool is_metric(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_METRIC");
 }
 
@@ -318,7 +318,7 @@ bool is_metric(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_HEADER.
  */
-bool is_header(Txt_word_ptr txt_word) {
+bool is_header(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_HEADER");
 }
 
@@ -327,7 +327,7 @@ bool is_header(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_ADJ.
  */
-bool is_adjective(Txt_word_ptr txt_word) {
+bool is_adjective(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_ADJ");
 }
 
@@ -336,7 +336,7 @@ bool is_adjective(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_PUREADJ.
  */
-bool is_pure_adjective(Txt_word_ptr txt_word) {
+bool is_pure_adjective(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_PUREADJ");
 }
 
@@ -345,7 +345,7 @@ bool is_pure_adjective(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_ZM.
  */
-bool is_pronoun(Txt_word_ptr txt_word) {
+bool is_pronoun(const Txt_word* txt_word) {
     /*
      *IS_ZM: The bare-form of the word is a pronoun. e.g. Hangi, hep, hiçbiri
      */
@@ -357,7 +357,7 @@ bool is_pronoun(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_QUES.
  */
-bool is_question(Txt_word_ptr txt_word) {
+bool is_question(const Txt_word* txt_word) {
     /*The bare-form of the word is a question. e.g. Mi, mu, mü
      */
     return contains_flag(txt_word, "IS_QUES");
@@ -368,7 +368,7 @@ bool is_question(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains CL_FIIL.
  */
-bool is_verb(Txt_word_ptr txt_word) {
+bool is_verb(const Txt_word* txt_word) {
     return contains_flag(txt_word, "CL_FIIL");
 }
 
@@ -377,7 +377,7 @@ bool is_verb(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_BILEŞ.
  */
-bool is_portmanteau(Txt_word_ptr txt_word) {
+bool is_portmanteau(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_BILEŞ");
 }
 
@@ -386,7 +386,7 @@ bool is_portmanteau(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_DET.
  */
-bool is_determiner(Txt_word_ptr txt_word) {
+bool is_determiner(const Txt_word* txt_word) {
     /*
      *IS_DET: The bare-form of the word is a determiner. e.g. Bazı, bir
      */
@@ -398,7 +398,7 @@ bool is_determiner(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_CONJ.
  */
-bool is_conjunction(Txt_word_ptr txt_word) {
+bool is_conjunction(const Txt_word* txt_word) {
     /*
      *IS_CONJ: The bare-form of the word is a conjunction. e.g. Gerek, halbuki
      */
@@ -410,7 +410,7 @@ bool is_conjunction(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_ADVERB.
  */
-bool is_adverb(Txt_word_ptr txt_word) {
+bool is_adverb(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_ADVERB");
 }
 
@@ -419,7 +419,7 @@ bool is_adverb(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_POSTP.
  */
-bool is_postp(Txt_word_ptr txt_word) {
+bool is_postp(const Txt_word* txt_word) {
     /*
      *The bare-form of the word is a postposition. e.g. Önce, takdirde, üzere
      */
@@ -431,7 +431,7 @@ bool is_postp(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_B_SI.
  */
-bool is_portmanteau_ending_with_si(Txt_word_ptr txt_word) {
+bool is_portmanteau_ending_with_si(const Txt_word* txt_word) {
     /*
      *IS_B_SI: The bare-form is a portmanteau word ending with "sı". e.g. Giritlalesi
      */
@@ -443,7 +443,7 @@ bool is_portmanteau_ending_with_si(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_B_UD.
  */
-bool is_portmanteau_faced_vowel_ellipsis(Txt_word_ptr txt_word) {
+bool is_portmanteau_faced_vowel_ellipsis(const Txt_word* txt_word) {
     /*
      *IS_B_UD: The bare-form of the word includes vowel epenthesis,
      *therefore the last inserted vowel drops during suffixation. e.g. İnsanoğlu
@@ -456,7 +456,7 @@ bool is_portmanteau_faced_vowel_ellipsis(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_B_SD.
  */
-bool is_portmanteau_faced_softening(Txt_word_ptr txt_word) {
+bool is_portmanteau_faced_softening(const Txt_word* txt_word) {
     /*
      *IS_B_SD: The bare-form of the word includes softening. e.g. Çançiçeği
      */
@@ -468,7 +468,7 @@ bool is_portmanteau_faced_softening(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains EK.
  */
-bool is_suffix(Txt_word_ptr txt_word) {
+bool is_suffix(const Txt_word* txt_word) {
     /*
      * EK: This tag indicates complementary verbs. e.g. İdi, iken, imiş.
      */
@@ -480,7 +480,7 @@ bool is_suffix(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_OA.
  */
-bool is_proper_noun(Txt_word_ptr txt_word) {
+bool is_proper_noun(const Txt_word* txt_word) {
     /*
      *IS_OA: The bare-form of the word is a proper noun. e.g. Abant, Beşiktaş
      */
@@ -492,7 +492,7 @@ bool is_proper_noun(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_CA.
  */
-bool is_plural(Txt_word_ptr txt_word) {
+bool is_plural(const Txt_word* txt_word) {
     /*
      *IS_CA: The bare-form of the word is already in a plural form,
      *therefore can not take plural suffixes such as "ler" or "lar". e.g. Buğdaygiller
@@ -505,7 +505,7 @@ bool is_plural(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_SAYI.
  */
-bool is_numeral(Txt_word_ptr txt_word) {
+bool is_numeral(const Txt_word* txt_word) {
     /*
      *IS_SAYI: The word is a number. e.g. Dört
      */
@@ -517,7 +517,7 @@ bool is_numeral(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_REELSAYI.
  */
-bool is_real(Txt_word_ptr txt_word) {
+bool is_real(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_REELSAYI");
 }
 
@@ -526,7 +526,7 @@ bool is_real(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_KESIR.
  */
-bool is_fraction(Txt_word_ptr txt_word) {
+bool is_fraction(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_KESIR");
 }
 
@@ -535,7 +535,7 @@ bool is_fraction(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_ZAMAN.
  */
-bool is_time2(Txt_word_ptr txt_word) {
+bool is_time2(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_ZAMAN");
 }
 
@@ -544,7 +544,7 @@ bool is_time2(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_DATE.
  */
-bool is_date(Txt_word_ptr txt_word) {
+bool is_date(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_DATE");
 }
 
@@ -553,7 +553,7 @@ bool is_date(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_PERCENT.
  */
-bool is_percent(Txt_word_ptr txt_word) {
+bool is_percent(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_PERCENT");
 }
 
@@ -562,7 +562,7 @@ bool is_percent(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_RANGE.
  */
-bool is_range(Txt_word_ptr txt_word) {
+bool is_range(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_RANGE");
 }
 
@@ -571,7 +571,7 @@ bool is_range(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_ORD.
  */
-bool is_ordinal(Txt_word_ptr txt_word) {
+bool is_ordinal(const Txt_word* txt_word) {
     /*
      *IS_ORD: The bare-form of the word can take suffixes and these suffixes define a ranking. e.g. Birinci
      */
@@ -583,7 +583,7 @@ bool is_ordinal(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_UU.
  */
-bool not_obeys_vowel_harmony_during_agglutination(Txt_word_ptr txt_word) {
+bool not_obeys_vowel_harmony_during_agglutination(const Txt_word* txt_word) {
     /*
      *IS_UU: The bare-form does not obey vowel harmony while taking suffixes. e.g. Dikkat
      */
@@ -595,7 +595,7 @@ bool not_obeys_vowel_harmony_during_agglutination(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_UUU.
  */
-bool obeys_and_not_obeys_vowel_harmony_during_agglutination(Txt_word_ptr txt_word) {
+bool obeys_and_not_obeys_vowel_harmony_during_agglutination(const Txt_word* txt_word) {
     /*
      *IS_UUU: The bare-form does not obey vowel harmony while taking suffixes. e.g. Bol, kalp
      */
@@ -607,7 +607,7 @@ bool obeys_and_not_obeys_vowel_harmony_during_agglutination(Txt_word_ptr txt_wor
  *
  * @return true if flags {@link unordered_set} contains IS_SD, F_SD.
  */
-bool root_soften_during_suffixation(Txt_word_ptr txt_word) {
+bool root_soften_during_suffixation(const Txt_word* txt_word) {
     /*
      *IS_SD: The bare-form final consonant gets devoiced during vowel-initial suffixation. e.g. Çakmak
      */
@@ -619,7 +619,7 @@ bool root_soften_during_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_SDD.
  */
-bool root_soften_and_not_soften_during_suffixation(Txt_word_ptr txt_word) {
+bool root_soften_and_not_soften_during_suffixation(const Txt_word* txt_word) {
     /*
      *The bare-form final consonant can (or can not) get devoiced during vowel-initial suffixation. e.g. Kalp
      */
@@ -631,7 +631,7 @@ bool root_soften_and_not_soften_during_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains F_SD.
  */
-bool verb_soften_during_suffixation(Txt_word_ptr txt_word) {
+bool verb_soften_during_suffixation(const Txt_word* txt_word) {
     /*
      * F_SD: The bare-form final consonant gets devoiced during vowel-initial suffixation. e.g. Cezbet
      */
@@ -643,7 +643,7 @@ bool verb_soften_during_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_SD.
  */
-bool noun_soften_during_suffixation(Txt_word_ptr txt_word) {
+bool noun_soften_during_suffixation(const Txt_word* txt_word) {
     /*
      *IS_SD: The bare-form final consonant already has an accusative suffix. e.g. Kabağı
      */
@@ -655,7 +655,7 @@ bool noun_soften_during_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_KG.
  */
-bool ending_k_changes_into_g(Txt_word_ptr txt_word) {
+bool ending_k_changes_into_g(const Txt_word* txt_word) {
     /*
      *IS_KG: The bare-form includes vowel epenthesis, therefore the last inserted vowel drope
      *during suffixation. e.g. Çelenk
@@ -668,7 +668,7 @@ bool ending_k_changes_into_g(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_EX.
  */
-bool is_exceptional(Txt_word_ptr txt_word) {
+bool is_exceptional(const Txt_word* txt_word) {
     /*
      *IS_EX: This tag defines exception words. e.g. Delikanlı
      */
@@ -680,7 +680,7 @@ bool is_exceptional(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_ST.
  */
-bool duplicates_during_suffixation(Txt_word_ptr txt_word) {
+bool duplicates_during_suffixation(const Txt_word* txt_word) {
     /*
      *IS_ST: The second consonant of the bare-form undergoes a resyllabification. e.g. His
      */
@@ -692,7 +692,7 @@ bool duplicates_during_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_STT.
  */
-bool duplicates_and_not_duplicates_during_suffixation(Txt_word_ptr txt_word) {
+bool duplicates_and_not_duplicates_during_suffixation(const Txt_word* txt_word) {
     /*
      *IS_STT: The second consonant of the bare-form undergoes a resyllabification. e.g. His
      */
@@ -704,7 +704,7 @@ bool duplicates_and_not_duplicates_during_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_UD.
  */
-bool last_i_drops_during_suffixation(Txt_word_ptr txt_word) {
+bool last_i_drops_during_suffixation(const Txt_word* txt_word) {
     /*
      *IS_UD: The bare-form includes vowel epenthesis, therefore the last inserted vowel drops during suffixation.
      *e.g. Boyun
@@ -717,7 +717,7 @@ bool last_i_drops_during_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_UDD.
  */
-bool last_i_drops_and_not_drop_during_suffixation(Txt_word_ptr txt_word) {
+bool last_i_drops_and_not_drop_during_suffixation(const Txt_word* txt_word) {
     /*
      *The bare-form includes vowel epenthesis, therefore the last inserted vowel can (or can not) drop during suffixation. e.g. Kadir
      */
@@ -729,7 +729,7 @@ bool last_i_drops_and_not_drop_during_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_KI.
  */
-bool takes_relative_suffix_ki(Txt_word_ptr txt_word) {
+bool takes_relative_suffix_ki(const Txt_word* txt_word) {
     /*
      *IS_KI: The word can take a suffix such as "ki". e.g. Önce
      */
@@ -741,7 +741,7 @@ bool takes_relative_suffix_ki(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_KU.
  */
-bool takes_relative_suffix_ku(Txt_word_ptr txt_word) {
+bool takes_relative_suffix_ku(const Txt_word* txt_word) {
     /*
      *IS_KU: The word can take a suffix such as "kü". e.g. Bugün
      */
@@ -753,7 +753,7 @@ bool takes_relative_suffix_ku(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_SII.
  */
-bool consonant_s_may_inserted_during_possesive_suffixation(Txt_word_ptr txt_word) {
+bool consonant_s_may_inserted_during_possesive_suffixation(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_SII");
 }
 
@@ -762,7 +762,7 @@ bool consonant_s_may_inserted_during_possesive_suffixation(Txt_word_ptr txt_word
  *
  * @return true if flags {@link unordered_set} contains F_UD.
  */
-bool last_i_drops_during_passive_suffixation(Txt_word_ptr txt_word) {
+bool last_i_drops_during_passive_suffixation(const Txt_word* txt_word) {
     /*
      *F_UD: The bare-form includes vowel epenthesis, therefore the last "ı"
      *drops during passive suffixation. e.g. Çağır
@@ -775,7 +775,7 @@ bool last_i_drops_during_passive_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains F_GUD.
  */
-bool vowel_a_changes_to_i_during_y_suffixation(Txt_word_ptr txt_word) {
+bool vowel_a_changes_to_i_during_y_suffixation(const Txt_word* txt_word) {
     /*
      *F_GUD: The verb bare-form includes viwel reduction, the last vowel "a" of the bare-form is replaced with "ı"
      *e.g. Buzağıla
@@ -788,7 +788,7 @@ bool vowel_a_changes_to_i_during_y_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains F_GUDO.
  */
-bool vowel_e_changes_to_i_during_y_suffixation(Txt_word_ptr txt_word) {
+bool vowel_e_changes_to_i_during_y_suffixation(const Txt_word* txt_word) {
     /*
      *F_GUDO: The verb bare-form includes viwel reduction, the last vowel "e" of the
      *bare-form is replaced with "i". e.g. Ye
@@ -801,7 +801,7 @@ bool vowel_e_changes_to_i_during_y_suffixation(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains F_GIR.
  */
-bool takes_suffix_ir_as_aorist(Txt_word_ptr txt_word) {
+bool takes_suffix_ir_as_aorist(const Txt_word* txt_word) {
     /*
      *F_GIR: The bare-form of the word takes "ir" suffix. e.g. Geç
      */
@@ -813,7 +813,7 @@ bool takes_suffix_ir_as_aorist(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains F_DIR.
  */
-bool takes_suffix_dir_as_factitive(Txt_word_ptr txt_word) {
+bool takes_suffix_dir_as_factitive(const Txt_word* txt_word) {
     /*
      *F_DIR: The bare-form of the word takes "tır" suffix. e.g. Daral
      */
@@ -825,7 +825,7 @@ bool takes_suffix_dir_as_factitive(Txt_word_ptr txt_word) {
  *
  * @return true if flags {@link unordered_set} contains IS_SU.
  */
-bool shows_su_regularities(Txt_word_ptr txt_word) {
+bool shows_su_regularities(const Txt_word* txt_word) {
     return contains_flag(txt_word, "IS_SU");
 }
 
@@ -850,7 +850,7 @@ bool shows_su_regularities(Txt_word_ptr txt_word) {
  * @param word {@link TxtWord} type input.
  * @return true if given word is nominal, verb, adjective, pronoun or adverb, false otherwise.
  */
-bool same_pos(Txt_word_ptr txt_word1, Txt_word_ptr txt_word2) {
+bool same_pos(const Txt_word* txt_word1, const Txt_word* txt_word2) {
     if (is_nominal(txt_word1) && is_nominal(txt_word2)) {
         return true;
     }
@@ -869,10 +869,10 @@ bool same_pos(Txt_word_ptr txt_word1, Txt_word_ptr txt_word2) {
     return false;
 }
 
-unsigned int hash_function_txt_word(Txt_word_ptr word, int N) {
+unsigned int hash_function_txt_word(const Txt_word* word, int N) {
     return hash_function_string(word->word->name, N);
 }
 
-int compare_txt_word(Txt_word_ptr first, Txt_word_ptr second) {
+int compare_txt_word(const Txt_word* first, const Txt_word* second) {
     return compare_string(first->word->name, second->word->name);
 }

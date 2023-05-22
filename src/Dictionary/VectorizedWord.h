@@ -16,10 +16,10 @@ struct vectorized_word {
 typedef struct vectorized_word Vectorized_word;
 typedef Vectorized_word *Vectorized_word_ptr;
 
-Vectorized_word_ptr create_vectorized_word(char *name, Vector_ptr vector);
+Vectorized_word_ptr create_vectorized_word(const char *name, Vector_ptr vector);
 
 void free_vectorized_word(Vectorized_word_ptr vectorized_word);
 
-int compare_vectorized_word(Vectorized_word_ptr first, Vectorized_word_ptr second);
+int compare_vectorized_word(const Vectorized_word* first, const Vectorized_word* second);
 
 #endif //DICTIONARY_VECTORIZEDWORD_H

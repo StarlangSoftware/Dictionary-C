@@ -18,11 +18,11 @@ Trie_ptr create_trie();
 
 void free_trie(Trie_ptr trie);
 
-void add_word_to_trie(Trie_ptr trie, char *word, Txt_word_ptr root);
+void add_word_to_trie(Trie_ptr trie, const char *word, Txt_word_ptr root);
 
-Hash_set_ptr get_words_with_prefix(Trie_ptr trie, char *surface_form);
+Hash_set_ptr get_words_with_prefix(const Trie* trie, const char *surface_form);
 
-Txt_word_ptr get_compound_word_starting_with(Trie_ptr trie, char *hash);
+Txt_word_ptr get_compound_word_starting_with(const Trie* trie, const char *hash);
 
 
 #endif //DICTIONARY_TRIE_H

@@ -17,7 +17,7 @@ struct exceptional_word {
 typedef struct exceptional_word Exceptional_word;
 typedef Exceptional_word *Exceptional_word_ptr;
 
-Exceptional_word_ptr create_exceptional_word(char *name, char *root, Pos pos);
+Exceptional_word_ptr create_exceptional_word(const char *name, const char *root, Pos pos);
 
 void free_exceptional_word(Exceptional_word_ptr word);
 
