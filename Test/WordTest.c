@@ -301,7 +301,7 @@ void test_trim(){
 }
 
 void test_find_c(){
-    char* s = "açöcğüşz";
+    char* s = "açöcğüşzac";
     if (str_find_c(s, "a") != 0){
         printf("Error in test find c 1");
     }
@@ -310,6 +310,12 @@ void test_find_c(){
     }
     if (str_find_c(s, "z") != 7){
         printf("Error in test find c 3");
+    }
+    if (str_find_last_c(s, "a") != 8){
+        printf("Error in test find c 4");
+    }
+    if (str_find_last_c(s, "c") != 9){
+        printf("Error in test find c 5");
     }
 }
 

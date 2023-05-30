@@ -671,3 +671,26 @@ int str_find_c(const char *surface_form, const char *ch) {
     free_string_ptr(currentChar);
     return -1;
 }
+
+int str_find_last_c(const char *surface_form, const char *ch) {
+    int current = 0, last = -1;
+    const char *charPtr = surface_form;
+    String_ptr currentChar = create_string();
+    while (*charPtr) {
+        if ((*charPtr & 0xC0) != 0x80) {
+            do {
+                string_append_char(currentChar, *charPtr);
+                charPtr++;
+            } while ((*charPtr & 0xC0) == 0x80);
+            if (string_equals2(currentChar, ch)) {
+                last = current;
+            }
+            current++;
+            clean_string(currentChar);
+        } else {
+            charPtr++;
+        }
+    }
+    free_string_ptr(currentChar);
+    return last;
+}
