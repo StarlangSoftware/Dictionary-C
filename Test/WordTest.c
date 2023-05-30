@@ -300,6 +300,19 @@ void test_trim(){
     free_string_ptr(result);
 }
 
+void test_find_c(){
+    char* s = "açöcğüşz";
+    if (str_find_c(s, "a") != 0){
+        printf("Error in test find c 1");
+    }
+    if (str_find_c(s, "c") != 3){
+        printf("Error in test find c 2");
+    }
+    if (str_find_c(s, "z") != 7){
+        printf("Error in test find c 3");
+    }
+}
+
 int main() {
     starts_with_test();
     test_to_lowercase();
@@ -320,4 +333,5 @@ int main() {
     test_split_with_char();
     test_substring_except();
     test_trim();
+    test_find_c();
 }

@@ -57,7 +57,7 @@ String_ptr char_at(const char *surface_form, int index) {
  *
  * @return the length of name variable.
  */
-int char_count(const Word* word) {
+int char_count(const Word *word) {
     return word_size(word->name);
 }
 
@@ -75,42 +75,41 @@ char *to_lowercase(const char *surface_form) {
                 string_append_char(currentChar, *charPtr);
                 charPtr++;
             } while ((*charPtr & 0xC0) == 0x80);
-            if (strcmp(currentChar->s, "ç") == 0 || strcmp(currentChar->s, "ö") == 0 ||
-                strcmp(currentChar->s, "ğ") == 0 ||
-                strcmp(currentChar->s, "ü") == 0 || strcmp(currentChar->s, "ş") == 0 ||
-                strcmp(currentChar->s, "ı") == 0 ||
-                strcmp(currentChar->s, "â") == 0 || strcmp(currentChar->s, "û") == 0 ||
-                strcmp(currentChar->s, "î") == 0) {
+            if (string_equals2(currentChar, "ç") || string_equals2(currentChar, "ö") ||
+                string_equals2(currentChar, "ğ") || string_equals2(currentChar, "ı") ||
+                string_equals2(currentChar, "ü") || string_equals2(currentChar, "ş") ||
+                string_equals2(currentChar, "â") || string_equals2(currentChar, "û") ||
+                string_equals2(currentChar, "î")) {
                 string_append(result, currentChar->s);
             } else {
-                if (strcmp(currentChar->s, "Ç") == 0) {
+                if (string_equals2(currentChar, "Ç")) {
                     string_append(result, "ç");
                 } else {
-                    if (strcmp(currentChar->s, "Ö") == 0) {
+                    if (string_equals2(currentChar, "Ö")) {
                         string_append(result, "ö");
                     } else {
-                        if (strcmp(currentChar->s, "Ğ") == 0) {
+                        if (string_equals2(currentChar, "Ğ")) {
                             string_append(result, "ğ");
                         } else {
-                            if (strcmp(currentChar->s, "Ü") == 0) {
+                            if (string_equals2(currentChar, "Ü")) {
                                 string_append(result, "ü");
                             } else {
-                                if (strcmp(currentChar->s, "Ş") == 0) {
+                                if (string_equals2(currentChar, "Ş")) {
                                     string_append(result, "ş");
                                 } else {
-                                    if (strcmp(currentChar->s, "İ") == 0) {
+                                    if (string_equals2(currentChar, "İ")) {
                                         string_append(result, "i");
                                     } else {
-                                        if (strcmp(currentChar->s, "I") == 0) {
+                                        if (string_equals2(currentChar, "I")) {
                                             string_append(result, "ı");
                                         } else {
-                                            if (strcmp(currentChar->s, "Â") == 0) {
+                                            if (string_equals2(currentChar, "Â")) {
                                                 string_append(result, "â");
                                             } else {
-                                                if (strcmp(currentChar->s, "Î") == 0) {
+                                                if (string_equals2(currentChar, "Î")) {
                                                     string_append(result, "î");
                                                 } else {
-                                                    if (strcmp(currentChar->s, "Û") == 0) {
+                                                    if (string_equals2(currentChar, "Û")) {
                                                         string_append(result, "û");
                                                     } else {
                                                         string_append_char(result, tolower(currentChar->s[0]));
@@ -146,42 +145,41 @@ char *to_uppercase(const char *surface_form) {
                 string_append_char(currentChar, *charPtr);
                 charPtr++;
             } while ((*charPtr & 0xC0) == 0x80);
-            if (strcmp(currentChar->s, "Ç") == 0 || strcmp(currentChar->s, "Ö") == 0 ||
-                strcmp(currentChar->s, "Ğ") == 0 ||
-                strcmp(currentChar->s, "Ü") == 0 || strcmp(currentChar->s, "Ş") == 0 ||
-                strcmp(currentChar->s, "I") == 0 ||
-                strcmp(currentChar->s, "Â") == 0 || strcmp(currentChar->s, "Û") == 0 ||
-                strcmp(currentChar->s, "Î") == 0 || strcmp(currentChar->s, "İ") == 0) {
+            if (string_equals2(currentChar, "Ç") || string_equals2(currentChar, "Ö") ||
+                string_equals2(currentChar, "Ğ") || string_equals2(currentChar, "I") ||
+                string_equals2(currentChar, "Ü") || string_equals2(currentChar, "Ş") ||
+                string_equals2(currentChar, "Â") || string_equals2(currentChar, "Û") ||
+                string_equals2(currentChar, "Î") || string_equals2(currentChar, "İ")) {
                 string_append(result, currentChar->s);
             } else {
-                if (strcmp(currentChar->s, "ç") == 0) {
+                if (string_equals2(currentChar, "ç")) {
                     string_append(result, "Ç");
                 } else {
-                    if (strcmp(currentChar->s, "ö") == 0) {
+                    if (string_equals2(currentChar, "ö")) {
                         string_append(result, "Ö");
                     } else {
-                        if (strcmp(currentChar->s, "ğ") == 0) {
+                        if (string_equals2(currentChar, "ğ")) {
                             string_append(result, "Ğ");
                         } else {
-                            if (strcmp(currentChar->s, "ü") == 0) {
+                            if (string_equals2(currentChar, "ü")) {
                                 string_append(result, "Ü");
                             } else {
-                                if (strcmp(currentChar->s, "ş") == 0) {
+                                if (string_equals2(currentChar, "ş")) {
                                     string_append(result, "Ş");
                                 } else {
-                                    if (strcmp(currentChar->s, "i") == 0) {
+                                    if (string_equals2(currentChar, "i")) {
                                         string_append(result, "İ");
                                     } else {
-                                        if (strcmp(currentChar->s, "ı") == 0) {
+                                        if (string_equals2(currentChar, "ı")) {
                                             string_append(result, "I");
                                         } else {
-                                            if (strcmp(currentChar->s, "â") == 0) {
+                                            if (string_equals2(currentChar, "â")) {
                                                 string_append(result, "Â");
                                             } else {
-                                                if (strcmp(currentChar->s, "î") == 0) {
+                                                if (string_equals2(currentChar, "î")) {
                                                     string_append(result, "Î");
                                                 } else {
-                                                    if (strcmp(currentChar->s, "û") == 0) {
+                                                    if (string_equals2(currentChar, "û")) {
                                                         string_append(result, "Û");
                                                     } else {
                                                         string_append_char(result, toupper(currentChar->s[0]));
@@ -643,10 +641,33 @@ void free_word(Word_ptr word) {
     free(word);
 }
 
-int compare_word(const Word* first, const Word* second) {
+int compare_word(const Word *first, const Word *second) {
     return compare_string(first->name, second->name);
 }
 
-unsigned int hash_function_word(const Word* word, int N) {
+unsigned int hash_function_word(const Word *word, int N) {
     return hash_function_string(word->name, N);
+}
+
+int str_find_c(const char *surface_form, const char *ch) {
+    int current = 0;
+    const char *charPtr = surface_form;
+    String_ptr currentChar = create_string();
+    while (*charPtr) {
+        if ((*charPtr & 0xC0) != 0x80) {
+            do {
+                string_append_char(currentChar, *charPtr);
+                charPtr++;
+            } while ((*charPtr & 0xC0) == 0x80);
+            if (string_equals2(currentChar, ch)) {
+                return current;
+            }
+            current++;
+            clean_string(currentChar);
+        } else {
+            charPtr++;
+        }
+    }
+    free_string_ptr(currentChar);
+    return -1;
 }

@@ -78,4 +78,6 @@ int compare_word(const Word* first, const Word* second);
 
 unsigned int hash_function_word(const Word* word, int N);
 
+int str_find_c(const char* large, const char* ch);
+
 #endif //DICTIONARY_WORD_H
