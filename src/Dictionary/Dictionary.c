@@ -13,8 +13,7 @@
 Dictionary_ptr create_dictionary() {
     Dictionary_ptr result = malloc(sizeof(Dictionary));
     result->words = create_array_list();
-    result->word_map = create_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
-                                       (int (*)(const void *, const void *)) compare_string);
+    result->word_map = create_string_hash_map();
     return result;
 }
 

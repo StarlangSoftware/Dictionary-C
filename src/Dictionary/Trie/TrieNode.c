@@ -11,8 +11,7 @@
  */
 Trie_node_ptr create_trie_node() {
     Trie_node_ptr result = malloc(sizeof(Trie_node));
-    result->children = create_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
-                                       (int (*)(const void *, const void *)) compare_string);
+    result->children = create_string_hash_map();
     result->words = create_hash_set((unsigned int (*)(const void *, int)) hash_function_txt_word,
                                     (int (*)(const void *, const void *)) compare_word);
     return result;

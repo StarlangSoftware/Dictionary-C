@@ -27,8 +27,7 @@ Txt_dictionary_ptr create_txt_dictionary2(const char *file_name) {
     result = malloc(sizeof(Txt_dictionary));
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
-    result->misspelled_words = create_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
-                                               (int (*)(const void *, const void *)) compare_string);
+    result->misspelled_words = create_string_hash_map();
     load_from_text(result);
     return result;
 }

@@ -499,6 +499,7 @@ Array_list_ptr to_characters(const char *surface_form) {
  * @return true if it presents time, and false otherwise.
  */
 bool is_time(const char *surface_form) {
+    //regex missing
     char *lowercase = to_lowercase(surface_form);
     if (starts_with(lowercase, "ocak") || starts_with(lowercase, "şubat") || starts_with(lowercase, "mart") ||
         starts_with(lowercase, "nisan") || starts_with(lowercase, "mayıs") || starts_with(lowercase, "haziran") ||
