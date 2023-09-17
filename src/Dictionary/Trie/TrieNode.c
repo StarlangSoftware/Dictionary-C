@@ -18,10 +18,9 @@ Trie_node_ptr create_trie_node() {
 }
 
 void free_trie_node(Trie_node_ptr trie_node) {
-    Array_list_ptr children = key_list(trie_node->children);
+    Array_list_ptr children = value_list(trie_node->children);
     for (int i = 0; i < children->size; i++) {
-        char *child = (char *) array_list_get(children, i);
-        Trie_node_ptr child_node = (Trie_node_ptr) hash_map_get(trie_node->children, child);
+        Trie_node_ptr child_node = array_list_get(children, i);
         free_trie_node(child_node);
     }
     free_array_list(children, NULL);
