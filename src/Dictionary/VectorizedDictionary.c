@@ -72,3 +72,11 @@ void update_word_map_vectorized(Vectorized_dictionary_ptr vectorized_dictionary)
 void add_word_vectorized(Vectorized_dictionary_ptr vectorized_dictionary, Vectorized_word_ptr vectorized_word) {
     array_list_add(vectorized_dictionary->dictionary->words, vectorized_word);
 }
+
+Vectorized_word_ptr get_word2(const Vectorized_dictionary *dictionary, const char *name) {
+    if (word_exists(dictionary->dictionary, name)) {
+        int index = *(int *) (hash_map_get(dictionary->dictionary->word_map, name));
+        return array_list_get(dictionary->dictionary->words, index);
+    }
+    return NULL;
+}
