@@ -16,8 +16,8 @@ Txt_dictionary_ptr create_txt_dictionary() {
 }
 
 /**
- * Another constructor of {@link TxtDictionary} class which takes a String filename and a {@link WordComparator} as inputs.
- * And calls its super class {@link Dictionary} with given {@link WordComparator}, assigns given filename input to the
+ * Another constructor of TxtDictionary class which takes a String filename and a WordComparator as inputs.
+ * And calls its super class Dictionary with given WordComparator, assigns given filename input to the
  * filename variable. Then, it calls loadFromText method with given filename.
  *
  * @param filename   String input.
@@ -33,9 +33,9 @@ Txt_dictionary_ptr create_txt_dictionary2(const char *file_name) {
 }
 
 /**
- * Another constructor of {@link TxtDictionary} class which takes a String filename, a {@link WordComparator} and
- * a misspelled word dictionary file as inputs. And calls its super class {@link Dictionary} with given
- * {@link WordComparator}, assigns given filename input to the filename variable. Then, it calls loadFromText
+ * Another constructor of TxtDictionary class which takes a String filename, a WordComparator and
+ * a misspelled word dictionary file as inputs. And calls its super class Dictionary with given
+ * WordComparator, assigns given filename input to the filename variable. Then, it calls loadFromText
  * method with given filename. It also loads the misspelling file.
  *
  * @param file_name   String input.
@@ -88,7 +88,7 @@ void load_from_text(Txt_dictionary_ptr txt_dictionary) {
 }
 
 /**
- * The longestWordSize method loops through the words {@link vector} and returns the item with the maximum word length.
+ * The longestWordSize method loops through the words vector and returns the item with the maximum word length.
  *
  * @return the item with the maximum word length.
  */
@@ -141,11 +141,11 @@ void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *f
 }
 
 /**
- * The getWord method takes a String name as an input and performs binary search within words {@link vector} and assigns the result
- * to integer variable middle. If the middle is greater than 0, it returns the item at index middle of words {@link vector}, null otherwise.
+ * The getWord method takes a String name as an input and performs binary search within words vector and assigns the result
+ * to integer variable middle. If the middle is greater than 0, it returns the item at index middle of words vector, null otherwise.
  *
  * @param name String input.
- * @return the item at found index of words {@link vector}, null if cannot be found.
+ * @return the item at found index of words vector, null if cannot be found.
  */
 Txt_word_ptr get_word_txt(const Txt_dictionary* txt_dictionary, const char *name) {
     if (word_exists(txt_dictionary->dictionary, name)) {
@@ -170,10 +170,10 @@ void sort_txt(Txt_dictionary_ptr txt_dictionary) {
 }
 
 /**
- * The getWord method which takes an index as an input and returns the value at given index of words {@link vector}.
+ * The getWord method which takes an index as an input and returns the value at given index of words vector.
  *
  * @param index to get the value.
- * @return the value at given index of words {@link vector}.
+ * @return the value at given index of words vector.
  */
 Txt_word_ptr get_word_with_index_txt(const Txt_dictionary* txt_dictionary, int index){
     return array_list_get(txt_dictionary->dictionary->words, index);
@@ -197,9 +197,9 @@ int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_
 }
 
 /**
- * The addWithFlag method takes a String name and a flag as inputs. First it creates a {@link TxtWord} word, then if
- * given name is not in words {@link vector} it creates new {@link TxtWord} with given name and assigns it to
- * the word and adds given flag to the word, it also add newly created word to the words {@link vector}'s index
+ * The addWithFlag method takes a String name and a flag as inputs. First it creates a TxtWord word, then if
+ * given name is not in words vector it creates new TxtWord with given name and assigns it to
+ * the word and adds given flag to the word, it also add newly created word to the words vector's index
  * found by performing a binary search and return true at the end. If given name is in words {@link java.util.ArrayList},
  * it adds it the given flag to the word.
  *

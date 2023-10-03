@@ -830,7 +830,7 @@ bool shows_su_regularities(const Txt_word* txt_word) {
 }
 
 /**
- * The samePos method takes {@link TxtWord} as input and returns true if;
+ * The samePos method takes TxtWord as input and returns true if;
  * <p>
  * flags {@link unordered_set} contains CL_ISIM or given word is CL_ISIM or
  * CL_ISIM: The bare-form of the word is a noun. e.g. Abla
@@ -847,7 +847,7 @@ bool shows_su_regularities(const Txt_word* txt_word) {
  * flags {@link unordered_set} contains IS_ADVERB or given word is IS_ADVERB, false otherwise.
  * IS_ADVERB: The bare-form of the word is a adverb. e.g. Tekrar, açıktan, adeta
  *
- * @param word {@link TxtWord} type input.
+ * @param word TxtWord type input.
  * @return true if given word is nominal, verb, adjective, pronoun or adverb, false otherwise.
  */
 bool same_pos(const Txt_word* txt_word1, const Txt_word* txt_word2) {

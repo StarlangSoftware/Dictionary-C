@@ -9,10 +9,10 @@
 #include "VectorizedWord.h"
 
 /**
- * A constructor of {@link VectorizedDictionary} class which takes a {@link WordComparator} as an input and calls its
- * super class {@link Dictionary} with {@link WordComparator} input.
+ * A constructor of VectorizedDictionary class which takes a WordComparator as an input and calls its
+ * super class Dictionary with WordComparator input.
  *
- * @param comparator {@link WordComparator} type input.
+ * @param comparator WordComparator type input.
  */
 Vectorized_dictionary_ptr create_vectorized_dictionary() {
     Vectorized_dictionary_ptr result = malloc(sizeof(Vectorized_dictionary));
@@ -65,9 +65,9 @@ void update_word_map_vectorized(Vectorized_dictionary_ptr vectorized_dictionary)
 }
 
 /**
- * The addWord method takes a {@link VectorizedWord} as an input and adds it to the words {@link ArrayList}.
+ * The addWord method takes a VectorizedWord as an input and adds it to the words ArrayList.
  *
- * @param word {@link VectorizedWord} input.
+ * @param word VectorizedWord input.
  */
 void add_word_vectorized(Vectorized_dictionary_ptr vectorized_dictionary, Vectorized_word_ptr vectorized_word) {
     array_list_add(vectorized_dictionary->dictionary->words, vectorized_word);

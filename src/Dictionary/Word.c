@@ -11,7 +11,7 @@
 #include "../Language/TurkishLanguage.h"
 
 /**
- * A constructor of {@link Word} class which gets a String name as an input and assigns to the name variable.
+ * A constructor of Word class which gets a String name as an input and assigns to the name variable.
  *
  * @param _name String input.
  */
@@ -276,7 +276,7 @@ String_ptr substring3(const char *surface_form, const char *end) {
 }
 
 /**
- * The beforeLastVowel method takes a {@link String} stem as an input. It loops through the given stem and returns
+ * The beforeLastVowel method takes a String stem as an input. It loops through the given stem and returns
  * the second last vowel.
  *
  * @param stem String input.
@@ -305,7 +305,7 @@ String_ptr before_last_vowel(const char *stem) {
 }
 
 /**
- * The lastVowel method takes a {@link String} stem as an input. It loops through the given stem and returns
+ * The lastVowel method takes a String stem as an input. It loops through the given stem and returns
  * the last vowel.
  *
  * @param stem String input.
@@ -335,7 +335,7 @@ String_ptr last_vowel(const char *stem) {
 }
 
 /**
- * The lastPhoneme method takes a {@link String} stem as an input. It then returns the last phoneme of the given stem.
+ * The lastPhoneme method takes a String stem as an input. It then returns the last phoneme of the given stem.
  *
  * @param stem String input.
  * @return the last phoneme.
@@ -468,10 +468,10 @@ bool is_money(const char *surface_form) {
 }
 
 /**
- * The toCharacters method creates a {@link Word} type characters {@link vector} and adds characters of name variable
- * to newly created {@link vector}.
+ * The toCharacters method creates a Word type characters vector and adds characters of name variable
+ * to newly created vector.
  *
- * @return Word type {@link vector}.
+ * @return Word type vector.
  */
 Array_list_ptr to_characters(const char *surface_form) {
     Array_list_ptr result = create_array_list();

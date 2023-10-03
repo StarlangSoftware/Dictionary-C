@@ -8,7 +8,7 @@
 #include "Word.h"
 
 /**
- * An empty constructor of {@link Dictionary} class.
+ * An empty constructor of Dictionary class.
  */
 Dictionary_ptr create_dictionary() {
     Dictionary_ptr result = malloc(sizeof(Dictionary));
@@ -24,11 +24,11 @@ void free_dictionary(Dictionary_ptr dictionary) {
 }
 
 /**
- * The getWord method takes a String name as an input and performs binary search within words {@link vector} and assigns the result
- * to integer variable middle. If the middle is greater than 0, it returns the item at index middle of words {@link vector}, null otherwise.
+ * The getWord method takes a String name as an input and performs binary search within words vector and assigns the result
+ * to integer variable middle. If the middle is greater than 0, it returns the item at index middle of words vector, null otherwise.
  *
  * @param name String input.
- * @return the item at found index of words {@link vector}, null if cannot be found.
+ * @return the item at found index of words vector, null if cannot be found.
  */
 Word_ptr get_word(const Dictionary* dictionary, const char *name) {
     if (word_exists(dictionary, name)) {
@@ -68,11 +68,11 @@ int binary_search(const Dictionary* dictionary, const Word* word) {
 }
 
 /**
- * The getWordIndex method takes a String name as an input and performs binary search within words {@link vector} and assigns the result
+ * The getWordIndex method takes a String name as an input and performs binary search within words vector and assigns the result
  * to integer variable middle. If the middle is greater than 0, it returns the index middle, -1 otherwise.
  *
  * @param name String input.
- * @return found index of words {@link vector}, -1 if cannot be found.
+ * @return found index of words vector, -1 if cannot be found.
  */
 int get_word_index(const Dictionary* dictionary, const char *name) {
     if (word_exists(dictionary, name)) {
@@ -91,17 +91,17 @@ int size(const Dictionary* dictionary) {
 }
 
 /**
- * The getWord method which takes an index as an input and returns the value at given index of words {@link vector}.
+ * The getWord method which takes an index as an input and returns the value at given index of words vector.
  *
  * @param index to get the value.
- * @return the value at given index of words {@link vector}.
+ * @return the value at given index of words vector.
  */
 Word_ptr get_word_with_index(const Dictionary* dictionary, int index) {
     return array_list_get(dictionary->words, index);
 }
 
 /**
- * The longestWordSize method loops through the words {@link vector} and returns the item with the maximum word length.
+ * The longestWordSize method loops through the words vector and returns the item with the maximum word length.
  *
  * @return the item with the maximum word length.
  */
@@ -117,11 +117,11 @@ int longest_word_size(const Dictionary* dictionary) {
 }
 
 /**
- * The getWordStartingWith method takes a String hash as an input and performs binary search within words {@link ArrayList} and assigns the result
+ * The getWordStartingWith method takes a String hash as an input and performs binary search within words ArrayList and assigns the result
  * to integer variable middle. If the middle is greater than 0, it returns the index middle, -middle-1 otherwise.
  *
  * @param hash String input.
- * @return found index of words {@link vector}, -middle-1 if cannot be found.
+ * @return found index of words vector, -middle-1 if cannot be found.
  */
 int get_word_starting_with(const Dictionary* dictionary, const char *hash) {
     Word_ptr word = create_word(hash);
