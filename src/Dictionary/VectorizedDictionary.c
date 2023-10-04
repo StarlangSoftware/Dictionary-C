@@ -29,6 +29,7 @@ Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
     FILE* input_file;
     Vectorized_dictionary_ptr result = malloc(sizeof(Vectorized_dictionary));
     result->dictionary = create_dictionary();
+    result->file_name = str_copy(result->file_name, file_name);
     input_file = fopen(result->file_name, "r");
     if (input_file == NULL) {
         fclose(input_file);

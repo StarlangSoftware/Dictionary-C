@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include "../src/Dictionary/TxtDictionary.h"
+#include "../src/Dictionary/VectorizedDictionary.h"
 #include <stdio.h>
 #include <stdlib.h>
 
