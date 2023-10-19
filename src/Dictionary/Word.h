@@ -7,6 +7,8 @@
 
 #include "StringUtils.h"
 
+#define MAX_WORD_LENGTH 1024
+
 struct word {
     char *name;
 };
