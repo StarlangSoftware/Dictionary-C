@@ -387,24 +387,14 @@ bool is_capital(const char *surface_form) {
  * @return true if it is a punctuation, false otherwise.
  */
 bool is_punctuation(const char *surface_form) {
-    return (strcmp(surface_form, ".") == 0 || strcmp(surface_form, "...") == 0 || strcmp(surface_form, "[") == 0 ||
-            strcmp(surface_form, "]") == 0 ||
-            strcmp(surface_form, "\u2026") == 0 || strcmp(surface_form, "%") == 0 || strcmp(surface_form, "&") == 0 ||
-            strcmp(surface_form, "=") == 0 ||
-            strcmp(surface_form, "\u0060\u0060") == 0 || strcmp(surface_form, "\u0060") == 0 ||
-            strcmp(surface_form, "''") == 0 || strcmp(surface_form, "$") == 0 ||
-            strcmp(surface_form, "!") == 0 || strcmp(surface_form, "?") == 0 || strcmp(surface_form, ",") == 0 ||
-            strcmp(surface_form, ":") == 0 ||
-            strcmp(surface_form, "--") == 0 || strcmp(surface_form, ";") == 0 || strcmp(surface_form, "(") == 0 ||
-            strcmp(surface_form, ")") == 0 ||
-            strcmp(surface_form, "'") == 0 || strcmp(surface_form, "\"") == 0 || strcmp(surface_form, "\u201C") == 0 ||
-            strcmp(surface_form, "\u2018") == 0 ||
-            strcmp(surface_form, "\u201D") == 0 || strcmp(surface_form, "…") == 0 ||
-            strcmp(surface_form, "\u25CF") == 0 || strcmp(surface_form, "/") == 0 ||
-            strcmp(surface_form, "-") == 0 || strcmp(surface_form, "+") == 0 || strcmp(surface_form, "-LRB-") == 0 ||
-            strcmp(surface_form, "-RRB-") == 0 ||
-            strcmp(surface_form, "-LCB-") == 0 || strcmp(surface_form, "-RCB-") == 0 ||
-            strcmp(surface_form, "-LSB-") == 0 || strcmp(surface_form, "-RSB-") == 0);
+    return string_in_list(surface_form, (char *[]) {".", "...", "[", "]", "\u2026",
+                                                    "%", "&", "=", "\u0060\u0060", "\u0060",
+                                                    "''", "$", "!", "?", ",", ":",
+                                                    "--", ";", "(", ")", "'", "\"",
+                                                    "\u201C", "\u2018", "\u201D", "…",
+                                                    "\u25CF", "/","-", "+", "-LRB-",
+                                                    "-RRB-", "-LCB-", "-RCB-", "-LSB-",
+                                                    "-RSB-"},36);
 }
 
 /**
@@ -436,7 +426,7 @@ bool is_honorific(const char *surface_form) {
 bool is_organization(const char *surface_form) {
     bool result;
     char *lowercase = to_lowercase(surface_form);
-    if (strcmp(lowercase, "corp") == 0 || strcmp(lowercase, "inc.") == 0 || strcmp(lowercase, "co.") == 0) {
+    if (string_in_list(lowercase, (char*[]) {"corp", "inc.", "co."}, 3)) {
         result = true;
     } else {
         result = false;
