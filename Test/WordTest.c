@@ -319,6 +319,21 @@ void test_find_c(){
     }
 }
 
+void test_replace_all(){
+    char* tmp = replace_all("aysealiahmet", "ali", "ayse");
+    if (strcmp(tmp, "ayseayseahmet") != 0){
+        printf("Error in %s", tmp);
+    }
+    tmp = replace_all("aliaysealiahmet", "ali", "ayse");
+    if (strcmp(tmp, "ayseayseayseahmet") != 0){
+        printf("Error in %s", tmp);
+    }
+    tmp = replace_all("aliaysealiahmetali", "ali", "ayse");
+    if (strcmp(tmp, "ayseayseayseahmetayse") != 0){
+        printf("Error in %s", tmp);
+    }
+}
+
 int main() {
     starts_with_test();
     test_to_lowercase();
@@ -340,4 +355,5 @@ int main() {
     test_substring_except();
     test_trim();
     test_find_c();
+    test_replace_all();
 }

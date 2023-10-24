@@ -7,6 +7,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <HashMap/HashMap.h>
+#include <FileUtils.h>
 #include "Word.h"
 #include "../Language/TurkishLanguage.h"
 
@@ -684,4 +685,24 @@ int str_find_last_c(const char *surface_form, const char *ch) {
     }
     free_string_ptr(currentChar);
     return last;
+}
+
+char *replace_all(char *str, char *from, char *to) {
+    char tmp[MAX_LINE_LENGTH] = "";
+    Array_list_ptr items = str_split2(str, from);
+    if (strstr(str, from) == str){
+        sprintf(tmp, "%s", to);
+    }
+    for (int i = 0; i < items->size - 1; i++){
+        sprintf(tmp, "%s%s%s", tmp, (char*)array_list_get(items, i), to);
+    }
+    if (strstr(str + strlen(str) - strlen(from), from) != NULL){
+        sprintf(tmp, "%s%s%s", tmp, (char*)array_list_get(items, items->size - 1), to);
+    } else {
+        sprintf(tmp, "%s%s", tmp, (char*)array_list_get(items, items->size - 1));
+    }
+    free_array_list(items, free);
+    char *result = NULL;
+    result = str_copy(result, tmp);
+    return result;
 }

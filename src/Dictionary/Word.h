@@ -84,5 +84,6 @@ int str_find_c(const char* surface_form, const char* ch);
 
 int str_find_last_c(const char* surface_form, const char* ch);
 
+char* replace_all(char* str, char* from, char* to);
 
 #endif //DICTIONARY_WORD_H
