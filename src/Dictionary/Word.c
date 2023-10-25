@@ -687,7 +687,7 @@ int str_find_last_c(const char *surface_form, const char *ch) {
     return last;
 }
 
-char *replace_all(char *str, char *from, char *to) {
+char *replace_all(char *str, const char *from, const char *to) {
     char tmp[MAX_LINE_LENGTH] = "";
     Array_list_ptr items = str_split2(str, from);
     if (strstr(str, from) == str){
@@ -704,5 +704,15 @@ char *replace_all(char *str, char *from, char *to) {
     free_array_list(items, free);
     char *result = NULL;
     result = str_copy(result, tmp);
+    return result;
+}
+
+char *reverse_string(const char *st) {
+    char* result = calloc(strlen(st) + 1, sizeof(char));
+    for (int i = word_size(st) - 1; i >= 0; i--){
+        String_ptr ch = char_at(st, i);
+        sprintf(result, "%s%s", result, ch->s);
+        free_string_ptr(ch);
+    }
     return result;
 }

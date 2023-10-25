@@ -334,6 +334,13 @@ void test_replace_all(){
     }
 }
 
+void test_reverse_string(){
+    char* reverse = reverse_string("aliayse");
+    if (strcmp(reverse, "esyaila") != 0){
+        printf("Error in %s\n", reverse);
+    }
+}
+
 int main() {
     starts_with_test();
     test_to_lowercase();
@@ -356,4 +363,5 @@ int main() {
     test_trim();
     test_find_c();
     test_replace_all();
+    test_reverse_string();
 }
