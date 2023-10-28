@@ -21,6 +21,8 @@ Txt_word_ptr create_txt_word(const char *name);
 
 Txt_word_ptr create_txt_word2(const char *name, char *flag);
 
+Txt_word_ptr clone_txt_word(Txt_word_ptr word);
+
 void free_txt_word(Txt_word_ptr txt_word);
 
 void add_flag(Txt_word_ptr txt_word, char *flag);

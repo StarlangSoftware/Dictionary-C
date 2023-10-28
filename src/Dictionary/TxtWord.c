@@ -876,3 +876,18 @@ unsigned int hash_function_txt_word(const Txt_word* word, int N) {
 int compare_txt_word(const Txt_word* first, const Txt_word* second) {
     return compare_string(first->word->name, second->word->name);
 }
+
+Txt_word_ptr clone_txt_word(Txt_word_ptr word) {
+    Txt_word_ptr result = malloc(sizeof(Txt_word));
+    result->word = create_word(word->word->name);
+    result->flags = create_hash_set((unsigned int (*)(const void *, int)) hash_function_string,
+                                    (int (*)(const void *, const void *)) compare_string);
+    result->morphology = str_copy(result->morphology, word->morphology);
+    Array_list_ptr list = hash_set_key_list(word->flags);
+    for (int i = 0; i < list->size; i++){
+        char* flag = str_copy(flag, array_list_get(list, i));
+        hash_set_insert(result->flags, flag);
+    }
+    free_array_list(list, NULL);
+    return result;
+}
