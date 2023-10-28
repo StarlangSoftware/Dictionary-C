@@ -561,6 +561,9 @@ Array_list_ptr split_with_char(char *line, const char *separators) {
 
 String_ptr substring_except_last_char(const char *surface_form) {
     int size = strlen(surface_form);
+    if (size < 2){
+        return create_string();
+    }
     char *tmp;
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
         tmp = malloc(size);
@@ -578,6 +581,9 @@ String_ptr substring_except_last_char(const char *surface_form) {
 
 String_ptr substring_except_last_two_chars(const char *surface_form) {
     int size = strlen(surface_form);
+    if (size < 3){
+        return create_string();
+    }
     char *tmp;
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
         if (((*(surface_form + size - 2) & 0xC0) != 0x80)) {
