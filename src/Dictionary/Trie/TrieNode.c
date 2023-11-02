@@ -25,7 +25,7 @@ void free_trie_node(Trie_node_ptr trie_node) {
     }
     free_array_list(children, NULL);
     free_hash_map(trie_node->children, NULL);
-    free_hash_set(trie_node->words, (void (*)(void *)) free_txt_word);
+    free_hash_set(trie_node->words, NULL);
     free(trie_node);
 }
 

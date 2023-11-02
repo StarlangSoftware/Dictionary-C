@@ -58,7 +58,9 @@ Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
 }
 
 void free_txt_dictionary(Txt_dictionary_ptr txt_dictionary) {
-    free_dictionary(txt_dictionary->dictionary);
+    free_array_list(txt_dictionary->dictionary->words, (void (*)(void *)) free_txt_word);
+    free_hash_map(txt_dictionary->dictionary->word_map, free);
+    free(txt_dictionary->dictionary);
     free(txt_dictionary->file_name);
     free_hash_map(txt_dictionary->misspelled_words, free);
     free(txt_dictionary);

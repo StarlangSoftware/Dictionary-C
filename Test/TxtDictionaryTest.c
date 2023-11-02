@@ -4,9 +4,7 @@
 
 #include <string.h>
 #include "../src/Dictionary/TxtDictionary.h"
-#include "../src/Dictionary/VectorizedDictionary.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 void test_morphology(Txt_dictionary_ptr txt_dictionary){
     Txt_word_ptr word = get_word_txt(txt_dictionary, "ab");
@@ -95,6 +93,7 @@ void test_prepare_trie(Txt_dictionary_ptr txt_dictionary){
         printf("Error in prepare trie 9\n");
     }
     free_hash_set(set, NULL);
+    free_trie(trie);
 }
 
 int main(){
