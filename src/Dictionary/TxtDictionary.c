@@ -346,7 +346,7 @@ void add_word_when_root_soften(Trie_ptr trie, const char *last, const char *root
         if (strcmp(last, "ç") == 0){
             tmp = str_concat(root, "c");
         } else {
-            if (strcmp(last, "y") == 0){
+            if (strcmp(last, "t") == 0){
                 tmp = str_concat(root, "d");
             } else {
                 if (strcmp(last, "k") == 0 || strcmp(last, "g") == 0){
