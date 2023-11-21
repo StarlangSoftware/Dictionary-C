@@ -24,9 +24,9 @@ void test_morphology(Txt_dictionary_ptr txt_dictionary){
 void test_all_words(Txt_dictionary_ptr txt_dictionary){
     for (int i = 0; i < txt_dictionary->dictionary->words->size; i++){
         Txt_word_ptr word1 = get_word_with_index_txt(txt_dictionary, i);
-        Txt_word_ptr word2 = get_word_txt(txt_dictionary, word1->word->name);
+        Txt_word_ptr word2 = get_word_txt(txt_dictionary, word1->name);
         if (word2 == NULL){
-            printf("Error in finding word %s\n", word1->word->name);
+            printf("Error in finding name %s\n", word1->name);
         }
     }
 }

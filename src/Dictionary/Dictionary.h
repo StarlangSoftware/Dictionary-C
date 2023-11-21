@@ -20,11 +20,11 @@ Dictionary_ptr create_dictionary();
 
 void free_dictionary(Dictionary_ptr dictionary);
 
-Word_ptr get_word(const Dictionary* dictionary, const char *name);
+char* get_word(const Dictionary* dictionary, const char *name);
 
 void remove_word(Dictionary_ptr dictionary, const char *name);
 
-int binary_search(const Dictionary* dictionary, const Word* word);
+int binary_search(const Dictionary* dictionary, const char* word);
 
 int get_word_index(const Dictionary* dictionary, const char *name);
 
@@ -32,7 +32,7 @@ bool word_exists(const Dictionary* dictionary, const char *name);
 
 int size(const Dictionary* dictionary);
 
-Word_ptr get_word_with_index(const Dictionary* dictionary, int index);
+char* get_word_with_index(const Dictionary* dictionary, int index);
 
 int longest_word_size(const Dictionary* dictionary);
 

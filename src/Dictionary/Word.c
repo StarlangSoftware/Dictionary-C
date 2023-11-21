@@ -11,17 +11,6 @@
 #include "Word.h"
 #include "../Language/TurkishLanguage.h"
 
-/**
- * A constructor of Word class which gets a String name as an input and assigns to the name variable.
- *
- * @param _name String input.
- */
-Word_ptr create_word(const char *name) {
-    Word_ptr result = malloc(sizeof(Word));
-    result->name = str_copy(result->name, name);
-    return result;
-}
-
 int word_size(const char *surface_form) {
     int count = 0;
     while (*surface_form) {
@@ -58,8 +47,8 @@ String_ptr char_at(const char *surface_form, int index) {
  *
  * @return the length of name variable.
  */
-int char_count(const Word *word) {
-    return word_size(word->name);
+int char_count(const char *word) {
+    return word_size(word);
 }
 
 bool starts_with(const char *large_string, const char *small_string) {
@@ -471,7 +460,7 @@ Array_list_ptr to_characters(const char *surface_form) {
         string_append_char(ch, *surface_form);
         surface_form++;
         if ((*surface_form & 0xC0) != 0x80) {
-            array_list_add(result, create_word(ch->s));
+            array_list_add(result, ch->s);
             free_string_ptr(ch);
             ch = create_string();
         }
@@ -632,19 +621,6 @@ String_ptr trim(const char *surface_form) {
     String_ptr result = create_string2(tmp);
     free(tmp);
     return result;
-}
-
-void free_word(Word_ptr word) {
-    free(word->name);
-    free(word);
-}
-
-int compare_word(const Word *first, const Word *second) {
-    return compare_string(first->name, second->name);
-}
-
-unsigned int hash_function_word(const Word *word, int N) {
-    return hash_function_string(word->name, N);
 }
 
 int str_find_c(const char *surface_form, const char *ch) {

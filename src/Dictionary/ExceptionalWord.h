@@ -9,7 +9,7 @@
 #include "Pos.h"
 
 struct exceptional_word {
-    Word_ptr word;
+    char *word;
     char *root;
     Pos pos;
 };

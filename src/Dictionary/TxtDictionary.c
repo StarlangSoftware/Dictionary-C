@@ -98,8 +98,8 @@ int longest_word_size_txt(const Txt_dictionary* txt_dictionary) {
     int max = 0;
     for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
         Txt_word_ptr word = array_list_get(txt_dictionary->dictionary->words, i);
-        if (word_size(word->word->name) > max) {
-            max = word_size(word->word->name);
+        if (word_size(word->name) > max) {
+            max = word_size(word->name);
         }
     }
     return max;
@@ -162,7 +162,7 @@ void update_word_map_txt(Txt_dictionary_ptr txt_dictionary) {
         Txt_word_ptr word = array_list_get(txt_dictionary->dictionary->words, i);
         int *index = malloc(sizeof(int));
         *index = i;
-        hash_map_insert(txt_dictionary->dictionary->word_map, word->word->name, index);
+        hash_map_insert(txt_dictionary->dictionary->word_map, word->name, index);
     }
 }
 
@@ -186,10 +186,10 @@ int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_
     int hi = txt_dictionary->dictionary->words->size - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;
-        if (strcmp(((Word_ptr) array_list_get(txt_dictionary->dictionary->words, mid))->name, txt_word->word->name) == 0) {
+        if (strcmp(array_list_get(txt_dictionary->dictionary->words, mid), txt_word->name) == 0) {
             return mid;
         }
-        if (strcmp(((Word_ptr) array_list_get(txt_dictionary->dictionary->words, mid))->name, txt_word->word->name) < 0) {
+        if (strcmp(array_list_get(txt_dictionary->dictionary->words, mid), txt_word->name) < 0) {
             lo = mid + 1;
         } else {
             hi = mid - 1;
@@ -389,7 +389,7 @@ Trie_ptr prepare_trie(Txt_dictionary_ptr txt_dictionary) {
     String_ptr rootWithoutLast, rootWithoutLastTwo, lastBefore, last, tmp;
     for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
         Txt_word_ptr word = get_word_with_index_txt(txt_dictionary, i);
-        root = word->word->name;
+        root = word->name;
         if (strcmp(root, "ben") == 0){
             add_word_to_trie(result, "bana", word);
         }

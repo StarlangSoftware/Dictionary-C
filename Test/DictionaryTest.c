@@ -11,7 +11,7 @@ int main(){
         printf("Error in size 1");
     }
     if (longest_word_size_txt(dictionary) != 1){
-        printf("Error in longest word 1");
+        printf("Error in longest name 1");
     }
     free_txt_dictionary(dictionary);
     dictionary = create_txt_dictionary2("mixedcase.txt");
@@ -19,7 +19,7 @@ int main(){
         printf("Error in size 2");
     }
     if (longest_word_size_txt(dictionary) != 1){
-        printf("Error in longest word 2");
+        printf("Error in longest name 2");
     }
     free_txt_dictionary(dictionary);
 }

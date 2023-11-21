@@ -61,7 +61,7 @@ void update_word_map_vectorized(Vectorized_dictionary_ptr vectorized_dictionary)
         Vectorized_word_ptr word = array_list_get(vectorized_dictionary->dictionary->words, i);
         int *index = malloc(sizeof(int));
         *index = i;
-        hash_map_insert(vectorized_dictionary->dictionary->word_map, word->word->name, index);
+        hash_map_insert(vectorized_dictionary->dictionary->word_map, word->word, index);
     }
 }
 

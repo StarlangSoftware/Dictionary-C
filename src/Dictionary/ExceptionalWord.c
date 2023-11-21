@@ -16,7 +16,7 @@
  */
 Exceptional_word_ptr create_exceptional_word(const char *name, const char *root, Pos pos) {
     Exceptional_word_ptr result = malloc(sizeof(Exceptional_word));
-    result->word = create_word(name);
+    result->word = str_copy(result->word, name);
     result->root = str_copy(result->root, root);
     result->pos = pos;
     return result;
@@ -24,6 +24,6 @@ Exceptional_word_ptr create_exceptional_word(const char *name, const char *root,
 
 void free_exceptional_word(Exceptional_word_ptr word) {
     free(word->root);
-    free_word(word->word);
+    free(word->word);
     free(word);
 }

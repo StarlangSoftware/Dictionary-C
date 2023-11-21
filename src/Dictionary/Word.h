@@ -9,22 +9,11 @@
 
 #define MAX_WORD_LENGTH 1024
 
-struct word {
-    char *name;
-};
-
-typedef struct word Word;
-typedef Word *Word_ptr;
-
-Word_ptr create_word(const char *name);
-
-void free_word(Word_ptr word);
-
 int word_size(const char *surface_form);
 
 String_ptr char_at(const char *surface_form, int index);
 
-int char_count(const Word* word);
+int char_count(const char* word);
 
 bool starts_with(const char *large_string, const char *small_string);
 
@@ -75,10 +64,6 @@ String_ptr substring_except_last_char(const char *surface_form);
 String_ptr substring_except_last_two_chars(const char *surface_form);
 
 String_ptr trim(const char *surface_form);
-
-int compare_word(const Word* first, const Word* second);
-
-unsigned int hash_function_word(const Word* word, int N);
 
 int str_find_c(const char* surface_form, const char* ch);
 
