@@ -9,27 +9,27 @@ enum pos {
 /**
  * Adjective.
  */
-    ADJECTIVE,
+    ADJECTIVE_POS,
 /**
 * Noun.
 */
-    NOUN,
+    NOUN_POS,
 /**
 * Verb.
 */
-    VERB,
+    VERB_POS,
 /**
 * Adverb.
 */
-    ADVERB,
+    ADVERB_POS,
 /**
 * Conjunction.
 */
-    CONJUNCTION,
+    CONJUNCTION_POS,
 /**
 * Interjection.
 */
-    INTERJECTION,
+    INTERJECTION_POS,
 /**
 * Preposition.
 */
@@ -37,7 +37,7 @@ enum pos {
 /**
 * Pronoun.
 */
-    PRONOUN
+    PRONOUN_POS
 };
 
 typedef enum pos Pos;
