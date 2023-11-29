@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <Memory/Memory.h>
 #include "Dictionary.h"
 #include "Word.h"
 
@@ -11,16 +12,16 @@
  * An empty constructor of Dictionary class.
  */
 Dictionary_ptr create_dictionary() {
-    Dictionary_ptr result = malloc(sizeof(Dictionary));
+    Dictionary_ptr result = malloc_(sizeof(Dictionary), "create_dictionary");
     result->words = create_array_list();
     result->word_map = create_string_hash_map();
     return result;
 }
 
 void free_dictionary(Dictionary_ptr dictionary) {
-    free_array_list(dictionary->words, (void (*)(void *)) free);
-    free_hash_map(dictionary->word_map, free);
-    free(dictionary);
+    free_array_list(dictionary->words, (void (*)(void *)) free_);
+    free_hash_map(dictionary->word_map, free_);
+    free_(dictionary);
 }
 
 /**
@@ -45,7 +46,7 @@ char* get_word(const Dictionary* dictionary, const char *name) {
 void remove_word(Dictionary_ptr dictionary, const char *name) {
     if (word_exists(dictionary, name)) {
         int index = *(int *) (hash_map_get(dictionary->word_map, name));
-        array_list_remove(dictionary->words, index, (void (*)(void *)) free);
+        array_list_remove(dictionary->words, index, (void (*)(void *)) free_);
     }
     update_word_map(dictionary);
 }
@@ -131,7 +132,7 @@ int get_word_starting_with(const Dictionary* dictionary, const char *hash) {
 void update_word_map(Dictionary_ptr dictionary) {
     for (int i = 0; i < dictionary->words->size; i++) {
         char* word = array_list_get(dictionary->words, i);
-        int *index = malloc(sizeof(int));
+        int *index = malloc_(sizeof(int), "update_word_map");
         *index = i;
         hash_map_insert(dictionary->word_map, word, index);
     }

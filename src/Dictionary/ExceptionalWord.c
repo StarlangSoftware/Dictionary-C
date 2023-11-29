@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include "ExceptionalWord.h"
+#include "Memory/Memory.h"
 
 /**
  * A constructor of ExceptionalWord class which takes a Pos as a  part of speech and two Strings; name
@@ -15,7 +16,7 @@
  * @param pos  Pos type input.
  */
 Exceptional_word_ptr create_exceptional_word(const char *name, const char *root, Pos pos) {
-    Exceptional_word_ptr result = malloc(sizeof(Exceptional_word));
+    Exceptional_word_ptr result = malloc_(sizeof(Exceptional_word), "create_exceptional_word");
     result->word = str_copy(result->word, name);
     result->root = str_copy(result->root, root);
     result->pos = pos;
@@ -23,7 +24,7 @@ Exceptional_word_ptr create_exceptional_word(const char *name, const char *root,
 }
 
 void free_exceptional_word(Exceptional_word_ptr word) {
-    free(word->root);
-    free(word->word);
-    free(word);
+    free_(word->root);
+    free_(word->word);
+    free_(word);
 }

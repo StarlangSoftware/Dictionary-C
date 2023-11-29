@@ -5,6 +5,7 @@
 #include "../src/Syllibification/SyllableList.h"
 #include <stdio.h>
 #include <HashMap/HashMap.h>
+#include <Memory/Memory.h>
 
 void test_case(char *syllables[], int array_size, char *word, int caseNo) {
     Array_list_ptr array1 = create_array_list_of_string(syllables, array_size);
@@ -13,8 +14,9 @@ void test_case(char *syllables[], int array_size, char *word, int caseNo) {
     if (!array_list_equals(array1, array2, (int (*)(const void *, const void *)) compare_string)) {
         printf("Test failed in %d\n", caseNo);
     }
+    free_syllable_list(list);
     free_array_list(array1, NULL);
-    free_array_list(array2, (void (*)(void *)) free_string);
+    free_array_list(array2, NULL);
 }
 
 int main() {

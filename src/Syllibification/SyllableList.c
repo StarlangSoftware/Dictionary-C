@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <StringUtils.h>
+#include <Memory/Memory.h>
 #include "SyllableList.h"
 #include "../Dictionary/Word.h"
 #include "../Language/TurkishLanguage.h"
@@ -24,9 +25,8 @@
  * @param word String input.
  */
 Syllable_list_ptr create_syllable_list(const char *word) {
-    Syllable_list_ptr result = malloc(sizeof(Syllable_list));
-    String_ptr sbSyllable;
-    sbSyllable = create_string();
+    Syllable_list_ptr result = malloc_(sizeof(Syllable_list), "create_syllable_list");
+    String_ptr sbSyllable = create_string();
     result->syllables = create_array_list();
     for (int i = 0; i < word_size(word); i++) {
         String_ptr c = char_at(word, i);
@@ -52,6 +52,9 @@ Syllable_list_ptr create_syllable_list(const char *word) {
                 if (!is_vowel(ch->s)) {
                     if (result->syllables->size == 0) {
                         string_append(sbSyllable, c->s);
+                        free_string_ptr(c);
+                        free_string_ptr(ch);
+                        free_(tempSyl);
                         continue;
                     }
                     int lastPos = result->syllables->size - 1;
@@ -68,13 +71,16 @@ Syllable_list_ptr create_syllable_list(const char *word) {
                                        create_syllable(str->s),
                                        (void (*)(void *)) free_syllable);
                     clean_string(sbSyllable);
+                    free_string_ptr(str);
                 }
                 free_string_ptr(ch);
             }
+            free_(tempSyl);
             string_append(sbSyllable, c->s);
         }
         free_string_ptr(c);
     }
+    free_string_ptr(sbSyllable);
     return result;
 }
 
@@ -90,4 +96,9 @@ Array_list_ptr get_syllables(const Syllable_list* syllable_list) {
         array_list_add(result, ((Syllable_ptr) array_list_get(syllable_list->syllables, i))->syllable);
     }
     return result;
+}
+
+void free_syllable_list(Syllable_list_ptr syllable_list) {
+    free_array_list(syllable_list->syllables, (void (*)(void *)) free_syllable);
+    free_(syllable_list);
 }

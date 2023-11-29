@@ -3,6 +3,7 @@
 //
 
 #include <stdlib.h>
+#include <Memory/Memory.h>
 #include "TxtWord.h"
 
 /**
@@ -12,7 +13,7 @@
  * @param name String name.
  */
 Txt_word_ptr create_txt_word(const char *name) {
-    Txt_word_ptr result = malloc(sizeof(Txt_word));
+    Txt_word_ptr result = malloc_(sizeof(Txt_word), "create_txt_word");
     result->name = str_copy(result->name, name);
     result->flags = create_hash_set((unsigned int (*)(const void *, int)) hash_function_string,
                                     (int (*)(const void *, const void *)) compare_string);
@@ -21,12 +22,12 @@ Txt_word_ptr create_txt_word(const char *name) {
 }
 
 void free_txt_word(Txt_word_ptr txt_word) {
-    free(txt_word->name);
+    free_(txt_word->name);
     if (txt_word->morphology != NULL) {
-        free(txt_word->morphology);
+        free_(txt_word->morphology);
     }
-    free_hash_set(txt_word->flags, NULL);
-    free(txt_word);
+    free_hash_set(txt_word->flags, free_);
+    free_(txt_word);
 }
 
 /**
@@ -35,7 +36,7 @@ void free_txt_word(Txt_word_ptr txt_word) {
  * @param flag String input to add.
  */
 void add_flag(Txt_word_ptr txt_word, char *flag) {
-    hash_set_insert(txt_word->flags, flag);
+    hash_set_insert(txt_word->flags, clone_string(flag));
 }
 
 /**
@@ -878,7 +879,7 @@ int compare_txt_word(const Txt_word* first, const Txt_word* second) {
 }
 
 Txt_word_ptr clone_txt_word(Txt_word_ptr word) {
-    Txt_word_ptr result = malloc(sizeof(Txt_word));
+    Txt_word_ptr result = malloc_(sizeof(Txt_word), "clone_txt_word");
     result->name = str_copy(result->name, word->name);
     result->flags = create_hash_set((unsigned int (*)(const void *, int)) hash_function_string,
                                     (int (*)(const void *, const void *)) compare_string);

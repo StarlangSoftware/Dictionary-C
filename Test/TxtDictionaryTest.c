@@ -5,6 +5,7 @@
 #include <string.h>
 #include "../src/Dictionary/TxtDictionary.h"
 #include <stdio.h>
+#include <Memory/Memory.h>
 
 void test_morphology(Txt_dictionary_ptr txt_dictionary){
     Txt_word_ptr word = get_word_txt(txt_dictionary, "ab");
@@ -46,53 +47,27 @@ void test_correct_form(Txt_dictionary_ptr txt_dictionary){
     }
 }
 
+void test_prepare_trie_single(Trie_ptr trie, char* _word, char* root, int index){
+    Hash_set_ptr set = get_words_with_prefix(trie, _word);
+    Txt_word_ptr word = create_txt_word(root);
+    if (!hash_set_contains(set, word)){
+        printf("Error in prepare trie %d\n", index);
+    }
+    free_txt_word(word);
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
+}
+
 void test_prepare_trie(Txt_dictionary_ptr txt_dictionary){
     Trie_ptr trie = prepare_trie(txt_dictionary);
-    Hash_set_ptr set = get_words_with_prefix(trie, "bana");
-    if (!hash_set_contains(set, create_txt_word("ben"))){
-        printf("Error in prepare trie 1\n");
-    }
-    free_hash_set(set, NULL);
-    set = get_words_with_prefix(trie, "ayrıldı");
-    if (!hash_set_contains(set, create_txt_word("ayır"))){
-        printf("Error in prepare trie 2\n");
-    }
-    free_hash_set(set, NULL);
-    set = get_words_with_prefix(trie, "metni");
-    if (!hash_set_contains(set, create_txt_word("metin"))){
-        printf("Error in prepare trie 3\n");
-    }
-    free_hash_set(set, NULL);
-    set = get_words_with_prefix(trie, "deveboyunları");
-    if (!hash_set_contains(set, create_txt_word("deveboynu"))){
-        printf("Error in prepare trie 4\n");
-    }
-    free_hash_set(set, NULL);
-    set = get_words_with_prefix(trie, "fiyongu");
-    if (!hash_set_contains(set, create_txt_word("fiyonk"))){
-        printf("Error in prepare trie 5\n");
-    }
-    free_hash_set(set, NULL);
-    set = get_words_with_prefix(trie, "yiyor");
-    if (!hash_set_contains(set, create_txt_word("ye"))){
-        printf("Error in prepare trie 6\n");
-    }
-    free_hash_set(set, NULL);
-    set = get_words_with_prefix(trie, "depoluyor");
-    if (!hash_set_contains(set, create_txt_word("depola"))){
-        printf("Error in prepare trie 7\n");
-    }
-    free_hash_set(set, NULL);
-    set = get_words_with_prefix(trie, "ağaçlığı");
-    if (!hash_set_contains(set, create_txt_word("ağaçlık"))){
-        printf("Error in prepare trie 8\n");
-    }
-    free_hash_set(set, NULL);
-    set = get_words_with_prefix(trie, "kutbu");
-    if (!hash_set_contains(set, create_txt_word("kutup"))){
-        printf("Error in prepare trie 9\n");
-    }
-    free_hash_set(set, NULL);
+    test_prepare_trie_single(trie, "bana", "ben", 1);
+    test_prepare_trie_single(trie, "ayrıldı", "ayır", 2);
+    test_prepare_trie_single(trie, "metni", "metin", 3);
+    test_prepare_trie_single(trie, "deveboyunları", "deveboynu", 4);
+    test_prepare_trie_single(trie, "fiyongu", "fiyonk", 5);
+    test_prepare_trie_single(trie, "yiyor", "ye", 6);
+    test_prepare_trie_single(trie, "depoluyor", "depola", 7);
+    test_prepare_trie_single(trie, "ağaçlığı", "ağaçlık", 8);
+    test_prepare_trie_single(trie, "kutbu", "kutup", 9);
     free_trie(trie);
 }
 

@@ -24,37 +24,46 @@ int main(){
     if (set->hash_map->count != 1){
         printf("Error in trie test 1\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     set = get_words_with_prefix(simple_trie, "ad");
     if (set->hash_map->count != 2){
         printf("Error in trie test 2\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     set = get_words_with_prefix(simple_trie, "adi");
     if (set->hash_map->count != 3){
         printf("Error in trie test 3\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     set = get_words_with_prefix(simple_trie, "adil");
     if (set->hash_map->count != 4){
         printf("Error in trie test 4\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     set = get_words_with_prefix(simple_trie, "adilane");
     if (set->hash_map->count != 5){
         printf("Error in trie test 5\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     set = get_words_with_prefix(simple_trie, "ölü");
     if (set->hash_map->count != 1){
         printf("Error in trie test 6\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     set = get_words_with_prefix(simple_trie, "ölüm");
     if (set->hash_map->count != 2){
         printf("Error in trie test 7\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     set = get_words_with_prefix(simple_trie, "ısı");
     if (set->hash_map->count != 1){
         printf("Error in trie test 8\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     set = get_words_with_prefix(simple_trie, "ısıtıcı");
     if (set->hash_map->count != 2){
         printf("Error in trie test 9\n");
     }
+    free_hash_set(set, (void (*)(void *)) free_txt_word);
     free_trie(simple_trie);
 }

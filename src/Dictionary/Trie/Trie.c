@@ -3,20 +3,21 @@
 //
 
 #include <stdlib.h>
+#include <Memory/Memory.h>
 #include "Trie.h"
 
 /**
  * A constructor of Trie class which creates a new TrieNode as rootNode.
  */
 Trie_ptr create_trie() {
-    Trie_ptr result = malloc(sizeof(Trie));
+    Trie_ptr result = malloc_(sizeof(Trie), "create_trie");
     result->root_node = create_trie_node();
     return result;
 }
 
 void free_trie(Trie_ptr trie) {
     free_trie_node(trie->root_node);
-    free(trie);
+    free_(trie);
 }
 
 /**
@@ -48,7 +49,7 @@ Hash_set_ptr get_words_with_prefix(const Trie* trie, const char *surface_form) {
             current = get_child(current, ch->s);
             if (!hash_set_is_empty(current->words)) {
                 Hash_set_ptr wordsToBeAdded = current->words;
-                hash_set_merge(words, wordsToBeAdded);
+                hash_set_merge(words, wordsToBeAdded, (void *(*)(void *)) clone_txt_word);
             }
         } else {
             free_string_ptr(ch);

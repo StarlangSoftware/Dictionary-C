@@ -6,8 +6,8 @@
 #include <StringUtils.h>
 #include <string.h>
 #include <ctype.h>
-#include <HashMap/HashMap.h>
 #include <FileUtils.h>
+#include <Memory/Memory.h>
 #include "Word.h"
 #include "../Language/TurkishLanguage.h"
 
@@ -39,6 +39,7 @@ String_ptr char_at(const char *surface_form, int index) {
         }
         surface_form++;
     }
+    free_string_ptr(result);
     return create_string();
 }
 
@@ -233,6 +234,7 @@ String_ptr substring(const char *surface_form, int index, int length) {
         }
         surface_form++;
     }
+    free_string_ptr(result);
     return create_string();
 }
 
@@ -253,6 +255,7 @@ String_ptr substring2(const char *surface_form, int index) {
         }
         surface_form++;
     }
+    free_string_ptr(result);
     return create_string();
 }
 
@@ -280,6 +283,7 @@ String_ptr before_last_vowel(const char *stem) {
         ch = array_list_get(stemChars, i);
         if (is_vowel(ch->s)) {
             if (before == 1) {
+                free_string_ptr(last);
                 last = ch;
                 before--;
                 continue;
@@ -402,7 +406,7 @@ bool is_honorific(const char *surface_form) {
     } else {
         result = false;
     }
-    free(lowercase);
+    free_(lowercase);
     return result;
 }
 
@@ -421,7 +425,7 @@ bool is_organization(const char *surface_form) {
     } else {
         result = false;
     }
-    free(lowercase);
+    free_(lowercase);
     return result;
 }
 
@@ -443,7 +447,7 @@ bool is_money(const char *surface_form) {
     } else {
         result = false;
     }
-    free(lowercase);
+    free_(lowercase);
     return result;
 }
 
@@ -485,21 +489,23 @@ bool is_time(const char *surface_form) {
         starts_with(lowercase, "nisan") || starts_with(lowercase, "mayıs") || starts_with(lowercase, "haziran") ||
         starts_with(lowercase, "temmuz") || starts_with(lowercase, "ağustos") || starts_with(lowercase, "eylül") ||
         starts_with(lowercase, "ekim") || starts_with(lowercase, "kasım") || strcmp(lowercase, "aralık") == 0) {
+        free_(lowercase);
         return true;
     }
     if (strcmp(lowercase, "pazar") == 0 || strcmp(lowercase, "salı") == 0 || starts_with(lowercase, "çarşamba") ||
         starts_with(lowercase, "perşembe") || strcmp(lowercase, "cuma") == 0 || starts_with(lowercase, "cumartesi") ||
         starts_with(lowercase, "pazartesi")) {
+        free_(lowercase);
         return true;
     }
     if (strchr(lowercase, '\'') != NULL) {
         String_ptr tmp = substring3(lowercase, strchr(lowercase, '\''));
-        free(lowercase);
+        free_(lowercase);
         lowercase = str_copy(lowercase, tmp->s);
         free_string_ptr(tmp);
     }
     long time = strtol(lowercase, NULL, 10);
-    free(lowercase);
+    free_(lowercase);
     if (time > 1900 && time < 2200) {
         return true;
     }
@@ -521,7 +527,7 @@ String_ptr to_capital(const char *surface_form) {
     String_ptr remaining_char = substring2(surface_form, 1);
     char *uppercase = to_uppercase(first_char->s);
     String_ptr result = create_string2(uppercase);
-    free(uppercase);
+    free_(uppercase);
     string_append(result, remaining_char->s);
     free_string_ptr(first_char);
     free_string_ptr(remaining_char);
@@ -555,16 +561,16 @@ String_ptr substring_except_last_char(const char *surface_form) {
     }
     char *tmp;
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
-        tmp = malloc(size);
+        tmp = malloc_(size, "substring_except_last_char_1");
         strncpy(tmp, surface_form, size - 1);
         tmp[size - 1] = '\0';
     } else {
-        tmp = malloc(size - 1);
+        tmp = malloc_(size - 1, "substring_except_last_char_2");
         strncpy(tmp, surface_form, size - 2);
         tmp[size - 2] = '\0';
     }
     String_ptr result = create_string2(tmp);
-    free(tmp);
+    free_(tmp);
     return result;
 }
 
@@ -576,27 +582,27 @@ String_ptr substring_except_last_two_chars(const char *surface_form) {
     char *tmp;
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
         if (((*(surface_form + size - 2) & 0xC0) != 0x80)) {
-            tmp = malloc(size - 1);
+            tmp = malloc_(size - 1, "substring_except_last_two_chars_1");
             strncpy(tmp, surface_form, size - 2);
             tmp[size - 2] = '\0';
         } else {
-            tmp = malloc(size - 2);
+            tmp = malloc_(size - 2, "substring_except_last_two_chars_2");
             strncpy(tmp, surface_form, size - 3);
             tmp[size - 3] = '\0';
         }
     } else {
         if (((*(surface_form + size - 3) & 0xC0) != 0x80)) {
-            tmp = malloc(size - 2);
+            tmp = malloc_(size - 2, "substring_except_last_two_chars_3");
             strncpy(tmp, surface_form, size - 3);
             tmp[size - 3] = '\0';
         } else {
-            tmp = malloc(size - 3);
+            tmp = malloc_(size - 3, "substring_except_last_two_chars_4");
             strncpy(tmp, surface_form, size - 4);
             tmp[size - 4] = '\0';
         }
     }
     String_ptr result = create_string2(tmp);
-    free(tmp);
+    free_(tmp);
     return result;
 }
 
@@ -615,11 +621,11 @@ String_ptr trim(const char *surface_form) {
             break;
         }
     }
-    tmp = malloc(end - start + 2);
+    tmp = malloc_(end - start + 2, "trim");
     strncpy(tmp, surface_form + start, end - start + 1);
     tmp[end - start + 1] = '\0';
     String_ptr result = create_string2(tmp);
-    free(tmp);
+    free_(tmp);
     return result;
 }
 
@@ -634,6 +640,7 @@ int str_find_c(const char *surface_form, const char *ch) {
                 charPtr++;
             } while ((*charPtr & 0xC0) == 0x80);
             if (string_equals2(currentChar, ch)) {
+                free_string_ptr(currentChar);
                 return current;
             }
             current++;
@@ -683,14 +690,14 @@ char *replace_all(char *str, const char *from, const char *to) {
     } else {
         sprintf(tmp, "%s%s", tmp, (char*)array_list_get(items, items->size - 1));
     }
-    free_array_list(items, free);
+    free_array_list(items, free_);
     char *result = NULL;
     result = str_copy(result, tmp);
     return result;
 }
 
 char *reverse_string(const char *st) {
-    char* result = calloc(strlen(st) + 1, sizeof(char));
+    char* result = calloc_(strlen(st) + 1, sizeof(char), "reverse_string");
     for (int i = word_size(st) - 1; i >= 0; i--){
         String_ptr ch = char_at(st, i);
         sprintf(result, "%s%s", result, ch->s);

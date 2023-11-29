@@ -2,9 +2,9 @@
 // Created by Olcay Taner YILDIZ on 18.03.2023.
 //
 
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <Memory/Memory.h>
 #include "TxtDictionary.h"
 #include "FileUtils.h"
 #include "Trie/Trie.h"
@@ -24,7 +24,7 @@ Txt_dictionary_ptr create_txt_dictionary() {
  */
 Txt_dictionary_ptr create_txt_dictionary2(const char *file_name) {
     Txt_dictionary_ptr result;
-    result = malloc(sizeof(Txt_dictionary));
+    result = malloc_(sizeof(Txt_dictionary), "create_txt_dictionary2");
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
     result->misspelled_words = create_string_hash_map();
@@ -46,7 +46,7 @@ Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
                                           const char *misspelled_file_name,
                                           const char *morphological_lexicon) {
     Txt_dictionary_ptr result;
-    result = malloc(sizeof(Txt_dictionary));
+    result = malloc_(sizeof(Txt_dictionary), "create_txt_dictionary3");
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
     result->misspelled_words = create_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
@@ -59,11 +59,11 @@ Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
 
 void free_txt_dictionary(Txt_dictionary_ptr txt_dictionary) {
     free_array_list(txt_dictionary->dictionary->words, (void (*)(void *)) free_txt_word);
-    free_hash_map(txt_dictionary->dictionary->word_map, free);
-    free(txt_dictionary->dictionary);
-    free(txt_dictionary->file_name);
-    free_hash_map(txt_dictionary->misspelled_words, free);
-    free(txt_dictionary);
+    free_hash_map(txt_dictionary->dictionary->word_map, free_);
+    free_(txt_dictionary->dictionary);
+    free_(txt_dictionary->file_name);
+    free_hash_map2(txt_dictionary->misspelled_words, free_, free_);
+    free_(txt_dictionary);
 }
 
 void load_from_text(Txt_dictionary_ptr txt_dictionary) {
@@ -84,6 +84,7 @@ void load_from_text(Txt_dictionary_ptr txt_dictionary) {
             }
             array_list_add(txt_dictionary->dictionary->words, currentWord);
         }
+        free_array_list(tokens, free_);
     }
     fclose(input_file);
     sort_txt(txt_dictionary);
@@ -119,6 +120,7 @@ void load_misspelled_words(Txt_dictionary_ptr txt_dictionary, const char *misspe
                             array_list_get(tokens, 0),
                             array_list_get(tokens, 1));
         }
+        free_array_list(tokens, NULL);
     }
     fclose(input_file);
 }
@@ -138,6 +140,7 @@ void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *f
                 word->morphology = str_copy(word->morphology, array_list_get(tokens, 1));
             }
         }
+        free_array_list(tokens, free_);
     }
     fclose(input_file);
 }
@@ -160,7 +163,7 @@ Txt_word_ptr get_word_txt(const Txt_dictionary* txt_dictionary, const char *name
 void update_word_map_txt(Txt_dictionary_ptr txt_dictionary) {
     for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
         Txt_word_ptr word = array_list_get(txt_dictionary->dictionary->words, i);
-        int *index = malloc(sizeof(int));
+        int *index = malloc_(sizeof(int), "update_word_map_txt");
         *index = i;
         hash_map_insert(txt_dictionary->dictionary->word_map, word->name, index);
     }
@@ -356,8 +359,8 @@ void add_word_when_root_soften(Trie_ptr trie, const char *last, const char *root
         }
     }
     if (tmp != NULL){
-        add_word_to_trie(trie, tmp, word);
-        free(tmp);
+        add_word_to_trie(trie, tmp, clone_txt_word(word));
+        free_(tmp);
     }
 }
 
@@ -391,10 +394,10 @@ Trie_ptr prepare_trie(Txt_dictionary_ptr txt_dictionary) {
         Txt_word_ptr word = get_word_with_index_txt(txt_dictionary, i);
         root = word->name;
         if (strcmp(root, "ben") == 0){
-            add_word_to_trie(result, "bana", word);
+            add_word_to_trie(result, "bana", clone_txt_word(word));
         }
         if (strcmp(root, "sen") == 0){
-            add_word_to_trie(result, "sana", word);
+            add_word_to_trie(result, "sana", clone_txt_word(word));
         }
         rootWithoutLast = substring_except_last_char(root);
         if (word_size(root) > 1) {
@@ -404,22 +407,24 @@ Trie_ptr prepare_trie(Txt_dictionary_ptr txt_dictionary) {
         }
         if (word_size(root) > 1){
             lastBefore = char_at(root, word_size(root) - 2);
+        } else {
+            lastBefore = NULL;
         }
         last = last_char(root);
-        add_word_to_trie(result, root, word);
+        add_word_to_trie(result, root, clone_txt_word(word));
         if (last_i_drops_during_suffixation(word) || last_i_drops_during_passive_suffixation(word)) {
             if (root_soften_during_suffixation(word)) {
                 add_word_when_root_soften(result, last->s, rootWithoutLastTwo->s, word);
             } else {
                 tmp = create_string2(rootWithoutLastTwo->s);
                 string_append_s(tmp, last);
-                add_word_to_trie(result, tmp->s, word);
+                add_word_to_trie(result, tmp->s, clone_txt_word(word));
                 free_string_ptr(tmp);
             }
         }
         // NominalRootNoPossesive
         if (is_portmanteau_ending_with_si(word)) {
-            add_word_to_trie(result, rootWithoutLastTwo->s, word);
+            add_word_to_trie(result, rootWithoutLastTwo->s, clone_txt_word(word));
         }
         if (root_soften_during_suffixation(word)) {
             add_word_when_root_soften(result, last->s, rootWithoutLast->s, word);
@@ -429,49 +434,55 @@ Trie_ptr prepare_trie(Txt_dictionary_ptr txt_dictionary) {
             if (is_portmanteau_faced_vowel_ellipsis(word)){
                 string_append_s(tmp, last);
                 string_append_s(tmp, lastBefore);
-                add_word_to_trie(result, tmp->s, word);
+                add_word_to_trie(result, tmp->s, clone_txt_word(word));
             } else {
                 if (is_portmanteau_faced_softening(word)){
                     if (strcmp(lastBefore->s, "b") == 0){
                         string_append(tmp, "p");
-                        add_word_to_trie(result, tmp->s, word);
+                        add_word_to_trie(result, tmp->s, clone_txt_word(word));
                     } else {
                         if (strcmp(lastBefore->s, "c") == 0){
                             string_append(tmp, "ç");
-                            add_word_to_trie(result, tmp->s, word);
+                            add_word_to_trie(result, tmp->s, clone_txt_word(word));
                         } else {
                             if (strcmp(lastBefore->s, "d") == 0){
                                 string_append(tmp, "t");
-                                add_word_to_trie(result, tmp->s, word);
+                                add_word_to_trie(result, tmp->s, clone_txt_word(word));
                             } else {
                                 if (strcmp(lastBefore->s, "ğ") == 0){
                                     string_append(tmp, "k");
-                                    add_word_to_trie(result, tmp->s, word);
+                                    add_word_to_trie(result, tmp->s, clone_txt_word(word));
                                 }
                             }
                         }
                     }
                 } else {
-                    add_word_to_trie(result, rootWithoutLast->s, word);
+                    add_word_to_trie(result, rootWithoutLast->s, clone_txt_word(word));
                 }
             }
             free_string_ptr(tmp);
         }
         if (vowel_e_changes_to_i_during_y_suffixation(word) || vowel_a_changes_to_i_during_y_suffixation(word)) {
             if (strcmp(last->s, "e") == 0){
-                add_word_to_trie(result, rootWithoutLast->s, word);
+                add_word_to_trie(result, rootWithoutLast->s, clone_txt_word(word));
             } else {
                 if (strcmp(last->s, "a") == 0){
-                    add_word_to_trie(result, rootWithoutLast->s, word);
+                    add_word_to_trie(result, rootWithoutLast->s, clone_txt_word(word));
                 }
             }
         }
         if (ending_k_changes_into_g(word)) {
             tmp = create_string2(rootWithoutLast->s);
             string_append_char(tmp, 'g');
-            add_word_to_trie(result, tmp->s, word);
+            add_word_to_trie(result, tmp->s, clone_txt_word(word));
             free_string_ptr(tmp);
         }
+        free_string_ptr(rootWithoutLast);
+        free_string_ptr(rootWithoutLastTwo);
+        if (lastBefore != NULL){
+            free_string_ptr(lastBefore);
+        }
+        free_string_ptr(last);
     }
     return result;
 }

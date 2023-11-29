@@ -5,7 +5,7 @@
 #include "../src/Dictionary/Word.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
+#include <Memory/Memory.h>
 
 void starts_with_test() {
     char *l = "çöğüş";
@@ -16,15 +16,19 @@ void starts_with_test() {
 }
 
 void test_to_lowercase() {
-    if (strcmp(to_lowercase("ABCDEFGHJKLMNOPQRSTUVWXYZÇÖĞÜŞIİ"), "abcdefghjklmnopqrstuvwxyzçöğüşıi") != 0) {
+    char* lowercase = to_lowercase("ABCDEFGHJKLMNOPQRSTUVWXYZÇÖĞÜŞIİ");
+    if (strcmp(lowercase, "abcdefghjklmnopqrstuvwxyzçöğüşıi") != 0) {
         printf("Error in test to_lowercase");
     }
+    free_(lowercase);
 }
 
 void test_to_uppercase() {
-    if (strcmp(to_uppercase("abcdefghjklmnopqrstuvwxyzçöğüşıi"), "ABCDEFGHJKLMNOPQRSTUVWXYZÇÖĞÜŞIİ") != 0) {
+    char* uppercase = to_uppercase("abcdefghjklmnopqrstuvwxyzçöğüşıi");
+    if (strcmp(uppercase, "ABCDEFGHJKLMNOPQRSTUVWXYZÇÖĞÜŞIİ") != 0) {
         printf("Error in test to_uppercase");
     }
+    free_(uppercase);
 }
 
 void test_all_characters(){
@@ -39,6 +43,7 @@ void test_all_characters(){
     if (strcmp(((String_ptr) array_list_get(chars, 5))->s, "ı") != 0){
         printf("Error in test all characters 3\n");
     }
+    free_array_list(chars, (void (*)(void *)) free_string_ptr);
 }
 
 void test_before_last_vowel(){
@@ -249,12 +254,13 @@ void test_split() {
         printf("Error in test split 1");
     }
     free_array_list(result, (void (*)(void *)) free_string_ptr);
-    char* test2 = malloc(20 * sizeof(char));
+    char* test2 = malloc_(20 * sizeof(char), "test_split");
     strcpy(test2, "Ali topu at");
     result = split(test2);
     if (result->size != 3){
         printf("Error in test split 2");
     }
+    free_(test2);
     free_array_list(result, (void (*)(void *)) free_string_ptr);
 }
 
@@ -265,12 +271,13 @@ void test_split_with_char() {
         printf("Error in test split with char 1");
     }
     free_array_list(result, (void (*)(void *)) free_string_ptr);
-    char* test2 = malloc(20 * sizeof(char));
+    char* test2 = malloc_(20 * sizeof(char), "test_split_with_char");
     strcpy(test2, "ali;topu,at şimdi");
     result = split_with_char(test2, ";, ");
     if (result->size != 4){
         printf("Error in test split with char 2");
     }
+    free_(test2);
     free_array_list(result, (void (*)(void *)) free_string_ptr);
 }
 
@@ -324,14 +331,17 @@ void test_replace_all(){
     if (strcmp(tmp, "ayseayseahmet") != 0){
         printf("Error in %s", tmp);
     }
+    free_(tmp);
     tmp = replace_all("aliaysealiahmet", "ali", "ayse");
     if (strcmp(tmp, "ayseayseayseahmet") != 0){
         printf("Error in %s", tmp);
     }
+    free_(tmp);
     tmp = replace_all("aliaysealiahmetali", "ali", "ayse");
     if (strcmp(tmp, "ayseayseayseahmetayse") != 0){
         printf("Error in %s", tmp);
     }
+    free_(tmp);
 }
 
 void test_reverse_string(){
@@ -339,6 +349,7 @@ void test_reverse_string(){
     if (strcmp(reverse, "esyaila") != 0){
         printf("Error in %s\n", reverse);
     }
+    free_(reverse);
 }
 
 int main() {

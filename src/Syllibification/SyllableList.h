@@ -18,4 +18,6 @@ Syllable_list_ptr create_syllable_list(const char *word);
 
 Array_list_ptr get_syllables(const Syllable_list* syllable_list);
 
+void free_syllable_list(Syllable_list_ptr syllable_list);
+
 #endif //DICTIONARY_SYLLABLELIST_H

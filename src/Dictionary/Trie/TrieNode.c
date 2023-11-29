@@ -3,14 +3,14 @@
 //
 
 #include <stdlib.h>
+#include <Memory/Memory.h>
 #include "TrieNode.h"
-#include "../TxtWord.h"
 
 /**
  * A constructor of TrieNode class which creates a new children map.
  */
 Trie_node_ptr create_trie_node() {
-    Trie_node_ptr result = malloc(sizeof(Trie_node));
+    Trie_node_ptr result = malloc_(sizeof(Trie_node), "create_trie_node");
     result->children = create_string_hash_map();
     result->words = create_hash_set((unsigned int (*)(const void *, int)) hash_function_txt_word,
                                     (int (*)(const void *, const void *)) compare_txt_word);
@@ -18,15 +18,9 @@ Trie_node_ptr create_trie_node() {
 }
 
 void free_trie_node(Trie_node_ptr trie_node) {
-    Array_list_ptr children = value_list(trie_node->children);
-    for (int i = 0; i < children->size; i++) {
-        Trie_node_ptr child_node = array_list_get(children, i);
-        free_trie_node(child_node);
-    }
-    free_array_list(children, NULL);
-    free_hash_map(trie_node->children, NULL);
-    free_hash_set(trie_node->words, NULL);
-    free(trie_node);
+    free_hash_map2(trie_node->children, free_, (void (*)(void *)) free_trie_node);
+    free_hash_set(trie_node->words, (void (*)(void *)) free_txt_word);
+    free_(trie_node);
 }
 
 /**
@@ -52,12 +46,13 @@ void add_word_to_trie_node2(Trie_node_ptr trie_node, const char *word, int index
     String_ptr ch = char_at(word, index);
     if (hash_map_contains(trie_node->children, ch->s)) {
         child = (Trie_node_ptr) hash_map_get(trie_node->children, ch->s);
+        add_word_to_trie_node2(child, word, index + 1, root);
     } else {
         child = create_trie_node();
+        add_word_to_trie_node2(child, word, index + 1, root);
+        hash_map_insert(trie_node->children, clone_string(ch->s), child);
     }
-    add_word_to_trie_node2(child, word, index + 1, root);
-    hash_map_insert(trie_node->children, ch->s, child);
-    free(ch);
+    free_string_ptr(ch);
 }
 
 /**
