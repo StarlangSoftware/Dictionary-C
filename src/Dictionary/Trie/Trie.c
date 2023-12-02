@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <Memory/Memory.h>
+#include <printf.h>
 #include "Trie.h"
 
 /**

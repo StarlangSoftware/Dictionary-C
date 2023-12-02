@@ -215,7 +215,7 @@ String_ptr substring(const char *surface_form, int index, int length) {
     String_ptr result = create_string();
     int current = 0, currentLength = 0;
     if (length <= 0 || index < 0) {
-        return create_string();
+        return result;
     }
     while (*surface_form) {
         if ((*surface_form & 0xC0) != 0x80) {
