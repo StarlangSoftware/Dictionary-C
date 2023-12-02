@@ -15,6 +15,7 @@ Vectorized_word_ptr create_vectorized_word(const char *name, Vector_ptr vector) 
 }
 
 void free_vectorized_word(Vectorized_word_ptr vectorized_word) {
+    free_vector(vectorized_word->vector);
     free_(vectorized_word->word);
     free_(vectorized_word);
 }

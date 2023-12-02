@@ -22,7 +22,10 @@ Vectorized_dictionary_ptr create_vectorized_dictionary() {
 }
 
 void free_vectorized_dictionary(Vectorized_dictionary_ptr vectorized_dictionary) {
-    free_dictionary(vectorized_dictionary->dictionary);
+    free_array_list(vectorized_dictionary->dictionary->words, (void (*)(void *)) free_vectorized_word);
+    free_hash_map(vectorized_dictionary->dictionary->word_map, free_);
+    free_(vectorized_dictionary->dictionary);
+    free_(vectorized_dictionary->file_name);
     free_(vectorized_dictionary);
 }
 
@@ -46,6 +49,7 @@ Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
             Vectorized_word_ptr currentWord = create_vectorized_word(array_list_get(tokens, 0), vector);
             array_list_add(result->dictionary->words, currentWord);
         }
+        free_array_list(tokens, free_);
     }
     fclose(input_file);
     sort_vectorized(result);
