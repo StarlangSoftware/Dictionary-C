@@ -136,7 +136,7 @@ void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *f
         Array_list_ptr tokens = read_items(input_file, ' ');
         if (tokens->size == 2) {
             Txt_word_ptr word = get_word_txt(txt_dictionary, array_list_get(tokens, 0));
-            if (word != NULL) {
+            if (word != NULL && word->morphology == NULL) {
                 word->morphology = str_copy(word->morphology, array_list_get(tokens, 1));
             }
         }
