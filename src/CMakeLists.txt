@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.23)
-project(Dictionary C)
-
+project(Dictionary)
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_FLAGS "-O3")
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+find_package(math_c REQUIRED)
+find_package(data_structure_c REQUIRED)
 
-add_library(Dictionary src/Language/Language.h src/Language/EnglishLanguage.h src/Language/TurkishLanguage.c src/Language/TurkishLanguage.h src/Syllibification/Syllable.c src/Syllibification/Syllable.h src/Syllibification/SyllableList.c src/Syllibification/SyllableList.h src/Dictionary/Word.c src/Dictionary/Word.h src/Dictionary/Pos.h src/Dictionary/TxtWord.c src/Dictionary/TxtWord.h src/Dictionary/ExceptionalWord.c src/Dictionary/ExceptionalWord.h src/Dictionary/VectorizedWord.c src/Dictionary/VectorizedWord.h src/Dictionary/Trie/TrieNode.c src/Dictionary/Trie/TrieNode.h src/Dictionary/Trie/Trie.c src/Dictionary/Trie/Trie.h src/Dictionary/Dictionary.c src/Dictionary/Dictionary.h src/Dictionary/TxtDictionary.c src/Dictionary/TxtDictionary.h src/Dictionary/VectorizedDictionary.c src/Dictionary/VectorizedDictionary.h)
-target_link_libraries(Dictionary ${CONAN_LIBS})
+add_library(Dictionary Language/Language.h Language/EnglishLanguage.h Language/TurkishLanguage.c Language/TurkishLanguage.h Syllibification/Syllable.c Syllibification/Syllable.h Syllibification/SyllableList.c Syllibification/SyllableList.h Dictionary/Word.c Dictionary/Word.h Dictionary/Pos.h Dictionary/TxtWord.c Dictionary/TxtWord.h Dictionary/ExceptionalWord.c Dictionary/ExceptionalWord.h Dictionary/VectorizedWord.c Dictionary/VectorizedWord.h Dictionary/Trie/TrieNode.c Dictionary/Trie/TrieNode.h Dictionary/Trie/Trie.c Dictionary/Trie/Trie.h Dictionary/Dictionary.c Dictionary/Dictionary.h Dictionary/TxtDictionary.c Dictionary/TxtDictionary.h Dictionary/VectorizedDictionary.c Dictionary/VectorizedDictionary.h)
+target_link_libraries(Dictionary math_c::math_c data_structure_c::data_structure_c)
