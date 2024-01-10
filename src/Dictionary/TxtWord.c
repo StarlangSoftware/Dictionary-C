@@ -58,7 +58,7 @@ Txt_word_ptr create_txt_word2(const char *name, char *flag) {
  * @param flag String input to remove.
  */
 void remove_flag(Txt_word_ptr txt_word, char *flag) {
-    hash_set_remove(txt_word->flags, flag, NULL);
+    hash_set_remove(txt_word->flags, flag, free_);
 }
 
 /**
