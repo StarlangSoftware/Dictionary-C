@@ -4,7 +4,6 @@
 
 #include "../src/Dictionary/Trie/Trie.h"
 #include <stdio.h>
-#include <Memory/Memory.h>
 
 int main(){
     Trie_ptr simple_trie = create_trie();
