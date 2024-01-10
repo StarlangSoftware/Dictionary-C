@@ -294,6 +294,9 @@ String_ptr before_last_vowel(const char *stem) {
         }
     }
     String_ptr result = create_string2(last->s);
+    if (string_equals2(last, "0")){
+        free_string_ptr(last);
+    }
     free_array_list(stemChars, (void (*)(void *)) free_string_ptr);
     return result;
 }
@@ -342,6 +345,7 @@ String_ptr last_phoneme(const char *stem) {
     if (strcmp(l->s, "'") != 0) {
         return l;
     } else {
+        free_string_ptr(l);
         return char_at(stem, word_size(stem) - 2);
     }
 }
