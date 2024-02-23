@@ -2,9 +2,7 @@
 // Created by Olcay Taner YILDIZ on 4.03.2023.
 //
 
-#include <stdlib.h>
 #include <Memory/Memory.h>
-#include <printf.h>
 #include "Trie.h"
 
 /**
