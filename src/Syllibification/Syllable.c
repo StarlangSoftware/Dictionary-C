@@ -7,12 +7,21 @@
 #include "Syllable.h"
 #include "StringUtils.h"
 
+/**
+ * A constructor of Syllable class which takes a String as an input and initializes _syllable variable with given input.
+ *
+ * @param syllable String input.
+ */
 Syllable_ptr create_syllable(const char *syllable) {
     Syllable_ptr result = malloc_(sizeof(Syllable), "create_syllable");
     result->syllable = str_copy(result->syllable, syllable);
     return result;
 }
 
+/**
+ * Freees memory allocated for a single syllable.
+ * @param syllable Syllable.
+ */
 void free_syllable(Syllable_ptr syllable) {
     free_(syllable->syllable);
     free_(syllable);

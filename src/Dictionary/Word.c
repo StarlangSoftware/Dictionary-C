@@ -11,6 +11,11 @@
 #include "Word.h"
 #include "../Language/TurkishLanguage.h"
 
+/**
+ * Number of UTF8 characters in a given string.
+ * @param surface_form Given input string
+ * @return Number of UTF8 characters in the input string
+ */
 int word_size(const char *surface_form) {
     int count = 0;
     while (*surface_form) {
@@ -22,6 +27,12 @@ int word_size(const char *surface_form) {
     return count;
 }
 
+/**
+ * Returns the UTF8 character value at the specified index of an input string
+ * @param surface_form Input string
+ * @param index The index of the character
+ * @return UTF8 character value at the specified index
+ */
 String_ptr char_at(const char *surface_form, int index) {
     String_ptr result = create_string();
     int current = 0;
@@ -52,10 +63,22 @@ int char_count(const char *word) {
     return word_size(word);
 }
 
+/**
+ * Checks if a given large string starts with the given small prefix string.
+ * @param large_string String for which prefix search is done.
+ * @param small_string The prefix string
+ * @return true if the character sequence smallString is a prefix of the character sequence largeString; false
+ * otherwise.
+ */
 bool starts_with(const char *large_string, const char *small_string) {
     return strstr(large_string, small_string) == large_string;
 }
 
+/**
+ * Converts a given string to its lowercase form.
+ * @param surface_form Given input string
+ * @return Lowercase version of the input string
+ */
 char *to_lowercase(const char *surface_form) {
     String_ptr result = create_string();
     String_ptr currentChar = create_string();
@@ -126,6 +149,11 @@ char *to_lowercase(const char *surface_form) {
     return tmp;
 }
 
+/**
+ * Converts a given string to its uppercase form.
+ * @param surface_form Given input string
+ * @return Uppercase version of the input string
+ */
 char *to_uppercase(const char *surface_form) {
     String_ptr result = create_string();
     String_ptr currentChar = create_string();
@@ -196,6 +224,11 @@ char *to_uppercase(const char *surface_form) {
     return tmp;
 }
 
+/**
+ * Returns an array of UTF8 characters of the input string.
+ * @param surface_form Input string
+ * @return An array of UTF8 characters.
+ */
 Array_list_ptr all_characters(const char *surface_form) {
     Array_list_ptr result = create_array_list();
     String_ptr ch = create_string();
@@ -211,6 +244,14 @@ Array_list_ptr all_characters(const char *surface_form) {
     return result;
 }
 
+/**
+ * Returns a string that is a substring of this string. The substring begins at the specified index and extends
+ * length characters.
+ * @param surface_form Input string
+ * @param index The beginning index, inclusive.
+ * @param length Length of the substring
+ * @return Substring of this string starting from index with size length
+ */
 String_ptr substring(const char *surface_form, int index, int length) {
     String_ptr result = create_string();
     int current = 0, currentLength = 0;
@@ -238,6 +279,13 @@ String_ptr substring(const char *surface_form, int index, int length) {
     return create_string();
 }
 
+/**
+ * Returns a string that is a substring of this string. The substring begins at the specified index and extends
+ * until the end of the input string.
+ * @param surface_form Input string
+ * @param index The beginning index, inclusive.
+ * @return Substring of this string starting from index
+ */
 String_ptr substring2(const char *surface_form, int index) {
     String_ptr result = create_string();
     int current = 0;
@@ -259,6 +307,12 @@ String_ptr substring2(const char *surface_form, int index) {
     return create_string();
 }
 
+/**
+ * Returns a string that is a substring of this string ending with the first occurrence of the end character.
+ * @param surface_form Input string
+ * @param end End character
+ * @return Substring of the string ending with the first occurrence of the end character
+ */
 String_ptr substring3(const char *surface_form, const char *end) {
     String_ptr result = create_string();
     while (surface_form != end) {
@@ -350,6 +404,11 @@ String_ptr last_phoneme(const char *stem) {
     }
 }
 
+/**
+ * Returns last UTF8 character of an input string
+ * @param surface_form Input string
+ * @return Last UTF8 character
+ */
 String_ptr last_char(const char *surface_form) {
     int size = strlen(surface_form);
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
@@ -516,6 +575,13 @@ bool is_time(const char *surface_form) {
     return false;
 }
 
+/**
+ * Checks if a given large string ends with the given small suffix string.
+ * @param large_string String for which suffix search is done.
+ * @param small_string The suffix string
+ * @return true if the character sequence smallString is a suffix of the character sequence largeString; false
+ * otherwise.
+ */
 bool ends_with(const char *large_string, const char *small_string) {
     if (strlen(large_string) < strlen(small_string)) {
         return false;
@@ -526,6 +592,11 @@ bool ends_with(const char *large_string, const char *small_string) {
     return false;
 }
 
+/**
+ * Converts the given string into its capital form
+ * @param surface_form Given string which will be converted to its capital form
+ * @return Capital form of the input string.
+ */
 String_ptr to_capital(const char *surface_form) {
     String_ptr first_char = substring(surface_form, 0, 1);
     String_ptr remaining_char = substring2(surface_form, 1);
@@ -538,6 +609,11 @@ String_ptr to_capital(const char *surface_form) {
     return result;
 }
 
+/**
+ * Splits a given string with respect to empty string and returns the split parts as a vector.
+ * @param line Given string
+ * @return Split parts as a vector
+ */
 Array_list_ptr split(char *line) {
     Array_list_ptr result = create_array_list();
     char *token = strtok(line, " ");
@@ -548,6 +624,12 @@ Array_list_ptr split(char *line) {
     return result;
 }
 
+/**
+ * Splits a given string with respect to a given separator string and returns the split parts as a vector.
+ * @param line Given string
+ * @param separators Separator string
+ * @return Split parts as a vector
+ */
 Array_list_ptr split_with_char(char *line, const char *separators) {
     Array_list_ptr result = create_array_list();
     char *token = strtok(line, separators);
@@ -558,6 +640,11 @@ Array_list_ptr split_with_char(char *line, const char *separators) {
     return result;
 }
 
+/**
+ * Returns copy of the input string with last character removed.
+ * @param surface_form Input string
+ * @return Copy of the input string with last character removed.
+ */
 String_ptr substring_except_last_char(const char *surface_form) {
     int size = strlen(surface_form);
     if (size < 2){
@@ -578,6 +665,11 @@ String_ptr substring_except_last_char(const char *surface_form) {
     return result;
 }
 
+/**
+ * Returns copy of the input string with last two characters removed.
+ * @param surface_form Input string
+ * @return Copy of the input string with last two characters removed.
+ */
 String_ptr substring_except_last_two_chars(const char *surface_form) {
     int size = strlen(surface_form);
     if (size < 3){
@@ -610,6 +702,11 @@ String_ptr substring_except_last_two_chars(const char *surface_form) {
     return result;
 }
 
+/**
+ * Removes leading and trailing spaces from an input string.
+ * @param surface_form Input string
+ * @return Returns a copy string with leading and trailing spaces removed.
+ */
 String_ptr trim(const char *surface_form) {
     int start = -1, end = -1;
     char *tmp;
@@ -633,6 +730,14 @@ String_ptr trim(const char *surface_form) {
     return result;
 }
 
+/**
+ * Returns the index of the first occurrence of the UTF8 character ch. If ch does not exist in the input string,
+ * it returns -1.
+ * @param surface_form Input string
+ * @param ch Character to be searched for.
+ * @return The index of the first occurrence of the UTF8 character ch. If ch does not exist in the input string,
+ * it returns -1.
+ */
 int str_find_c(const char *surface_form, const char *ch) {
     int current = 0;
     const char *charPtr = surface_form;
@@ -657,6 +762,14 @@ int str_find_c(const char *surface_form, const char *ch) {
     return -1;
 }
 
+/**
+ * Returns the index of the last occurrence of the UTF8 character ch. If ch does not exist in the input string,
+ * it returns -1.
+ * @param surface_form Input string
+ * @param ch Character to be searched for.
+ * @return The index of the last occurrence of the UTF8 character ch. If ch does not exist in the input string,
+ * it returns -1.
+ */
 int str_find_last_c(const char *surface_form, const char *ch) {
     int current = 0, last = -1;
     const char *charPtr = surface_form;
@@ -680,6 +793,13 @@ int str_find_last_c(const char *surface_form, const char *ch) {
     return last;
 }
 
+/**
+ * Replaces all occurrences of from with to in an input string.
+ * @param str Input string
+ * @param from Replacement string
+ * @param to Replaced string
+ * @return A copy of the input string where all occurrences of from is replaced with to.
+ */
 char *replace_all(char *str, const char *from, const char *to) {
     char tmp[MAX_LINE_LENGTH] = "";
     Array_list_ptr items = str_split2(str, from);
@@ -700,6 +820,11 @@ char *replace_all(char *str, const char *from, const char *to) {
     return result;
 }
 
+/**
+ * Returns the reverse of the input string as a new string.
+ * @param st Input string
+ * @return Reverse of the input string.
+ */
 char *reverse_string(const char *st) {
     char* result = calloc_(strlen(st) + 1, sizeof(char), "reverse_string");
     for (int i = word_size(st) - 1; i >= 0; i--){

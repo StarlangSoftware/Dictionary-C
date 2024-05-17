@@ -23,6 +23,10 @@ Exceptional_word_ptr create_exceptional_word(const char *name, const char *root,
     return result;
 }
 
+/**
+ * Frees memory allocated for an exceptional word.
+ * @param word Word to be freed.
+ */
 void free_exceptional_word(Exceptional_word_ptr word) {
     free_(word->root);
     free_(word->word);

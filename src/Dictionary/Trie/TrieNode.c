@@ -17,6 +17,11 @@ Trie_node_ptr create_trie_node() {
     return result;
 }
 
+/**
+ * Frees memory allocated for a TrieNode. Frees memory allocated for children hash map, the words in the
+ * trie node.
+ * @param trie_node Trie node.
+ */
 void free_trie_node(Trie_node_ptr trie_node) {
     free_hash_map2(trie_node->children, free_, (void (*)(void *)) free_trie_node);
     free_hash_set(trie_node->words, (void (*)(void *)) free_txt_word);
@@ -33,6 +38,7 @@ void free_trie_node(Trie_node_ptr trie_node) {
  * child. At the end, it recursively calls the addWord method with the next index of child and puts the character with
  * the child into the children map.
  *
+ * @param trie_node Trie node
  * @param word  String input.
  * @param index Integer index.
  * @param root  Word input to add.
@@ -58,6 +64,7 @@ void add_word_to_trie_node2(Trie_node_ptr trie_node, const char *word, int index
 /**
  * The addWord method takes a String word and a Word type root as inputs. It calls addWord method with index 0.
  *
+ * @param trie_node Trie node
  * @param word String input.
  * @param root Word type input.
  */
@@ -68,6 +75,7 @@ void add_word_to_trie_node(Trie_node_ptr trie_node, const char *word, Txt_word_p
 /**
  * The getChild method takes a Character and gets its corresponding value from children HashMap.
  *
+ * @param trie_node Trie node
  * @param ch Character input.
  * @return the value from children HashMap.
  */
@@ -75,6 +83,12 @@ Trie_node_ptr get_child(const Trie_node* trie_node, const char *ch) {
     return (Trie_node_ptr) hash_map_get(trie_node->children, ch);
 }
 
+/**
+ * Checks if the given child exists for a given character for the current TrieNode in the Trie.
+ * @param trie_node Trie node
+ * @param ch Character for which search is done.
+ * @return True if th child exists for that character, false otherwise.
+ */
 bool child_exists(const Trie_node* trie_node, const char *ch) {
     return hash_map_contains(trie_node->children, ch);
 }

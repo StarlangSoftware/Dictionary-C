@@ -21,6 +21,10 @@ Txt_word_ptr create_txt_word(const char *name) {
     return result;
 }
 
+/**
+ * Frees memory allocated for a TxtWord. Frees morphology and flags array list.
+ * @param txt_word TxtWord which will be freed.
+ */
 void free_txt_word(Txt_word_ptr txt_word) {
     free_(txt_word->name);
     if (txt_word->morphology != NULL) {
@@ -870,14 +874,33 @@ bool same_pos(const Txt_word* txt_word1, const Txt_word* txt_word2) {
     return false;
 }
 
+/**
+ * Hash function for hashing a TxtWord. Calls hash function of string.
+ * @param word Word to be hashed
+ * @param N N of the hash function
+ * @return Hash value of a given word.
+ */
 unsigned int hash_function_txt_word(const Txt_word* word, int N) {
     return hash_function_string(word->name, N);
 }
 
+/**
+ * Comparator function for two TxtWords. Comparator function to compare two strings lexicographically. Uses
+ * compare_string for the comparison.
+ * @param first First TxtWord to compare
+ * @param second Second TxtWord to compare
+ * @return An integer greater than, equal to, or less than 0, according as the string first is greater than, equal to,
+ * or less than the string second.
+ */
 int compare_txt_word(const Txt_word* first, const Txt_word* second) {
     return compare_string(first->name, second->name);
 }
 
+/**
+ * Clones a TxtWord. Creates copies of name, flags and morphology of the original TxtWord.
+ * @param word Word whose clone will be created.
+ * @return Clone of the TxtWord
+ */
 Txt_word_ptr clone_txt_word(Txt_word_ptr word) {
     Txt_word_ptr result = malloc_(sizeof(Txt_word), "clone_txt_word");
     result->name = str_copy(result->name, word->name);

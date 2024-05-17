@@ -98,6 +98,10 @@ Array_list_ptr get_syllables(const Syllable_list* syllable_list) {
     return result;
 }
 
+/**
+ * Frees memory allocated for the syllable list.
+ * @param syllable_list Syllable list to be freed.
+ */
 void free_syllable_list(Syllable_list_ptr syllable_list) {
     free_array_list(syllable_list->syllables, (void (*)(void *)) free_syllable);
     free_(syllable_list);

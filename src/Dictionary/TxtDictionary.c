@@ -9,6 +9,11 @@
 #include "FileUtils.h"
 #include "Trie/Trie.h"
 
+/**
+ * Empty constructor of TxtDictionary class. Sets the WordComparator to TurkishWordComparator, loads the
+ * default Turkish dictionary, Turkish misspellings file and Turkish morphological lexicon, which contains the
+ * subword units to Turkish root words.
+ */
 Txt_dictionary_ptr create_txt_dictionary() {
     return create_txt_dictionary3("turkish_dictionary.txt",
                                   "turkish_misspellings.txt",
@@ -57,6 +62,10 @@ Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
     return result;
 }
 
+/**
+ * Frees memory allocated for the TxtDictionary.
+ * @param txt_dictionary TxtDictionary to be freed.
+ */
 void free_txt_dictionary(Txt_dictionary_ptr txt_dictionary) {
     free_array_list(txt_dictionary->dictionary->words, (void (*)(void *)) free_txt_word);
     free_hash_map(txt_dictionary->dictionary->word_map, free_);
@@ -66,6 +75,13 @@ void free_txt_dictionary(Txt_dictionary_ptr txt_dictionary) {
     free_(txt_dictionary);
 }
 
+/**
+ * Takes a String filename as an input. It reads given file line by line and splits according to space
+ * and assigns each word to the String array. Then, adds these word with their flags to the words array list.
+ * At the end it sorts the words array list.
+ *
+ * @param txt_dictionary TxtDictionary to be read.
+ */
 void load_from_text(Txt_dictionary_ptr txt_dictionary) {
     int i;
     FILE *input_file;
@@ -93,6 +109,7 @@ void load_from_text(Txt_dictionary_ptr txt_dictionary) {
 /**
  * The longestWordSize method loops through the words vector and returns the item with the maximum word length.
  *
+ * @param txt_dictionary Current dictionary.
  * @return the item with the maximum word length.
  */
 int longest_word_size_txt(const Txt_dictionary* txt_dictionary) {
@@ -106,6 +123,13 @@ int longest_word_size_txt(const Txt_dictionary* txt_dictionary) {
     return max;
 }
 
+/**
+ * The loadMisspellWords method takes a String filename as an input. It reads given file line by line and splits
+ * according to space and assigns each word with its misspelled form to the the misspelledWords hashMap.
+ *
+ * @param txt_dictionary Current dictionary.
+ * @param misspelled_file_name Name of the misspellings file.
+ */
 void load_misspelled_words(Txt_dictionary_ptr txt_dictionary, const char *misspelled_file_name) {
     FILE *input_file;
     input_file = fopen(misspelled_file_name, "r");
@@ -125,6 +149,13 @@ void load_misspelled_words(Txt_dictionary_ptr txt_dictionary, const char *misspe
     fclose(input_file);
 }
 
+/**
+ * Loads the morphological lexicon of a given language. Only Turkish is currently supported. Morphological lexicon
+ * contains subwords (possibly meaningful words or metamorphemes) of each root word in the Turkish dictionary. For
+ * example, abacılık has subwords aba+CH+LHK.
+ * @param txt_dictionary Current dictionary.
+ * @param file_name Name of the morphological lexicon file
+ */
 void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *file_name) {
     FILE *input_file;
     input_file = fopen(file_name, "r");
@@ -149,6 +180,7 @@ void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *f
  * The getWord method takes a String name as an input and performs binary search within words vector and assigns the result
  * to integer variable middle. If the middle is greater than 0, it returns the item at index middle of words vector, null otherwise.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  * @return the item at found index of words vector, null if cannot be found.
  */
@@ -160,6 +192,10 @@ Txt_word_ptr get_word_txt(const Txt_dictionary* txt_dictionary, const char *name
     return NULL;
 }
 
+/**
+ * Updates word map so that word index at i is in the hash map with key word and value i.
+ * @param txt_dictionary Current dictionary
+ */
 void update_word_map_txt(Txt_dictionary_ptr txt_dictionary) {
     for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
         Txt_word_ptr word = array_list_get(txt_dictionary->dictionary->words, i);
@@ -169,6 +205,10 @@ void update_word_map_txt(Txt_dictionary_ptr txt_dictionary) {
     }
 }
 
+/**
+ * Sorts the words array according to the comparator function.
+ * @param txt_dictionary Current dictionary
+ */
 void sort_txt(Txt_dictionary_ptr txt_dictionary) {
     array_list_sort(txt_dictionary->dictionary->words, (int (*)(const void *, const void *)) compare_txt_word);
     update_word_map_txt(txt_dictionary);
@@ -177,6 +217,7 @@ void sort_txt(Txt_dictionary_ptr txt_dictionary) {
 /**
  * The getWord method which takes an index as an input and returns the value at given index of words vector.
  *
+ * @param txt_dictionary Current dictionary.
  * @param index to get the value.
  * @return the value at given index of words vector.
  */
@@ -184,6 +225,13 @@ Txt_word_ptr get_word_with_index_txt(const Txt_dictionary* txt_dictionary, int i
     return array_list_get(txt_dictionary->dictionary->words, index);
 }
 
+/**
+ * Checks if a given word exists in the dictionary by performing a binary search on the words array.
+ * @param txt_dictionary Dictionary to be searched.
+ * @param txt_word Searched word
+ * @return the index of the search word, if it is contained in the words array; otherwise, (-(insertion point) - 1). The
+ * insertion point is defined as the point at which the word would be inserted into the words array.
+ */
 int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_word) {
     int lo = 0;
     int hi = txt_dictionary->dictionary->words->size - 1;
@@ -208,6 +256,7 @@ int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_
  * found by performing a binary search and return true at the end. If given name is in words {@link java.util.ArrayList},
  * it adds it the given flag to the word.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  * @param flag String flag.
  * @return true if given name is in words {@link java.util.ArrayList}, false otherwise.
@@ -233,6 +282,7 @@ bool add_with_flag(Txt_dictionary_ptr txt_dictionary, const char *name, char *fl
 /**
  * The addNumber method takes a String name and calls addWithFlag method with given name and IS_SAYI flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  */
 void add_number(Txt_dictionary_ptr txt_dictionary, const char *name) {
@@ -242,6 +292,7 @@ void add_number(Txt_dictionary_ptr txt_dictionary, const char *name) {
 /**
  * The addRealNumber method takes a String name and calls addWithFlag method with given name and IS_REELSAYI flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  */
 void add_real_number(Txt_dictionary_ptr txt_dictionary, const char *name) {
@@ -251,6 +302,7 @@ void add_real_number(Txt_dictionary_ptr txt_dictionary, const char *name) {
 /**
  * The addFraction method takes a String name and calls addWithFlag method with given name and IS_KESIR flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  */
 void add_fraction(Txt_dictionary_ptr txt_dictionary, const char *name) {
@@ -258,9 +310,10 @@ void add_fraction(Txt_dictionary_ptr txt_dictionary, const char *name) {
 }
 
 /**
-* The addTime method takes a String name and calls addWithFlag method with given name and IS_ZAMAN flag.
-*
-* @param name String input.
+ * The addTime method takes a String name and calls addWithFlag method with given name and IS_ZAMAN flag.
+ *
+ * @param txt_dictionary Current dictionary.
+ * @param name String input.
 */
 void add_time(Txt_dictionary_ptr txt_dictionary, const char *name) {
     add_with_flag(txt_dictionary, name, "IS_ZAMAN");
@@ -269,6 +322,7 @@ void add_time(Txt_dictionary_ptr txt_dictionary, const char *name) {
 /**
  * The addProperNoun method takes a String name and calls addWithFlag method with given name and IS_OA flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
@@ -279,6 +333,7 @@ void add_proper_noun(Txt_dictionary_ptr txt_dictionary, const char *name) {
 /**
  * The addNoun method takes a String name and calls addWithFlag method with given name and CL_ISIM flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
@@ -289,6 +344,7 @@ void add_noun(Txt_dictionary_ptr txt_dictionary, const char *name) {
 /**
  * The addVerb method takes a String name and calls addWithFlag method with given name and CL_FIIL flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
@@ -299,6 +355,7 @@ void add_verb(Txt_dictionary_ptr txt_dictionary, const char *name) {
 /**
  * The addAdjective method takes a String name and calls addWithFlag method with given name and IS_ADJ flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
@@ -309,6 +366,7 @@ void add_adjective(Txt_dictionary_ptr txt_dictionary, const char *name) {
 /**
  * The addAdverb method takes a String name and calls addWithFlag method with given name and IS_ADVERB flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
@@ -319,6 +377,7 @@ void add_adverb(Txt_dictionary_ptr txt_dictionary, const char *name) {
 /**
  * The addPronoun method takes a String name and calls addWithFlag method with given name and IS_ZM flag.
  *
+ * @param txt_dictionary Current dictionary.
  * @param name String input.
  * @return true if given name is in words {@link unordered_set}, false otherwise.
  */
@@ -383,7 +442,7 @@ void add_word_when_root_soften(Trie_ptr trie, const char *last, const char *root
  * endingKChangesIntoG condition, if it is true then addWord method with rootWithoutLast will be used with added 'g'.
  * Ex : ahenk + i = ahengi
  *
- * @param currentDictionary the dictionary that Trie will be created.
+ * @param txt_dictionary the dictionary that Trie will be created.
  * @return the resulting Trie.
  */
 Trie_ptr prepare_trie(Txt_dictionary_ptr txt_dictionary) {
@@ -489,7 +548,8 @@ Trie_ptr prepare_trie(Txt_dictionary_ptr txt_dictionary) {
 
 /**
  * The getCorrectForm returns the correct form of a misspelled word.
- * @param misspelledWord Misspelled form.
+ * @param txt_dictionary Current dictionary.
+ * @param misspelled_word Misspelled form.
  * @return Correct form.
  */
 char *get_correct_form(const Txt_dictionary* txt_dictionary, const char *misspelled_word) {

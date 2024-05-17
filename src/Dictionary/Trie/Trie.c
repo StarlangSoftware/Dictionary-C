@@ -14,6 +14,10 @@ Trie_ptr create_trie() {
     return result;
 }
 
+/**
+ * Frees memory allocated for the trie data structure.
+ * @param trie Trie to be freed.
+ */
 void free_trie(Trie_ptr trie) {
     free_trie_node(trie->root_node);
     free_(trie);
@@ -22,6 +26,7 @@ void free_trie(Trie_ptr trie) {
 /**
  * The addWord method which takes a String word and a Word root as inputs and adds given word and root to the rootNode.
  *
+ * @param trie Current trie.
  * @param word String input.
  * @param root Word input.
  */
@@ -35,6 +40,7 @@ void add_word_to_trie(Trie_ptr trie, const char *word, Txt_word_ptr root) {
  * and assigns current's child that corresponds to the surfaceForm's char at index i and assigns it as TrieNode current.
  * If current is not null, it adds all words of current to the words HashSet.
  *
+ * @param trie Current trie.
  * @param surfaceForm String input.
  * @return words {@link unordered_set}.
  */
@@ -67,6 +73,7 @@ Hash_set_ptr get_words_with_prefix(const Trie* trie, const char *surface_form) {
  * If current is not null,  it loops through the words of current TrieNode and if it is a Portmanteau word, it
  * directly returns the word.
  *
+ * @param trie Current trie.
  * @param hash String input.
  * @return null if TrieNode is null, otherwise portmanteau word.
  */
