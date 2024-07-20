@@ -54,8 +54,6 @@ Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
     result = malloc_(sizeof(Txt_dictionary), "create_txt_dictionary3");
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
-    result->misspelled_words = create_hash_map((unsigned int (*)(const void *, int)) hash_function_string,
-                                               (int (*)(const void *, const void *)) compare_string);
     load_from_text(result);
     load_misspelled_words(result, misspelled_file_name);
     load_morphological_lexicon(result, morphological_lexicon);
@@ -131,22 +129,7 @@ int longest_word_size_txt(const Txt_dictionary* txt_dictionary) {
  * @param misspelled_file_name Name of the misspellings file.
  */
 void load_misspelled_words(Txt_dictionary_ptr txt_dictionary, const char *misspelled_file_name) {
-    FILE *input_file;
-    input_file = fopen(misspelled_file_name, "r");
-    if (input_file == NULL) {
-        fclose(input_file);
-        return;
-    }
-    while (!feof(input_file)) {
-        Array_list_ptr tokens = read_items(input_file, ' ');
-        if (tokens->size == 2) {
-            hash_map_insert(txt_dictionary->misspelled_words,
-                            array_list_get(tokens, 0),
-                            array_list_get(tokens, 1));
-        }
-        free_array_list(tokens, NULL);
-    }
-    fclose(input_file);
+    txt_dictionary->misspelled_words = read_hash_map(misspelled_file_name);
 }
 
 /**
