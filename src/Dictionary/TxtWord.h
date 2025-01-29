@@ -19,15 +19,15 @@ typedef Txt_word *Txt_word_ptr;
 
 Txt_word_ptr create_txt_word(const char *name);
 
-Txt_word_ptr create_txt_word2(const char *name, char *flag);
+Txt_word_ptr create_txt_word2(const char *name, const char *flag);
 
 Txt_word_ptr clone_txt_word(Txt_word_ptr word);
 
 void free_txt_word(Txt_word_ptr txt_word);
 
-void add_flag(Txt_word_ptr txt_word, char *flag);
+void add_flag(Txt_word_ptr txt_word, const char *flag);
 
-void remove_flag(Txt_word_ptr txt_word, char *flag);
+void remove_flag(Txt_word_ptr txt_word, const char *flag);
 
 bool contains_flag(const Txt_word* txt_word, const char *flag);
 

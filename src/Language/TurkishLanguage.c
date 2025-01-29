@@ -8,7 +8,7 @@
 /**
  * The is_vowel method takes a character as an input and returns true if given character is a vowel.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a vowel.
  */
 bool is_vowel(const char *s) {
@@ -18,7 +18,7 @@ bool is_vowel(const char *s) {
 /**
  * The isBackVowel method takes a character as an input and returns true if given character is a back vowel.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a back vowel.
  */
 bool is_back_vowel(const char *s) {
@@ -28,7 +28,7 @@ bool is_back_vowel(const char *s) {
 /**
  * The isFrontVowel method takes a character as an input and returns true if given character is a front vowel.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a front vowel.
  */
 bool is_front_vowel(const char *s) {
@@ -38,7 +38,7 @@ bool is_front_vowel(const char *s) {
 /**
  * The isBackRoundedVowel method takes a character as an input and returns true if given character is a back rounded vowel.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a back rounded vowel.
  */
 bool is_back_rounded_vowel(const char *s) {
@@ -48,7 +48,7 @@ bool is_back_rounded_vowel(const char *s) {
 /**
  * The isFrontRoundedVowel method takes a character as an input and returns true if given character is a front rounded vowel.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a front rounded vowel.
  */
 bool is_front_rounded_vowel(const char *s) {
@@ -58,7 +58,7 @@ bool is_front_rounded_vowel(const char *s) {
 /**
  * The isBackUnroundedVowel method takes a character as an input and returns true if given character is a back unrounded vowel.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a back unrounded vowel.
  */
 bool is_back_unrounded_vowel(const char *s) {
@@ -68,7 +68,7 @@ bool is_back_unrounded_vowel(const char *s) {
 /**
  * The isFrontUnroundedVowel method takes a character as an input and returns true if given character is a front unrounded vowel.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a front unrounded vowel.
  */
 bool is_front_unrounded_vowel(const char *s) {
@@ -78,7 +78,7 @@ bool is_front_unrounded_vowel(const char *s) {
 /**
  * The isConsonantDrop method takes a character as an input and returns true if given character is a dropping consonant.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a dropping consonant.
  */
 bool is_consonant_drop(const char *s) {
@@ -88,7 +88,7 @@ bool is_consonant_drop(const char *s) {
 /**
  * The isConsonant method takes a character as an input and returns true if given character is a consonant.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a consonant.
  */
 bool is_consonant(const char *s) {
@@ -98,7 +98,7 @@ bool is_consonant(const char *s) {
 /**
  * The isUppercase method takes a character as an input and returns true if given character is uppercase.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is uppercase.
  */
 bool is_uppercase(const char *s) {
@@ -108,7 +108,7 @@ bool is_uppercase(const char *s) {
 /**
  * The isSertSessiz method takes a character as an input and returns true if given character is a sert sessiz.
  *
- * @param ch char input to check.
+ * @param s char input to check.
  * @return true if given character is a sert sessiz.
  */
 bool is_sert_sessiz(const char *s) {

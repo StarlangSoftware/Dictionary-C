@@ -69,7 +69,7 @@ int str_find_c(const char* surface_form, const char* ch);
 
 int str_find_last_c(const char* surface_form, const char* ch);
 
-char* replace_all(char* str, const char *from, const char *to);
+char* replace_all(const char* str, const char *from, const char *to);
 
 char* reverse_string(const char* st);
 

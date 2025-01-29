@@ -25,7 +25,7 @@ Txt_dictionary_ptr create_txt_dictionary() {
  * And calls its super class Dictionary with given WordComparator, assigns given filename input to the
  * filename variable. Then, it calls loadFromText method with given filename.
  *
- * @param filename   String input.
+ * @param file_name   String input.
  */
 Txt_dictionary_ptr create_txt_dictionary2(const char *file_name) {
     Txt_dictionary_ptr result;
@@ -236,7 +236,7 @@ int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_
  * The addWithFlag method takes a String name and a flag as inputs. First it creates a TxtWord word, then if
  * given name is not in words vector it creates new TxtWord with given name and assigns it to
  * the word and adds given flag to the word, it also add newly created word to the words vector's index
- * found by performing a binary search and return true at the end. If given name is in words {@link java.util.ArrayList},
+ * found by performing a binary search and return true at the end. If given name is in words array,
  * it adds it the given flag to the word.
  *
  * @param txt_dictionary Current dictionary.

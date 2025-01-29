@@ -41,7 +41,7 @@ void add_word_to_trie(Trie_ptr trie, const char *word, Txt_word_ptr root) {
  * If current is not null, it adds all words of current to the words HashSet.
  *
  * @param trie Current trie.
- * @param surfaceForm String input.
+ * @param surface_form String input.
  * @return words {@link unordered_set}.
  */
 Hash_set_ptr get_words_with_prefix(const Trie* trie, const char *surface_form) {

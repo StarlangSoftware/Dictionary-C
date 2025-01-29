@@ -37,9 +37,10 @@ void free_txt_word(Txt_word_ptr txt_word) {
 /**
  * The addFlag method takes a String flag as an input and adds given flag to the flags hash set.
  *
+ * @param txt_word Word to add flag
  * @param flag String input to add.
  */
-void add_flag(Txt_word_ptr txt_word, char *flag) {
+void add_flag(Txt_word_ptr txt_word, const char *flag) {
     hash_set_insert(txt_word->flags, clone_string(flag));
 }
 
@@ -50,7 +51,7 @@ void add_flag(Txt_word_ptr txt_word, char *flag) {
  * @param name String input.
  * @param flag String input.
  */
-Txt_word_ptr create_txt_word2(const char *name, char *flag) {
+Txt_word_ptr create_txt_word2(const char *name, const char *flag) {
     Txt_word_ptr result = create_txt_word(name);
     add_flag(result, flag);
     return result;
@@ -61,7 +62,7 @@ Txt_word_ptr create_txt_word2(const char *name, char *flag) {
  *
  * @param flag String input to remove.
  */
-void remove_flag(Txt_word_ptr txt_word, char *flag) {
+void remove_flag(Txt_word_ptr txt_word, const char *flag) {
     hash_set_remove(txt_word->flags, flag, free_);
 }
 
@@ -852,7 +853,8 @@ bool shows_su_regularities(const Txt_word* txt_word) {
  * flags {@link unordered_set} contains IS_ADVERB or given word is IS_ADVERB, false otherwise.
  * IS_ADVERB: The bare-form of the word is a adverb. e.g. Tekrar, açıktan, adeta
  *
- * @param word TxtWord type input.
+ * @param txt_word1 TxtWord type input.
+ * @param txt_word2 TxtWord type input.
  * @return true if given word is nominal, verb, adjective, pronoun or adverb, false otherwise.
  */
 bool same_pos(const Txt_word* txt_word1, const Txt_word* txt_word2) {

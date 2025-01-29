@@ -422,7 +422,7 @@ String_ptr last_char(const char *surface_form) {
  * The isCapital method takes a String surfaceForm as an input and returns true if the character at first index of surfaceForm
  * is a capital letter, false otherwise.
  *
- * @param surfaceForm String input to check the first character.
+ * @param surface_form String input to check the first character.
  * @return true if the character at first index of surfaceForm is a capital letter, false otherwise.
  */
 bool is_capital(const char *surface_form) {
@@ -440,7 +440,7 @@ bool is_capital(const char *surface_form) {
  * Left single quotation mark : \u2018
  *Horizontal ellipsis : \u2026
  *
- * @param surfaceForm String input to check.
+ * @param surface_form String input to check.
  * @return true if it is a punctuation, false otherwise.
  */
 bool is_punctuation(const char *surface_form) {
@@ -458,7 +458,7 @@ bool is_punctuation(const char *surface_form) {
  * The isHonorific method takes a String surfaceForm as an input and after converting it to lower case it returns true
  * if it equals to "bay" or "bayan", false otherwise.
  *
- * @param surfaceForm String input to check.
+ * @param surface_form String input to check.
  * @return true if it equals to "bay" or "bayan", false otherwise.
  */
 bool is_honorific(const char *surface_form) {
@@ -477,7 +477,7 @@ bool is_honorific(const char *surface_form) {
  * The isOrganization method takes a String surfaceForm as an input and after converting it to lower case it returns true
  * if it equals to "şirket", "corp", "inc.", or "co.", and false otherwise.
  *
- * @param surfaceForm String input to check.
+ * @param surface_form String input to check.
  * @return true if it equals to "şirket", "corp", "inc.", or "co.", and false otherwise.
  */
 bool is_organization(const char *surface_form) {
@@ -496,7 +496,7 @@ bool is_organization(const char *surface_form) {
  * The isMoney method takes a String surfaceForm as an input and after converting it to lower case it returns true
  * if it equals to one of the dolar, sterlin, paunt, ons, ruble, mark, frank, yan, sent, yen' or $, and false otherwise.
  *
- * @param surfaceForm String input to check.
+ * @param surface_form String input to check.
  * @return true if it equals to one of the dolar, sterlin, paunt, ons, ruble, mark, frank, yan, sent, yen' or $, and false otherwise.
  */
 bool is_money(const char *surface_form) {
@@ -542,7 +542,7 @@ Array_list_ptr to_characters(const char *surface_form) {
  * If it starts with name of months; ocak, şubat, mart, nisan, mayıs, haziran, temmuz, ağustos, eylül, ekim, kasım, aralık it returns true.
  * If it equals to the name of days; pazar, pazartesi, salı, çarşamba, perşembe, cuma, cumartesi it returns true.
  *
- * @param surfaceForm String input to check.
+ * @param surface_form String input to check.
  * @return true if it presents time, and false otherwise.
  */
 bool is_time(const char *surface_form) {
@@ -800,7 +800,7 @@ int str_find_last_c(const char *surface_form, const char *ch) {
  * @param to Replaced string
  * @return A copy of the input string where all occurrences of from is replaced with to.
  */
-char *replace_all(char *str, const char *from, const char *to) {
+char *replace_all(const char *str, const char *from, const char *to) {
     char tmp[MAX_LINE_LENGTH] = "";
     Array_list_ptr items = str_split2(str, from);
     if (strstr(str, from) == str){

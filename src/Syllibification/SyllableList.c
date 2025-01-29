@@ -2,7 +2,6 @@
 // Created by Olcay Taner YILDIZ on 21.02.2023.
 //
 
-#include <stdlib.h>
 #include <StringUtils.h>
 #include <Memory/Memory.h>
 #include "SyllableList.h"

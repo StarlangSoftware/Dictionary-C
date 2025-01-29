@@ -13,7 +13,6 @@
  * A constructor of VectorizedDictionary class which takes a WordComparator as an input and calls its
  * super class Dictionary with WordComparator input.
  *
- * @param comparator WordComparator type input.
  */
 Vectorized_dictionary_ptr create_vectorized_dictionary() {
     Vectorized_dictionary_ptr result = malloc_(sizeof(Vectorized_dictionary), "create_vectorized_dictionary");
@@ -37,7 +36,7 @@ void free_vectorized_dictionary(Vectorized_dictionary_ptr vectorized_dictionary)
  * Another constructor of VectorizedDictionary class that takes an input file
  * containing the word vectors as input. Line j contains an array of numbers that represent the word vector for
  * that corresponding word at index j.
- * @param fileName Name of the input file that contains the word vectors
+ * @param file_name Name of the input file that contains the word vectors
  */
 Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
     FILE* input_file;
@@ -91,7 +90,8 @@ void update_word_map_vectorized(Vectorized_dictionary_ptr vectorized_dictionary)
 /**
  * The addWord method takes a VectorizedWord as an input and adds it to the words ArrayList.
  *
- * @param word VectorizedWord input.
+ * @param vectorized_dictionary Dictionary to add word
+ * @param vectorized_word VectorizedWord input.
  */
 void add_word_vectorized(Vectorized_dictionary_ptr vectorized_dictionary, Vectorized_word_ptr vectorized_word) {
     array_list_add(vectorized_dictionary->dictionary->words, vectorized_word);
