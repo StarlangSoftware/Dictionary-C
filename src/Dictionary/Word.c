@@ -801,18 +801,21 @@ int str_find_last_c(const char *surface_form, const char *ch) {
  * @return A copy of the input string where all occurrences of from is replaced with to.
  */
 char *replace_all(const char *str, const char *from, const char *to) {
-    char tmp[MAX_LINE_LENGTH] = "";
+    char tmp[MAX_LINE_LENGTH] = "", tmp1[MAX_LINE_LENGTH] = "";
     Array_list_ptr items = str_split2(str, from);
     if (strstr(str, from) == str){
         sprintf(tmp, "%s", to);
     }
     for (int i = 0; i < items->size - 1; i++){
-        sprintf(tmp, "%s%s%s", tmp, (char*)array_list_get(items, i), to);
+        sprintf(tmp1, "%s%s%s", tmp, (char*)array_list_get(items, i), to);
+        strcpy(tmp, tmp1);
     }
     if (strstr(str + strlen(str) - strlen(from), from) != NULL){
-        sprintf(tmp, "%s%s%s", tmp, (char*)array_list_get(items, items->size - 1), to);
+        sprintf(tmp1, "%s%s%s", tmp, (char*)array_list_get(items, items->size - 1), to);
+        strcpy(tmp, tmp1);
     } else {
-        sprintf(tmp, "%s%s", tmp, (char*)array_list_get(items, items->size - 1));
+        sprintf(tmp1, "%s%s", tmp, (char*)array_list_get(items, items->size - 1));
+        strcpy(tmp, tmp1);
     }
     free_array_list(items, free_);
     char *result = NULL;
