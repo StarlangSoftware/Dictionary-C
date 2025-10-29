@@ -254,7 +254,7 @@ void test_split() {
         printf("Error in test split 1");
     }
     free_array_list(result, (void (*)(void *)) free_string_ptr);
-    char* test2 = malloc_(20 * sizeof(char), "test_split");
+    char* test2 = malloc_(20 * sizeof(char));
     strcpy(test2, "Ali topu at");
     result = split(test2);
     if (result->size != 3){
@@ -271,7 +271,7 @@ void test_split_with_char() {
         printf("Error in test split with char 1");
     }
     free_array_list(result, (void (*)(void *)) free_string_ptr);
-    char* test2 = malloc_(20 * sizeof(char), "test_split_with_char");
+    char* test2 = malloc_(20 * sizeof(char));
     strcpy(test2, "ali;topu,at şimdi");
     result = split_with_char(test2, ";, ");
     if (result->size != 4){
@@ -353,6 +353,7 @@ void test_reverse_string(){
 }
 
 int main() {
+    start_memory_check();
     starts_with_test();
     test_to_lowercase();
     test_to_uppercase();
@@ -375,4 +376,5 @@ int main() {
     test_find_c();
     test_replace_all();
     test_reverse_string();
+    end_memory_check();
 }

@@ -12,7 +12,7 @@
  * @param syllable String input.
  */
 Syllable_ptr create_syllable(const char *syllable) {
-    Syllable_ptr result = malloc_(sizeof(Syllable), "create_syllable");
+    Syllable_ptr result = malloc_(sizeof(Syllable));
     result->syllable = str_copy(result->syllable, syllable);
     return result;
 }

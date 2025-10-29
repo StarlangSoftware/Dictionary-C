@@ -20,6 +20,7 @@ void test_case(char *syllables[], int array_size, char *word, int caseNo) {
 }
 
 int main() {
+    start_memory_check();
     char *syllables1[] = {"ba", "şöğ", "ret", "men"};
     test_case(syllables1, 4, "başöğretmen", 1);
     char *syllables2[] = {"fran", "sa"};
@@ -38,4 +39,5 @@ int main() {
     test_case(syllables8, 2, "ali", 8);
     char *syllables9[] = {"türk"};
     test_case(syllables9, 1, "türk", 9);
+    end_memory_check();
 }

@@ -12,7 +12,7 @@
  * An empty constructor of Dictionary class.
  */
 Dictionary_ptr create_dictionary() {
-    Dictionary_ptr result = malloc_(sizeof(Dictionary), "create_dictionary");
+    Dictionary_ptr result = malloc_(sizeof(Dictionary));
     result->words = create_array_list();
     result->word_map = create_string_hash_map();
     return result;
@@ -164,7 +164,7 @@ int get_word_starting_with(const Dictionary* dictionary, const char *hash) {
 void update_word_map(Dictionary_ptr dictionary) {
     for (int i = 0; i < dictionary->words->size; i++) {
         char* word = array_list_get(dictionary->words, i);
-        int *index = malloc_(sizeof(int), "update_word_map");
+        int *index = malloc_(sizeof(int));
         *index = i;
         hash_map_insert(dictionary->word_map, word, index);
     }

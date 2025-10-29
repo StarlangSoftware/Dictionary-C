@@ -15,7 +15,7 @@
  *
  */
 Vectorized_dictionary_ptr create_vectorized_dictionary() {
-    Vectorized_dictionary_ptr result = malloc_(sizeof(Vectorized_dictionary), "create_vectorized_dictionary");
+    Vectorized_dictionary_ptr result = malloc_(sizeof(Vectorized_dictionary));
     result->dictionary = create_dictionary();
     return result;
 }
@@ -40,7 +40,7 @@ void free_vectorized_dictionary(Vectorized_dictionary_ptr vectorized_dictionary)
  */
 Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
     FILE* input_file;
-    Vectorized_dictionary_ptr result = malloc_(sizeof(Vectorized_dictionary), "create_vectorized_dictionary2");
+    Vectorized_dictionary_ptr result = malloc_(sizeof(Vectorized_dictionary));
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
     input_file = fopen(result->file_name, "r");
@@ -81,7 +81,7 @@ void sort_vectorized(Vectorized_dictionary_ptr vectorized_dictionary) {
 void update_word_map_vectorized(Vectorized_dictionary_ptr vectorized_dictionary) {
     for (int i = 0; i < vectorized_dictionary->dictionary->words->size; i++) {
         Vectorized_word_ptr word = array_list_get(vectorized_dictionary->dictionary->words, i);
-        int *index = malloc_(sizeof(int), "update_word_map_vectorized");
+        int *index = malloc_(sizeof(int));
         *index = i;
         hash_map_insert(vectorized_dictionary->dictionary->word_map, word->word, index);
     }

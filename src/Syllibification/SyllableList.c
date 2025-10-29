@@ -24,7 +24,7 @@
  * @param word String input.
  */
 Syllable_list_ptr create_syllable_list(const char *word) {
-    Syllable_list_ptr result = malloc_(sizeof(Syllable_list), "create_syllable_list");
+    Syllable_list_ptr result = malloc_(sizeof(Syllable_list));
     String_ptr sbSyllable = create_string();
     result->syllables = create_array_list();
     for (int i = 0; i < word_size(word); i++) {

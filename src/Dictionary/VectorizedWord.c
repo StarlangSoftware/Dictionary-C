@@ -14,7 +14,7 @@
  * @param vector Vector type input.
  */
 Vectorized_word_ptr create_vectorized_word(const char *name, Vector_ptr vector) {
-    Vectorized_word_ptr result = malloc_(sizeof(Vectorized_word), "create_vectorized_word");
+    Vectorized_word_ptr result = malloc_(sizeof(Vectorized_word));
     result->word = str_copy(result->word, name);
     result->vector = vector;
     return result;

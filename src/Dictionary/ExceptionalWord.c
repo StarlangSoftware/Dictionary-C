@@ -15,7 +15,7 @@
  * @param pos  Pos type input.
  */
 Exceptional_word_ptr create_exceptional_word(const char *name, const char *root, Pos pos) {
-    Exceptional_word_ptr result = malloc_(sizeof(Exceptional_word), "create_exceptional_word");
+    Exceptional_word_ptr result = malloc_(sizeof(Exceptional_word));
     result->word = str_copy(result->word, name);
     result->root = str_copy(result->root, root);
     result->pos = pos;

@@ -4,8 +4,10 @@
 
 #include "../src/Dictionary/Trie/Trie.h"
 #include <stdio.h>
+#include <Memory/Memory.h>
 
 int main(){
+    start_memory_check();
     Trie_ptr simple_trie = create_trie();
     add_word_to_trie(simple_trie, "azı", create_txt_word("azı"));
     add_word_to_trie(simple_trie, "az", create_txt_word("az"));
@@ -66,4 +68,5 @@ int main(){
     }
     free_hash_set(set, (void (*)(void *)) free_txt_word);
     free_trie(simple_trie);
+    end_memory_check();
 }

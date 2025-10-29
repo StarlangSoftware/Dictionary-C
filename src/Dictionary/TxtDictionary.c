@@ -29,7 +29,7 @@ Txt_dictionary_ptr create_txt_dictionary() {
  */
 Txt_dictionary_ptr create_txt_dictionary2(const char *file_name) {
     Txt_dictionary_ptr result;
-    result = malloc_(sizeof(Txt_dictionary), "create_txt_dictionary2");
+    result = malloc_(sizeof(Txt_dictionary));
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
     result->misspelled_words = create_string_hash_map();
@@ -51,7 +51,7 @@ Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
                                           const char *misspelled_file_name,
                                           const char *morphological_lexicon) {
     Txt_dictionary_ptr result;
-    result = malloc_(sizeof(Txt_dictionary), "create_txt_dictionary3");
+    result = malloc_(sizeof(Txt_dictionary));
     result->dictionary = create_dictionary();
     result->file_name = str_copy(result->file_name, file_name);
     load_from_text(result);
@@ -182,7 +182,7 @@ Txt_word_ptr get_word_txt(const Txt_dictionary* txt_dictionary, const char *name
 void update_word_map_txt(Txt_dictionary_ptr txt_dictionary) {
     for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
         Txt_word_ptr word = array_list_get(txt_dictionary->dictionary->words, i);
-        int *index = malloc_(sizeof(int), "update_word_map_txt");
+        int *index = malloc_(sizeof(int));
         *index = i;
         hash_map_insert(txt_dictionary->dictionary->word_map, word->name, index);
     }

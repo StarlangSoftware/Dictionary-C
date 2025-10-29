@@ -13,7 +13,7 @@
  * @param name String name.
  */
 Txt_word_ptr create_txt_word(const char *name) {
-    Txt_word_ptr result = malloc_(sizeof(Txt_word), "create_txt_word");
+    Txt_word_ptr result = malloc_(sizeof(Txt_word));
     result->name = str_copy(result->name, name);
     result->flags = create_hash_set((unsigned int (*)(const void *, int)) hash_function_string,
                                     (int (*)(const void *, const void *)) compare_string);
@@ -904,7 +904,7 @@ int compare_txt_word(const Txt_word* first, const Txt_word* second) {
  * @return Clone of the TxtWord
  */
 Txt_word_ptr clone_txt_word(Txt_word_ptr word) {
-    Txt_word_ptr result = malloc_(sizeof(Txt_word), "clone_txt_word");
+    Txt_word_ptr result = malloc_(sizeof(Txt_word));
     result->name = str_copy(result->name, word->name);
     result->flags = create_hash_set((unsigned int (*)(const void *, int)) hash_function_string,
                                     (int (*)(const void *, const void *)) compare_string);

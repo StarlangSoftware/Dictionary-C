@@ -9,7 +9,7 @@
  * A constructor of Trie class which creates a new TrieNode as rootNode.
  */
 Trie_ptr create_trie() {
-    Trie_ptr result = malloc_(sizeof(Trie), "create_trie");
+    Trie_ptr result = malloc_(sizeof(Trie));
     result->root_node = create_trie_node();
     return result;
 }

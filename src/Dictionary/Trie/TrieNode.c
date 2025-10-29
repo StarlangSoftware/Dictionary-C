@@ -9,7 +9,7 @@
  * A constructor of TrieNode class which creates a new children map.
  */
 Trie_node_ptr create_trie_node() {
-    Trie_node_ptr result = malloc_(sizeof(Trie_node), "create_trie_node");
+    Trie_node_ptr result = malloc_(sizeof(Trie_node));
     result->children = create_string_hash_map();
     result->words = create_hash_set((unsigned int (*)(const void *, int)) hash_function_txt_word,
                                     (int (*)(const void *, const void *)) compare_txt_word);

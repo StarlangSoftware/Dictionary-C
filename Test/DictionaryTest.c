@@ -4,8 +4,10 @@
 
 #include "../src/Dictionary/TxtDictionary.h"
 #include <stdio.h>
+#include <Memory/Memory.h>
 
 int main(){
+    start_memory_check();
     Txt_dictionary_ptr dictionary = create_txt_dictionary2("lowercase.txt");
     if (dictionary->dictionary->words->size != 29){
         printf("Error in size 1");
@@ -22,4 +24,5 @@ int main(){
         printf("Error in longest name 2");
     }
     free_txt_dictionary(dictionary);
+    end_memory_check();
 }

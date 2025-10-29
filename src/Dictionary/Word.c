@@ -652,11 +652,11 @@ String_ptr substring_except_last_char(const char *surface_form) {
     }
     char *tmp;
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
-        tmp = malloc_(size, "substring_except_last_char_1");
+        tmp = malloc_(size);
         strncpy(tmp, surface_form, size - 1);
         tmp[size - 1] = '\0';
     } else {
-        tmp = malloc_(size - 1, "substring_except_last_char_2");
+        tmp = malloc_(size - 1);
         strncpy(tmp, surface_form, size - 2);
         tmp[size - 2] = '\0';
     }
@@ -678,21 +678,21 @@ String_ptr substring_except_last_two_chars(const char *surface_form) {
     char *tmp;
     if ((*(surface_form + size - 1) & 0xC0) != 0x80) {
         if (((*(surface_form + size - 2) & 0xC0) != 0x80)) {
-            tmp = malloc_(size - 1, "substring_except_last_two_chars_1");
+            tmp = malloc_(size - 1);
             strncpy(tmp, surface_form, size - 2);
             tmp[size - 2] = '\0';
         } else {
-            tmp = malloc_(size - 2, "substring_except_last_two_chars_2");
+            tmp = malloc_(size - 2);
             strncpy(tmp, surface_form, size - 3);
             tmp[size - 3] = '\0';
         }
     } else {
         if (((*(surface_form + size - 3) & 0xC0) != 0x80)) {
-            tmp = malloc_(size - 2, "substring_except_last_two_chars_3");
+            tmp = malloc_(size - 2);
             strncpy(tmp, surface_form, size - 3);
             tmp[size - 3] = '\0';
         } else {
-            tmp = malloc_(size - 3, "substring_except_last_two_chars_4");
+            tmp = malloc_(size - 3);
             strncpy(tmp, surface_form, size - 4);
             tmp[size - 4] = '\0';
         }
@@ -722,7 +722,7 @@ String_ptr trim(const char *surface_form) {
             break;
         }
     }
-    tmp = malloc_(end - start + 2, "trim");
+    tmp = malloc_(end - start + 2);
     strncpy(tmp, surface_form + start, end - start + 1);
     tmp[end - start + 1] = '\0';
     String_ptr result = create_string2(tmp);
@@ -829,7 +829,7 @@ char *replace_all(const char *str, const char *from, const char *to) {
  * @return Reverse of the input string.
  */
 char *reverse_string(const char *st) {
-    char* result = calloc_(strlen(st) + 1, sizeof(char), "reverse_string");
+    char* result = calloc_(strlen(st) + 1, sizeof(char));
     for (int i = word_size(st) - 1; i >= 0; i--){
         String_ptr ch = char_at(st, i);
         sprintf(result, "%s%s", result, ch->s);
