@@ -30,8 +30,8 @@ void free_trie(Trie_ptr trie) {
  * @param word String input.
  * @param root Word input.
  */
-void add_word_to_trie(Trie_ptr trie, const char *word, Txt_word_ptr root) {
-    add_word_to_trie_node(trie->root_node, word, root);
+bool add_word_to_trie(Trie_ptr trie, const char *word, Txt_word_ptr root) {
+    return add_word_to_trie_node(trie->root_node, word, root);
 }
 
 /**

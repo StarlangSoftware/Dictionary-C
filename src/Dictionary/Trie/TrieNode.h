@@ -22,9 +22,9 @@ Trie_node_ptr create_trie_node();
 
 void free_trie_node(Trie_node_ptr trie_node);
 
-void add_word_to_trie_node2(Trie_node_ptr trie_node, const char *word, int index, Txt_word_ptr root);
+bool add_word_to_trie_node2(Trie_node_ptr trie_node, const char *word, int index, Txt_word_ptr root);
 
-void add_word_to_trie_node(Trie_node_ptr trie_node, const char *word, Txt_word_ptr root);
+bool add_word_to_trie_node(Trie_node_ptr trie_node, const char *word, Txt_word_ptr root);
 
 Trie_node_ptr get_child(const Trie_node* trie_node, const char *ch);
 

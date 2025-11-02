@@ -18,7 +18,7 @@ Trie_ptr create_trie();
 
 void free_trie(Trie_ptr trie);
 
-void add_word_to_trie(Trie_ptr trie, const char *word, Txt_word_ptr root);
+bool add_word_to_trie(Trie_ptr trie, const char *word, Txt_word_ptr root);
 
 Hash_set_ptr get_words_with_prefix(const Trie* trie, const char *surface_form);
 

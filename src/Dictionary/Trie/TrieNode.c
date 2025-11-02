@@ -42,22 +42,27 @@ void free_trie_node(Trie_node_ptr trie_node) {
  * @param index Integer index.
  * @param root  Word input to add.
  */
-void add_word_to_trie_node2(Trie_node_ptr trie_node, const char *word, int index, Txt_word_ptr root) {
+bool add_word_to_trie_node2(Trie_node_ptr trie_node, const char *word, int index, Txt_word_ptr root) {
     Trie_node_ptr child;
+    bool result;
     if (index == word_size(word)) {
-        hash_set_insert(trie_node->words, root);
-        return;
+        if (!hash_set_contains(trie_node->words, root)) {
+            hash_set_insert(trie_node->words, root);
+            return true;
+        }
+        return false;
     }
     String_ptr ch = char_at(word, index);
     if (hash_map_contains(trie_node->children, ch->s)) {
         child = (Trie_node_ptr) hash_map_get(trie_node->children, ch->s);
-        add_word_to_trie_node2(child, word, index + 1, root);
+        result = add_word_to_trie_node2(child, word, index + 1, root);
     } else {
         child = create_trie_node();
-        add_word_to_trie_node2(child, word, index + 1, root);
+        result = add_word_to_trie_node2(child, word, index + 1, root);
         hash_map_insert(trie_node->children, clone_string(ch->s), child);
     }
     free_string_ptr(ch);
+    return result;
 }
 
 /**
@@ -67,8 +72,8 @@ void add_word_to_trie_node2(Trie_node_ptr trie_node, const char *word, int index
  * @param word String input.
  * @param root Word type input.
  */
-void add_word_to_trie_node(Trie_node_ptr trie_node, const char *word, Txt_word_ptr root) {
-    add_word_to_trie_node2(trie_node, word, 0, root);
+bool add_word_to_trie_node(Trie_node_ptr trie_node, const char *word, Txt_word_ptr root) {
+    return add_word_to_trie_node2(trie_node, word, 0, root);
 }
 
 /**
