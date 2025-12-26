@@ -56,60 +56,11 @@ Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
                 add_value_to_vector(vector, atof(array_list_get(tokens, i)));
             }
             Vectorized_word_ptr currentWord = create_vectorized_word(array_list_get(tokens, 0), vector);
-            array_list_add(result->dictionary.words, currentWord);
+            add_word((Dictionary_ptr)result, (Word_ptr)currentWord);
         }
         free_array_list(tokens, free_);
     }
     fclose(input_file);
-    sort_vectorized(result);
+    sort((Dictionary_ptr)result);
     return result;
-}
-
-/**
- * Sorts the words array according to the comparator function.
- * @param vectorized_dictionary Current vectorized dictionary
- */
-void sort_vectorized(Vectorized_dictionary_ptr vectorized_dictionary) {
-    array_list_sort(vectorized_dictionary->dictionary.words, (int (*)(const void *, const void *)) compare_vectorized_word);
-    update_word_map_vectorized(vectorized_dictionary);
-}
-
-/**
- * Updates word map so that word index at i is in the hash map with key word and value i.
- * @param vectorized_dictionary Current vectorized dictionary
- */
-void update_word_map_vectorized(Vectorized_dictionary_ptr vectorized_dictionary) {
-    for (int i = 0; i < vectorized_dictionary->dictionary.words->size; i++) {
-        Vectorized_word_ptr word = array_list_get(vectorized_dictionary->dictionary.words, i);
-        int *index = malloc_(sizeof(int));
-        *index = i;
-        hash_map_insert(vectorized_dictionary->dictionary.word_map, word->word.name, index);
-    }
-}
-
-/**
- * The addWord method takes a VectorizedWord as an input and adds it to the words ArrayList.
- *
- * @param vectorized_dictionary Dictionary to add word
- * @param vectorized_word VectorizedWord input.
- */
-void add_word_vectorized(Vectorized_dictionary_ptr vectorized_dictionary, Vectorized_word_ptr vectorized_word) {
-    array_list_add(vectorized_dictionary->dictionary.words, vectorized_word);
-}
-
-/**
- * The getWord2 method takes a String name as an input and performs binary search within words vector and assigns the
- * result to integer variable middle. If the middle is greater than 0, it returns the item at index middle of words
- * vector, NULL otherwise.
- *
- * @param dictionary Current dictionary
- * @param name String input.
- * @return the item at found index of words vector, NULL if cannot be found.
- */
-Vectorized_word_ptr get_word2(const Vectorized_dictionary *dictionary, const char *name) {
-    if (word_exists((Dictionary_ptr)dictionary, name)) {
-        int index = *(int *) (hash_map_get(dictionary->dictionary.word_map, name));
-        return array_list_get(dictionary->dictionary.words, index);
-    }
-    return NULL;
 }

@@ -42,4 +42,6 @@ void update_word_map(Dictionary_ptr dictionary);
 
 void sort(Dictionary_ptr dictionary);
 
+void add_word(Dictionary_ptr dictionary, Word_ptr word);
+
 #endif //DICTIONARY_DICTIONARY_H

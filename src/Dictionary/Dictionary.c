@@ -179,3 +179,13 @@ void sort(Dictionary_ptr dictionary) {
     array_list_sort(dictionary->words, (int (*)(const void *, const void *)) compare_word);
     update_word_map(dictionary);
 }
+
+/**
+ * The addWord method takes a Word as an input and adds it to the words ArrayList.
+ *
+ * @param dictionary Dictionary to add word
+ * @param word Word input.
+ */
+void add_word(Dictionary_ptr dictionary, Word_ptr word) {
+    array_list_add(dictionary->words, word);
+}
