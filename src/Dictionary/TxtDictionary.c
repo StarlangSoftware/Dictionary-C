@@ -30,7 +30,8 @@ Txt_dictionary_ptr create_txt_dictionary() {
 Txt_dictionary_ptr create_txt_dictionary2(const char *file_name) {
     Txt_dictionary_ptr result;
     result = malloc_(sizeof(Txt_dictionary));
-    result->dictionary = create_dictionary();
+    result->dictionary.words = create_array_list();
+    result->dictionary.word_map = create_string_hash_map();
     result->file_name = str_copy(result->file_name, file_name);
     result->misspelled_words = create_string_hash_map();
     load_from_text(result);
@@ -52,7 +53,8 @@ Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
                                           const char *morphological_lexicon) {
     Txt_dictionary_ptr result;
     result = malloc_(sizeof(Txt_dictionary));
-    result->dictionary = create_dictionary();
+    result->dictionary.words = create_array_list();
+    result->dictionary.word_map = create_string_hash_map();
     result->file_name = str_copy(result->file_name, file_name);
     load_from_text(result);
     load_misspelled_words(result, misspelled_file_name);
@@ -65,9 +67,8 @@ Txt_dictionary_ptr create_txt_dictionary3(const char *file_name,
  * @param txt_dictionary TxtDictionary to be freed.
  */
 void free_txt_dictionary(Txt_dictionary_ptr txt_dictionary) {
-    free_array_list(txt_dictionary->dictionary->words, (void (*)(void *)) free_txt_word);
-    free_hash_map(txt_dictionary->dictionary->word_map, free_);
-    free_(txt_dictionary->dictionary);
+    free_array_list(txt_dictionary->dictionary.words, (void (*)(void *)) free_txt_word);
+    free_hash_map(txt_dictionary->dictionary.word_map, free_);
     free_(txt_dictionary->file_name);
     free_hash_map2(txt_dictionary->misspelled_words, free_, free_);
     free_(txt_dictionary);
@@ -96,29 +97,12 @@ void load_from_text(Txt_dictionary_ptr txt_dictionary) {
             for (i = 1; i < tokens->size; i++) {
                 add_flag(currentWord, array_list_get(tokens, i));
             }
-            array_list_add(txt_dictionary->dictionary->words, currentWord);
+            array_list_add(txt_dictionary->dictionary.words, currentWord);
         }
         free_array_list(tokens, free_);
     }
     fclose(input_file);
-    sort_txt(txt_dictionary);
-}
-
-/**
- * The longestWordSize method loops through the words vector and returns the item with the maximum word length.
- *
- * @param txt_dictionary Current dictionary.
- * @return the item with the maximum word length.
- */
-int longest_word_size_txt(const Txt_dictionary* txt_dictionary) {
-    int max = 0;
-    for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
-        Txt_word_ptr word = array_list_get(txt_dictionary->dictionary->words, i);
-        if (word_size(word->name) > max) {
-            max = word_size(word->name);
-        }
-    }
-    return max;
+    sort((Dictionary_ptr)txt_dictionary);
 }
 
 /**
@@ -149,7 +133,7 @@ void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *f
     while (!feof(input_file)) {
         Array_list_ptr tokens = read_items(input_file, ' ');
         if (tokens->size == 2) {
-            Txt_word_ptr word = get_word_txt(txt_dictionary, array_list_get(tokens, 0));
+            Txt_word_ptr word = get_word((Dictionary_ptr)txt_dictionary, array_list_get(tokens, 0));
             if (word != NULL && word->morphology == NULL) {
                 word->morphology = str_copy(word->morphology, array_list_get(tokens, 1));
             }
@@ -159,78 +143,6 @@ void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *f
     fclose(input_file);
 }
 
-/**
- * The getWord method takes a String name as an input and performs binary search within words vector and assigns the result
- * to integer variable middle. If the middle is greater than 0, it returns the item at index middle of words vector, null otherwise.
- *
- * @param txt_dictionary Current dictionary.
- * @param name String input.
- * @return the item at found index of words vector, null if cannot be found.
- */
-Txt_word_ptr get_word_txt(const Txt_dictionary* txt_dictionary, const char *name) {
-    if (word_exists(txt_dictionary->dictionary, name)) {
-        int index = *(int *) (hash_map_get(txt_dictionary->dictionary->word_map, name));
-        return array_list_get(txt_dictionary->dictionary->words, index);
-    }
-    return NULL;
-}
-
-/**
- * Updates word map so that word index at i is in the hash map with key word and value i.
- * @param txt_dictionary Current dictionary
- */
-void update_word_map_txt(Txt_dictionary_ptr txt_dictionary) {
-    for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
-        Txt_word_ptr word = array_list_get(txt_dictionary->dictionary->words, i);
-        int *index = malloc_(sizeof(int));
-        *index = i;
-        hash_map_insert(txt_dictionary->dictionary->word_map, word->name, index);
-    }
-}
-
-/**
- * Sorts the words array according to the comparator function.
- * @param txt_dictionary Current dictionary
- */
-void sort_txt(Txt_dictionary_ptr txt_dictionary) {
-    array_list_sort(txt_dictionary->dictionary->words, (int (*)(const void *, const void *)) compare_txt_word);
-    update_word_map_txt(txt_dictionary);
-}
-
-/**
- * The getWord method which takes an index as an input and returns the value at given index of words vector.
- *
- * @param txt_dictionary Current dictionary.
- * @param index to get the value.
- * @return the value at given index of words vector.
- */
-Txt_word_ptr get_word_with_index_txt(const Txt_dictionary* txt_dictionary, int index){
-    return array_list_get(txt_dictionary->dictionary->words, index);
-}
-
-/**
- * Checks if a given word exists in the dictionary by performing a binary search on the words array.
- * @param txt_dictionary Dictionary to be searched.
- * @param txt_word Searched word
- * @return the index of the search word, if it is contained in the words array; otherwise, (-(insertion point) - 1). The
- * insertion point is defined as the point at which the word would be inserted into the words array.
- */
-int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_word) {
-    int lo = 0;
-    int hi = txt_dictionary->dictionary->words->size - 1;
-    while (lo <= hi) {
-        int mid = (lo + hi) / 2;
-        if (strcmp(array_list_get(txt_dictionary->dictionary->words, mid), txt_word->name) == 0) {
-            return mid;
-        }
-        if (strcmp(array_list_get(txt_dictionary->dictionary->words, mid), txt_word->name) < 0) {
-            lo = mid + 1;
-        } else {
-            hi = mid - 1;
-        }
-    }
-    return -(lo + 1);
-}
 
 /**
  * The addWithFlag method takes a String name and a flag as inputs. First it creates a TxtWord word, then if
@@ -246,12 +158,12 @@ int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_
  */
 bool add_with_flag(Txt_dictionary_ptr txt_dictionary, const char *name, char *flag) {
     char* lowercase = to_lowercase(name);
-    Txt_word_ptr word = get_word_txt(txt_dictionary, lowercase);
+    Txt_word_ptr word = get_word((Dictionary_ptr)txt_dictionary, lowercase);
     if (word == NULL){
         word = create_txt_word2(name, flag);
-        int insert_index = -binary_search_txt(txt_dictionary, word) - 1;
+        int insert_index = -binary_search((Dictionary_ptr)txt_dictionary, word->word.name) - 1;
         if (insert_index >= 0){
-            array_list_insert(txt_dictionary->dictionary->words, insert_index, word);
+            array_list_insert(txt_dictionary->dictionary.words, insert_index, word);
         }
         return true;
     } else {
@@ -432,9 +344,9 @@ Trie_ptr prepare_trie(Txt_dictionary_ptr txt_dictionary) {
     Trie_ptr result = create_trie();
     char *root;
     String_ptr rootWithoutLast, rootWithoutLastTwo, lastBefore, last, tmp;
-    for (int i = 0; i < txt_dictionary->dictionary->words->size; i++) {
-        Txt_word_ptr word = get_word_with_index_txt(txt_dictionary, i);
-        root = word->name;
+    for (int i = 0; i < txt_dictionary->dictionary.words->size; i++) {
+        Txt_word_ptr word = get_word_with_index((Dictionary_ptr)txt_dictionary, i);
+        root = word->word.name;
         if (strcmp(root, "ben") == 0){
             add_word_to_trie(result, "bana", clone_txt_word(word));
         }

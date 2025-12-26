@@ -9,7 +9,7 @@
 #include "HashMap/HashSet.h"
 
 struct txt_word {
-    char* name;
+    Word word;
     Hash_set_ptr flags;
     char *morphology;
 };

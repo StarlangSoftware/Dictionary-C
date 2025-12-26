@@ -15,7 +15,7 @@
  */
 Vectorized_word_ptr create_vectorized_word(const char *name, Vector_ptr vector) {
     Vectorized_word_ptr result = malloc_(sizeof(Vectorized_word));
-    result->word = str_copy(result->word, name);
+    result->word.name = str_copy(result->word.name, name);
     result->vector = vector;
     return result;
 }
@@ -26,7 +26,7 @@ Vectorized_word_ptr create_vectorized_word(const char *name, Vector_ptr vector) 
  */
 void free_vectorized_word(Vectorized_word_ptr vectorized_word) {
     free_vector(vectorized_word->vector);
-    free_(vectorized_word->word);
+    free_(vectorized_word->word.name);
     free_(vectorized_word);
 }
 
@@ -39,5 +39,5 @@ void free_vectorized_word(Vectorized_word_ptr vectorized_word) {
  * or less than the string second.
  */
 int compare_vectorized_word(const Vectorized_word* first, const Vectorized_word* second) {
-    return compare_string(first->word, second->word);
+    return compare_string(first->word.name, second->word.name);
 }

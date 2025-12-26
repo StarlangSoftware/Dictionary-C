@@ -23,7 +23,7 @@ Dictionary_ptr create_dictionary() {
  * @param dictionary Dictionary to be freed.
  */
 void free_dictionary(Dictionary_ptr dictionary) {
-    free_array_list(dictionary->words, (void (*)(void *)) free_);
+    free_array_list(dictionary->words, (void (*)(void *)) free_word);
     free_hash_map(dictionary->word_map, free_);
     free_(dictionary);
 }
@@ -36,7 +36,7 @@ void free_dictionary(Dictionary_ptr dictionary) {
  * @param name String input.
  * @return the item at found index of words vector, NULL if cannot be found.
  */
-char* get_word(const Dictionary* dictionary, const char *name) {
+void* get_word(const Dictionary* dictionary, const char *name) {
     if (word_exists(dictionary, name)) {
         int index = *(int *) (hash_map_get(dictionary->word_map, name));
         return array_list_get(dictionary->words, index);
@@ -52,7 +52,7 @@ char* get_word(const Dictionary* dictionary, const char *name) {
 void remove_word(Dictionary_ptr dictionary, const char *name) {
     if (word_exists(dictionary, name)) {
         int index = *(int *) (hash_map_get(dictionary->word_map, name));
-        array_list_remove(dictionary->words, index, (void (*)(void *)) free_);
+        array_list_remove(dictionary->words, index, (void (*)(void *)) free_word);
     }
     update_word_map(dictionary);
 }
@@ -69,10 +69,11 @@ int binary_search(const Dictionary* dictionary, const char* word) {
     int hi = dictionary->words->size - 1;
     while (lo <= hi) {
         int mid = (lo + hi) / 2;
-        if (strcmp(array_list_get(dictionary->words, mid), word) == 0) {
+        Word_ptr current = array_list_get(dictionary->words, mid);
+        if (strcmp(current->name, word) == 0) {
             return mid;
         }
-        if (strcmp(array_list_get(dictionary->words, mid), word) < 0) {
+        if (strcmp(current->name, word) < 0) {
             lo = mid + 1;
         } else {
             hi = mid - 1;
@@ -123,7 +124,7 @@ int size(const Dictionary* dictionary) {
  * @param index to get the value.
  * @return the value at given index of words vector.
  */
-char* get_word_with_index(const Dictionary* dictionary, int index) {
+void* get_word_with_index(const Dictionary* dictionary, int index) {
     return array_list_get(dictionary->words, index);
 }
 
@@ -136,9 +137,9 @@ char* get_word_with_index(const Dictionary* dictionary, int index) {
 int longest_word_size(const Dictionary* dictionary) {
     int max = 0;
     for (int i = 0; i < dictionary->words->size; i++) {
-        char* word = array_list_get(dictionary->words, i);
-        if (word_size(word) > max) {
-            max = word_size(word);
+        Word_ptr word = array_list_get(dictionary->words, i);
+        if (word_size(word->name) > max) {
+            max = word_size(word->name);
         }
     }
     return max;
@@ -163,10 +164,10 @@ int get_word_starting_with(const Dictionary* dictionary, const char *hash) {
  */
 void update_word_map(Dictionary_ptr dictionary) {
     for (int i = 0; i < dictionary->words->size; i++) {
-        char* word = array_list_get(dictionary->words, i);
+        Word_ptr word = array_list_get(dictionary->words, i);
         int *index = malloc_(sizeof(int));
         *index = i;
-        hash_map_insert(dictionary->word_map, word, index);
+        hash_map_insert(dictionary->word_map, word->name, index);
     }
 }
 
@@ -175,6 +176,6 @@ void update_word_map(Dictionary_ptr dictionary) {
  * @param dictionary Current dictionary
  */
 void sort(Dictionary_ptr dictionary) {
-    array_list_sort(dictionary->words, (int (*)(const void *, const void *)) compare_string);
+    array_list_sort(dictionary->words, (int (*)(const void *, const void *)) compare_word);
     update_word_map(dictionary);
 }

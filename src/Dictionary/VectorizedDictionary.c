@@ -16,7 +16,8 @@
  */
 Vectorized_dictionary_ptr create_vectorized_dictionary() {
     Vectorized_dictionary_ptr result = malloc_(sizeof(Vectorized_dictionary));
-    result->dictionary = create_dictionary();
+    result->dictionary.words = create_array_list();
+    result->dictionary.word_map = create_string_hash_map();
     return result;
 }
 
@@ -25,11 +26,9 @@ Vectorized_dictionary_ptr create_vectorized_dictionary() {
  * @param vectorized_dictionary
  */
 void free_vectorized_dictionary(Vectorized_dictionary_ptr vectorized_dictionary) {
-    free_array_list(vectorized_dictionary->dictionary->words, (void (*)(void *)) free_vectorized_word);
-    free_hash_map(vectorized_dictionary->dictionary->word_map, free_);
-    free_(vectorized_dictionary->dictionary);
+    free_array_list(vectorized_dictionary->dictionary.words, (void (*)(void *)) free_vectorized_word);
+    free_hash_map(vectorized_dictionary->dictionary.word_map, free_);
     free_(vectorized_dictionary->file_name);
-    free_(vectorized_dictionary);
 }
 
 /**
@@ -41,7 +40,8 @@ void free_vectorized_dictionary(Vectorized_dictionary_ptr vectorized_dictionary)
 Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
     FILE* input_file;
     Vectorized_dictionary_ptr result = malloc_(sizeof(Vectorized_dictionary));
-    result->dictionary = create_dictionary();
+    result->dictionary.words = create_array_list();
+    result->dictionary.word_map = create_string_hash_map();
     result->file_name = str_copy(result->file_name, file_name);
     input_file = fopen(result->file_name, "r");
     if (input_file == NULL) {
@@ -56,7 +56,7 @@ Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
                 add_value_to_vector(vector, atof(array_list_get(tokens, i)));
             }
             Vectorized_word_ptr currentWord = create_vectorized_word(array_list_get(tokens, 0), vector);
-            array_list_add(result->dictionary->words, currentWord);
+            array_list_add(result->dictionary.words, currentWord);
         }
         free_array_list(tokens, free_);
     }
@@ -70,7 +70,7 @@ Vectorized_dictionary_ptr create_vectorized_dictionary2(const char *file_name) {
  * @param vectorized_dictionary Current vectorized dictionary
  */
 void sort_vectorized(Vectorized_dictionary_ptr vectorized_dictionary) {
-    array_list_sort(vectorized_dictionary->dictionary->words, (int (*)(const void *, const void *)) compare_vectorized_word);
+    array_list_sort(vectorized_dictionary->dictionary.words, (int (*)(const void *, const void *)) compare_vectorized_word);
     update_word_map_vectorized(vectorized_dictionary);
 }
 
@@ -79,11 +79,11 @@ void sort_vectorized(Vectorized_dictionary_ptr vectorized_dictionary) {
  * @param vectorized_dictionary Current vectorized dictionary
  */
 void update_word_map_vectorized(Vectorized_dictionary_ptr vectorized_dictionary) {
-    for (int i = 0; i < vectorized_dictionary->dictionary->words->size; i++) {
-        Vectorized_word_ptr word = array_list_get(vectorized_dictionary->dictionary->words, i);
+    for (int i = 0; i < vectorized_dictionary->dictionary.words->size; i++) {
+        Vectorized_word_ptr word = array_list_get(vectorized_dictionary->dictionary.words, i);
         int *index = malloc_(sizeof(int));
         *index = i;
-        hash_map_insert(vectorized_dictionary->dictionary->word_map, word->word, index);
+        hash_map_insert(vectorized_dictionary->dictionary.word_map, word->word.name, index);
     }
 }
 
@@ -94,7 +94,7 @@ void update_word_map_vectorized(Vectorized_dictionary_ptr vectorized_dictionary)
  * @param vectorized_word VectorizedWord input.
  */
 void add_word_vectorized(Vectorized_dictionary_ptr vectorized_dictionary, Vectorized_word_ptr vectorized_word) {
-    array_list_add(vectorized_dictionary->dictionary->words, vectorized_word);
+    array_list_add(vectorized_dictionary->dictionary.words, vectorized_word);
 }
 
 /**
@@ -107,9 +107,9 @@ void add_word_vectorized(Vectorized_dictionary_ptr vectorized_dictionary, Vector
  * @return the item at found index of words vector, NULL if cannot be found.
  */
 Vectorized_word_ptr get_word2(const Vectorized_dictionary *dictionary, const char *name) {
-    if (word_exists(dictionary->dictionary, name)) {
-        int index = *(int *) (hash_map_get(dictionary->dictionary->word_map, name));
-        return array_list_get(dictionary->dictionary->words, index);
+    if (word_exists((Dictionary_ptr)dictionary, name)) {
+        int index = *(int *) (hash_map_get(dictionary->dictionary.word_map, name));
+        return array_list_get(dictionary->dictionary.words, index);
     }
     return NULL;
 }

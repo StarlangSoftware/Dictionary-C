@@ -8,26 +8,26 @@
 #include <Memory/Memory.h>
 
 void test_morphology(Txt_dictionary_ptr txt_dictionary){
-    Txt_word_ptr word = get_word_txt(txt_dictionary, "ab");
+    Txt_word_ptr word = get_word((Dictionary_ptr)txt_dictionary, "ab");
     if (strcmp(word->morphology, "ab") != 0){
         printf("Error in morphology 1");
     }
-    word = get_word_txt(txt_dictionary, "çarpıcılık");
+    word = get_word((Dictionary_ptr)txt_dictionary, "çarpıcılık");
     if (strcmp(word->morphology, "çarp+HcH+lHk") != 0){
         printf("Error in morphology 2");
     }
-    word = get_word_txt(txt_dictionary, "akışkanlaştırıcı");
+    word = get_word((Dictionary_ptr)txt_dictionary, "akışkanlaştırıcı");
     if (strcmp(word->morphology, "ak+Hş+GAn+lAş+DHr+HcH") != 0){
         printf("Error in morphology 3");
     }
 }
 
 void test_all_words(Txt_dictionary_ptr txt_dictionary){
-    for (int i = 0; i < txt_dictionary->dictionary->words->size; i++){
-        Txt_word_ptr word1 = get_word_with_index_txt(txt_dictionary, i);
-        Txt_word_ptr word2 = get_word_txt(txt_dictionary, word1->name);
+    for (int i = 0; i < txt_dictionary->dictionary.words->size; i++){
+        Txt_word_ptr word1 = get_word_with_index((Dictionary_ptr)txt_dictionary, i);
+        Txt_word_ptr word2 = get_word((Dictionary_ptr)txt_dictionary, word1->word.name);
         if (word2 == NULL){
-            printf("Error in finding name %s\n", word1->name);
+            printf("Error in finding name %s\n", word1->word.name);
         }
     }
 }

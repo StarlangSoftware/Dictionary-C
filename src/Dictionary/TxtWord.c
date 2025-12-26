@@ -14,7 +14,7 @@
  */
 Txt_word_ptr create_txt_word(const char *name) {
     Txt_word_ptr result = malloc_(sizeof(Txt_word));
-    result->name = str_copy(result->name, name);
+    result->word.name = str_copy(result->word.name, name);
     result->flags = create_hash_set((unsigned int (*)(const void *, int)) hash_function_string,
                                     (int (*)(const void *, const void *)) compare_string);
     result->morphology = NULL;
@@ -26,7 +26,7 @@ Txt_word_ptr create_txt_word(const char *name) {
  * @param txt_word TxtWord which will be freed.
  */
 void free_txt_word(Txt_word_ptr txt_word) {
-    free_(txt_word->name);
+    free_(txt_word->word.name);
     if (txt_word->morphology != NULL) {
         free_(txt_word->morphology);
     }
@@ -883,7 +883,7 @@ bool same_pos(const Txt_word* txt_word1, const Txt_word* txt_word2) {
  * @return Hash value of a given word.
  */
 unsigned int hash_function_txt_word(const Txt_word* word, int N) {
-    return hash_function_string(word->name, N);
+    return hash_function_string(word->word.name, N);
 }
 
 /**
@@ -895,7 +895,7 @@ unsigned int hash_function_txt_word(const Txt_word* word, int N) {
  * or less than the string second.
  */
 int compare_txt_word(const Txt_word* first, const Txt_word* second) {
-    return compare_string(first->name, second->name);
+    return compare_string(first->word.name, second->word.name);
 }
 
 /**
@@ -905,7 +905,7 @@ int compare_txt_word(const Txt_word* first, const Txt_word* second) {
  */
 Txt_word_ptr clone_txt_word(Txt_word_ptr word) {
     Txt_word_ptr result = malloc_(sizeof(Txt_word));
-    result->name = str_copy(result->name, word->name);
+    result->word.name = str_copy(result->word.name, word->word.name);
     result->flags = create_hash_set((unsigned int (*)(const void *, int)) hash_function_string,
                                     (int (*)(const void *, const void *)) compare_string);
     result->morphology = str_copy(result->morphology, word->morphology);

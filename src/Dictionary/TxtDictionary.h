@@ -9,7 +9,7 @@
 #include "Trie/Trie.h"
 
 struct txt_dictionary {
-    Dictionary_ptr dictionary;
+    Dictionary dictionary;
     Hash_map_ptr misspelled_words;
     char *file_name;
 };
@@ -29,23 +29,11 @@ void free_txt_dictionary(Txt_dictionary_ptr txt_dictionary);
 
 void load_from_text(Txt_dictionary_ptr txt_dictionary);
 
-int longest_word_size_txt(const Txt_dictionary* txt_dictionary);
-
 void load_misspelled_words(Txt_dictionary_ptr txt_dictionary, const char *misspelled_file_name);
 
 void load_morphological_lexicon(Txt_dictionary_ptr txt_dictionary, const char *file_name);
 
-Txt_word_ptr get_word_txt(const Txt_dictionary* txt_dictionary, const char *name);
-
-void sort_txt(Txt_dictionary_ptr txt_dictionary);
-
-void update_word_map_txt(Txt_dictionary_ptr txt_dictionary);
-
-Txt_word_ptr get_word_with_index_txt(const Txt_dictionary* txt_dictionary, int index);
-
 bool add_with_flag(Txt_dictionary_ptr txt_dictionary, const char* name, char* flag);
-
-int binary_search_txt(const Txt_dictionary* txt_dictionary, const Txt_word* txt_word);
 
 void add_number(Txt_dictionary_ptr txt_dictionary, const char* name);
 

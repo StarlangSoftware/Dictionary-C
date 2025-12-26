@@ -9,6 +9,20 @@
 
 #define MAX_WORD_LENGTH 1024
 
+struct word {
+    char* name;
+};
+
+typedef struct word Word;
+
+typedef Word* Word_ptr;
+
+Word_ptr create_word(const char* name);
+
+void free_word(Word_ptr word);
+
+int compare_word(const Word *first, const Word *second);
+
 int word_size(const char *surface_form);
 
 String_ptr char_at(const char *surface_form, int index);

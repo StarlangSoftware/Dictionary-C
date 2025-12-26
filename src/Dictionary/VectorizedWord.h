@@ -9,7 +9,7 @@
 #include "Word.h"
 
 struct vectorized_word {
-    char* word;
+    Word word;
     Vector_ptr vector;
 };
 

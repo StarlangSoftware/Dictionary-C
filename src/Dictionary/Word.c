@@ -11,6 +11,21 @@
 #include "Word.h"
 #include "../Language/TurkishLanguage.h"
 
+Word_ptr create_word(const char *name) {
+    Word_ptr result = malloc_(sizeof(Word));
+    result->name = str_copy(result->name, name);
+    return result;
+}
+
+void free_word(Word_ptr word) {
+    free_(word->name);
+    free_(word);
+}
+
+int compare_word(const Word *first, const Word *second) {
+    return compare_string(first->name, second->name);
+}
+
 /**
  * Number of UTF8 characters in a given string.
  * @param surface_form Given input string
